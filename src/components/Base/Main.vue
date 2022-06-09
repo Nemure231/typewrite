@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onUpdated, watch, inject, computed, defineComponent, onMounted, watchEffect } from 'vue';
+import { ref, onUpdated, watch, inject, computed, defineComponent, watchEffect, provide } from 'vue';
 import { OnClickOutside } from '@vueuse/components'
 import ModalSetting from '../Setting/ModalSetting.vue'
 import ModalGameOver from '../ModalGameOver.vue'
@@ -16,7 +16,6 @@ defineComponent({ OnClickOutside, ModalSetting, ModalGameOver, Type, Life, Start
 const allWords = inject('allWordsProv')
 const pass = inject('passProv')
 const unPass = inject('unpassProv')
-const score = inject('scoreProv')
 const list = inject('listProv')
 const modalSettingButton = ref(false)
 const modalGameOver = ref(false)
@@ -38,6 +37,16 @@ const borderRadius = inject('borderRadiusProv')
 const countTimer = inject('countTimerProv')
 const bgOrYtProv = inject('bgOrYtProv')
 const ytIdProv = inject('ytIdProv')
+const pauseProblemProv = inject('pauseProblemProv')
+const loopProv = inject('loopProv')
+
+provide('modalGameOverProv', computed({
+  get: () => modalGameOver.value,
+  set: (val) => {
+    modalGameOver.value = val
+  }
+}))
+
 
 let rightPlus = async () => {
 
@@ -47,6 +56,11 @@ let rightPlus = async () => {
 
   list.value.forEach((e) => {
     e.right += 1
+
+    if(pauseProblemProv.value.length > 0){
+      e.right -=1
+      e.right += 1
+    }
   })
 
   if (start.value) {
@@ -59,6 +73,7 @@ let addWord = async () => {
     return;
   }
   const random = Math.floor(Math.random() * (28307 - 1 + 1)) + 1
+
   let obj = allWords.value.find(o => o.id === random);
 
   let objFind = list.value.find(o => o.name === obj.name);
@@ -66,6 +81,7 @@ let addWord = async () => {
   if (!objFind) {
     list.value.push(obj)
   }
+
   if (start.value) {
     setTimeout(addWord, showTime.value)
   }
@@ -73,13 +89,18 @@ let addWord = async () => {
 
 let startGame = () => {
   start.value = true
+
   addWord()
   rightPlus()
-  playin()
+
+  if (ytIdProv.value.length > 0) {
+    playin()
+  }
 }
 
 let pauseGame = () => {
   start.value = false
+  pauseProblemProv.value.push(1)
 }
 
 let openModalSetting = () => {
@@ -94,6 +115,11 @@ let openModalSetting = () => {
 
 let closeModalSetting = () => {
   modalSettingButton.value = false
+
+  // if (listvalue.length > 0) {
+  //       start.value.true
+  //   }
+
 }
 
 let gameOver = () => {
@@ -122,8 +148,12 @@ watch(
       if (life.value <= 1) {
         start.value = false
         modalGameOver.value = true
-        list.value = []
+        lose.value = 0
         life.value = 0
+        list.value = []
+        pass.value = []
+        unPass.value = []
+        bgOrYtProv.value = true
 
       } else {
         life.value -= 1
@@ -160,59 +190,69 @@ const changeBg = computed(() => {
   }
 })
 
+
 var player1
 
-watch(
-  () => ytIdProv.value.length,
-  (count, prevCount) => {
+
+watchEffect(() => {
+  if (ytIdProv.value.length > 0) {
     player1 = YouTubePlayer('player-1', {
       videoId: ytIdProv.value.at(-1),
       width: `100%`,
-      height: `100%`
+      height: `100%`,
+      playerVars: {
+        "autoplay": 0, 
+        "loop": 1,
+        "rel": 0, 
+        "controls": 0, 
+        "fs": 0,
+        "showinfo": 0
+      },
     });
 
-    if (count > 1) {
-      console.log('work')
-      player1
-        .stopVideo()
-        .then(() => {
-          player1.loadVideoById(ytIdProv.value.at(-1))
-          player1.playVideo()
-
-        });
-    }
-
-
   }
-)
-
-
-// watchEffect(() => {
-//   if (ytIdProv.value.length > 0) {
-//     player1 = YouTubePlayer('player-1', {
-//       videoId: ytIdProv.value.at(-1),
-//       width: `100%`,
-//       height: `100%`
-//     });
-
-//   }
-// })
+})
 
 let stopin = () => {
   player1
     .pauseVideo()
     .then(() => {
-      // Every function returns a promise that is resolved after the target function has been executed.
     });
 }
 
 let playin = () => {
   player1.playVideo()
     .then(function () {
-      console.log('Starting to play player1. It will take some time to buffer video before it starts playing.');
+
     });
 }
 
+let loopin = () => {
+  player1.setLoop({
+    loopPlaylists: true
+  })
+    .then(function () {
+    });
+}
+
+let notLoopin = () => {
+  player1.setLoop({
+    loopPlaylists: false
+  })
+    .then(function () {
+    });
+}
+
+let loopYt = () => {
+  loopProv.value = !loopProv.value
+  if(loopProv.value){
+    loopin()
+  }else{
+    notLoopin()
+  }
+
+
+} 
 
 
 </script>
@@ -227,21 +267,16 @@ let playin = () => {
     }">
     </div>
 
-    <div v-if="!bgOrYtProv" style="position: fixed; z-index: -99; width: 100%; height: 100%">
-      <div id='player-1'></div>
+    <div v-if="!bgOrYtProv" style="position: fixed; width: 100%; height: 100%">
+      <div id="player-1" 
+        allowfullscreen="true"
+        mozallowfullscreen="mozallowfullscreen" 
+        msallowfullscreen="msallowfullscreen" 
+        oallowfullscreen="oallowfullscreen" 
+        webkitallowfullscreen="webkitallowfullscreen"></div>
+      <div class="absolute inset-0">
+      </div>
     </div>
-
-    <!-- <template v-if="!start">
-      <template v-if="ytIdProv !== ''">
-        <div style="position: fixed; z-index: -99; width: 100%; height: 100%">
-          <iframe frameborder="0" id="yt-bg" height="100%" width="100%"
-            :src="`https://www.youtube.com/embed/${ytIdProv}`">
-          </iframe>
-        </div>
-      </template>
-
-    </template> -->
-
 
     <p v-for="li in list" :key="li.id" :id="li.id" class="p-1 bg-white text-md absolute right-0" :style="[{
       right: `${li.right}px`,
@@ -274,7 +309,7 @@ let playin = () => {
       <transition enter-from-class="transform opacity-0 scale-75" enter-active-class="duration-300 ease-out"
         enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
-        <ModalGameOver v-if="modalGameOver" :scoreProp="score" class="lg:mt-0 md:mt-0 mt-12 z-30">
+        <ModalGameOver v-if="modalGameOver" class="lg:mt-0 md:mt-0 mt-12 z-30">
         </ModalGameOver>
       </transition>
     </Teleport>
@@ -285,7 +320,7 @@ let playin = () => {
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
         <keep-alive>
 
-          <ModalSetting v-if="modalSettingButton" @childCloseModalSetting="() => closeModalSetting()"
+          <ModalSetting v-if="modalSettingButton" @childCloseModalSetting="() => closeModalSetting()" @childLoopYt="() => loopYt()" 
             @childStartGame="() => startGame()">
           </ModalSetting>
 

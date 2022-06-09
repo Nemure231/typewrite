@@ -13,7 +13,7 @@ defineComponent(
 )
 const listProv = inject('listProv')
 
-const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
+const emit = defineEmits(["childCloseModalSetting", 'childStartGame', 'childLoopYt']);
 
 let childCloseModalSetting = () => {
     emit("childCloseModalSetting")
@@ -27,6 +27,10 @@ let childStartGame = () => {
     emit("childStartGame")
 }
 
+let childLoopYt = () => {
+    emit("childLoopYt")
+}
+
 const currentMenu = ref(1)
 const menu = ref([
     {
@@ -35,10 +39,14 @@ const menu = ref([
     },
     {
         id: 2,
-        name: 'Font'
+        name: 'Text'
     },
     {
         id: 3,
+        name: 'Font'
+    },
+    {
+        id: 4,
         name: 'Background'
     }
 ])
@@ -52,7 +60,7 @@ const menu = ref([
                 aria-hidden="true">&#8203;</span>
             <div
                 class="relative inline-block  align-bottom rounded-xl text-left  shadow-xl transform transition-all sm:align-middle">
-                <OnClickOutside @trigger="childCloseModalSetting()" class="bg-transparent">
+                <!-- <OnClickOutside @trigger="childCloseModalSetting()" class="bg-transparent"> -->
                     <div class="backdrop-blur-sm bg-white/75 relative rounded-xl">
                         <div class="absolute right-6 top-3">
                             <div @click="childCloseModalSetting()" class="cursor-pointer hover:bg-red-100">
@@ -71,7 +79,7 @@ const menu = ref([
                                     <div class="flex-none  basis-[20%] rounded-xl">
                                         <div class="flex flex-col items-center justify-center flex-wrap">
                                             <button v-for="m in menu" :key="m.id" @click="currentMenu = m.id"
-                                                class="w-full text-left border-sky-500 border-b-2  p-3">
+                                                class="w-full text-left border-sky-500 border-b  p-3">
                                                 <span class="text-xl w-full font-semibold">
                                                     {{ m.name }}
                                                 </span>
@@ -82,8 +90,8 @@ const menu = ref([
                                     <div class="flex-1 basis-[80%] h-screen px-12 py-6">
                                         <div class="flex">
                                             <Level v-if="currentMenu == 1" />
-                                            <Font v-if="currentMenu == 2" />
-                                            <IndexBg v-if="currentMenu == 3" />
+                                            <Font v-if="currentMenu == 3" />
+                                            <IndexBg v-if="currentMenu == 4" @childLoopYt2="() => childLoopYt()" />
                                         </div>
 
                                     </div>
@@ -95,7 +103,7 @@ const menu = ref([
                         </div>
 
                     </div>
-                </OnClickOutside>
+                <!-- </OnClickOutside> -->
             </div>
         </div>
     </div>

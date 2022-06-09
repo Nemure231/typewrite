@@ -33,6 +33,23 @@ const countTimer = ref(0)
 const bgOrYt = ref(true)
 const ytLink = ref('')
 const ytId = ref([])
+const pauseProblem = ref([])
+const loop = ref(false)
+
+
+provide('loopProv', computed({
+  get: () => loop.value,
+  set: (val) => {
+    loop.value = val
+  }
+}))
+
+provide('pauseProblemProv', computed({
+  get: () => pauseProblem.value,
+  set: (val) => {
+    pauseProblem.value = val
+  }
+}))
 
 
 provide('ytIdProv', computed({

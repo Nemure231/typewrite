@@ -4,13 +4,20 @@ import { ref, inject, defineComponent, watchEffect, computed } from 'vue'
 import DropZone from './DropZone.vue'
 import draggable from "vuedraggable";
 import useFileList from '../../../compositions/file-list'
-import YouTubePlayer from 'youtube-player';
+// import YouTubePlayer from 'youtube-player';
 
 const { files, addFiles } = useFileList()
 
 defineComponent({ DropZone, draggable })
 
-defineEmits(['remove'])
+const emit = defineEmits(['remove', 'childLoopYt2'])
+
+
+
+let childLoopYt2 = () => {
+    emit("childLoopYt2")
+}
+
 
 const bgRef = ref();
 const bgProv = inject('bgProv')
@@ -18,6 +25,7 @@ const bgOrYtProv = inject('bgOrYtProv')
 const countTimerProv = inject('countTimerProv')
 const ytLinkProv = inject('ytLinkProv')
 const ytIdProv = inject('ytIdProv')
+
 
 
 let clickBg = () => {
@@ -70,15 +78,6 @@ watchEffect(() => {
             bgProv.value.push(files.value[idx])
         }
 
-        // files.value.forEach((el, index) => {
-        //     bgProv.value.push({
-        //         id: el.id,
-        //         url: el.url,
-        //         order: bgProv.value.length > 1 ? bgProv.value.at(-1).order + 1 : index + 1
-
-        //     })
-        // });
-
         setTimeout(() => {
             files.value = []
         }, 1000);
@@ -111,9 +110,8 @@ let checkMove = (e) => {
 let addBgYt = () => {
 
     const checkUrlType = checkUrlImg(ytLinkProv.value);
-    // And check the result
-    if (checkUrlType === true) {
 
+    if (checkUrlType === true) {
         const link = ytLinkProv.value.split('/')
 
         if (link[2] != 'www.youtube.com') {
@@ -122,15 +120,6 @@ let addBgYt = () => {
             const idLink = link[3].replace('watch?v=', '')
 
             ytIdProv.value.push(idLink)
-
-            // var player1
-            // player1 = YouTubePlayer('player-2', {
-            //     videoId: idLink,
-            //     width: `100%`,
-            //     height: `100%`
-            // });
-
-
         }
 
     } else {
@@ -206,7 +195,7 @@ let checkUrlImg = (url) => {
                                         <template v-else>
                                             <span>Drag Your Images </span>
                                             <span>
-                                                or click <strong>Choose Images</strong>.
+                                                or click<strong> Choose Images</strong>.
                                             </span>
                                         </template>
 
@@ -237,7 +226,7 @@ let checkUrlImg = (url) => {
                     </div>
 
 
-                    <div class="flex-1">
+                    <div class="flex-1 mb-6">
                         <span class="text-2xl font-bold">List</span>
                         <draggable :list="bgProv" :disabled="!enabled" item-key="id" class="grid grid-cols-2 gap-6"
                             ghost-class="ghost" :move="checkMove" @start="dragging = true" @end="dragging = false">
@@ -280,6 +269,10 @@ let checkUrlImg = (url) => {
                                 Submit
                             </button>
                         </form>
+
+                        <button @click="childLoopYt2()">
+                            loop
+                        </button>
 
                     </div>
 

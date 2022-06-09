@@ -1,16 +1,16 @@
 <script setup>
 
-import {defineProps, ref} from 'vue'
+import {inject} from 'vue'
 
-const props = defineProps({
-    scoreProp: Number
-})
-
-const score = ref(props.scoreProp)
-
+const score = inject('scoreProv')
+const life = inject('lifeProv')
+const modalGameOverProv = inject('modalGameOverProv')
 
 let reloadGame = () => {
-    location.reload()
+    score.value = 0
+    modalGameOverProv.value = false
+    life.value = 5
+
 }
 </script>
 
