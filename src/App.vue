@@ -1,8 +1,9 @@
 <script setup>
 import Main from './components/Base/Main.vue'
 import Footer from './components/Base/Footer.vue'
-import { ref, provide, defineComponent, computed } from 'vue';
+import { ref, provide, defineComponent, computed, onMounted, onUpdated } from 'vue';
 import { words } from '../data/words.js'
+import YouTubePlayer from 'youtube-player';
 
 defineComponent({ Main, Footer })
 
@@ -29,9 +30,33 @@ const borderWidth = ref(1)
 const borderRadius = ref(0)
 const previewType = ref('')
 const countTimer = ref(0)
+const bgOrYt = ref(true)
+const ytLink = ref('')
+const ytId = ref([])
 
 
-// Provide
+provide('ytIdProv', computed({
+  get: () => ytId.value,
+  set: (val) => {
+    ytId.value = val
+  }
+}))
+
+provide('ytLinkProv', computed({
+  get: () => ytLink.value,
+  set: (val) => {
+    ytLink.value = val
+  }
+}))
+
+
+provide('bgOrYtProv', computed({
+  get: () => bgOrYt.value,
+  set: (val) => {
+    bgOrYt.value = val
+  }
+}))
+
 
 provide('countTimerProv', computed({
   get: () => countTimer.value,

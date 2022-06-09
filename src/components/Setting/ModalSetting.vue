@@ -47,14 +47,14 @@ const menu = ref([
 
 <template>
     <div class="fixed z-10 inset-0 font-bold" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="flex items-center justify-center min-h-screen text-center sm:block sm:p-0">
-            <span class="hidden sm:inline-block rounded-xl sm:align-middle sm:h-screen"
+        <div class="flex items-center justify-center min-h-screen text-center">
+            <span class="hidden sm:inline-block rounded-xl"
                 aria-hidden="true">&#8203;</span>
             <div
                 class="relative inline-block  align-bottom rounded-xl text-left  shadow-xl transform transition-all sm:align-middle">
                 <OnClickOutside @trigger="childCloseModalSetting()" class="bg-transparent">
                     <div class="backdrop-blur-sm bg-white/75 relative rounded-xl">
-                        <div class="absolute right-6">
+                        <div class="absolute right-6 top-3">
                             <div @click="childCloseModalSetting()" class="cursor-pointer hover:bg-red-100">
                                 <svg class=" w-8 h-8" xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"

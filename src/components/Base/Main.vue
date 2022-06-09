@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUpdated, watch, inject, watchEffect, defineProps, computed, defineComponent, provide } from 'vue';
+import { ref, onUpdated, watch, inject, computed, defineComponent, onMounted, watchEffect } from 'vue';
 import { OnClickOutside } from '@vueuse/components'
 import ModalSetting from '../Setting/ModalSetting.vue'
 import ModalGameOver from '../ModalGameOver.vue'
@@ -9,6 +9,7 @@ import Setting from '../Game/Setting.vue'
 import Life from '../Game/Life.vue'
 import Start from '../Game/Start.vue'
 import Score from '../Game/Score.vue'
+import YouTubePlayer from 'youtube-player';
 
 defineComponent({ OnClickOutside, ModalSetting, ModalGameOver, Type, Life, Start })
 
@@ -35,6 +36,8 @@ const borderColor = inject('borderColorProv')
 const borderWidth = inject('borderWidthProv')
 const borderRadius = inject('borderRadiusProv')
 const countTimer = inject('countTimerProv')
+const bgOrYtProv = inject('bgOrYtProv')
+const ytIdProv = inject('ytIdProv')
 
 let rightPlus = async () => {
 
@@ -72,6 +75,7 @@ let startGame = () => {
   start.value = true
   addWord()
   rightPlus()
+  playin()
 }
 
 let pauseGame = () => {
@@ -81,6 +85,11 @@ let pauseGame = () => {
 let openModalSetting = () => {
   modalSettingButton.value = !modalSettingButton.value
   pauseGame()
+
+  if (ytIdProv.value.length > 0) {
+    stopin()
+
+  }
 }
 
 let closeModalSetting = () => {
@@ -141,7 +150,6 @@ const changeStyle = computed(() => {
   return text
 })
 
-
 onUpdated(() => {
   gameOver()
 })
@@ -152,6 +160,60 @@ const changeBg = computed(() => {
   }
 })
 
+var player1
+
+watch(
+  () => ytIdProv.value.length,
+  (count, prevCount) => {
+    player1 = YouTubePlayer('player-1', {
+      videoId: ytIdProv.value.at(-1),
+      width: `100%`,
+      height: `100%`
+    });
+
+    if (count > 1) {
+      console.log('work')
+      player1
+        .stopVideo()
+        .then(() => {
+          player1.loadVideoById(ytIdProv.value.at(-1))
+          player1.playVideo()
+
+        });
+    }
+
+
+  }
+)
+
+
+// watchEffect(() => {
+//   if (ytIdProv.value.length > 0) {
+//     player1 = YouTubePlayer('player-1', {
+//       videoId: ytIdProv.value.at(-1),
+//       width: `100%`,
+//       height: `100%`
+//     });
+
+//   }
+// })
+
+let stopin = () => {
+  player1
+    .pauseVideo()
+    .then(() => {
+      // Every function returns a promise that is resolved after the target function has been executed.
+    });
+}
+
+let playin = () => {
+  player1.playVideo()
+    .then(function () {
+      console.log('Starting to play player1. It will take some time to buffer video before it starts playing.');
+    });
+}
+
+
 
 </script>
 
@@ -160,16 +222,26 @@ const changeBg = computed(() => {
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
 
-    <div class="fixed bg-cover bg-center bg-no-repeat inset-0" :style="{
+    <div v-if="bgOrYtProv" class="fixed bg-cover bg-center bg-no-repeat inset-0" ref="yt" :style="{
       backgroundImage: `url(${changeBg})`,
     }">
     </div>
 
-    <!-- <div style="position: fixed; z-index: -99; width: 100%; height: 100%">
-      <iframe frameborder="0" height="100%" width="100%" 
-        src="https://www.youtube.com/embed/35ijWSDlv18?autoplay=1&controls=0&showinfo=0&autohide=1">
-      </iframe>
-    </div> -->
+    <div v-if="!bgOrYtProv" style="position: fixed; z-index: -99; width: 100%; height: 100%">
+      <div id='player-1'></div>
+    </div>
+
+    <!-- <template v-if="!start">
+      <template v-if="ytIdProv !== ''">
+        <div style="position: fixed; z-index: -99; width: 100%; height: 100%">
+          <iframe frameborder="0" id="yt-bg" height="100%" width="100%"
+            :src="`https://www.youtube.com/embed/${ytIdProv}`">
+          </iframe>
+        </div>
+      </template>
+
+    </template> -->
+
 
     <p v-for="li in list" :key="li.id" :id="li.id" class="p-1 bg-white text-md absolute right-0" :style="[{
       right: `${li.right}px`,
@@ -196,13 +268,13 @@ const changeBg = computed(() => {
         enter-to-class="opacity-100" leave-from-class="opacity-100" leave-active-class="duration-300 ease-in"
         leave-to-class="transform opacity-0 ">
         <template v-if="modalGameOver">
-          <div class="fixed inset-0 bg-gray-900 opacity-50" aria-hidden="true"></div>
+          <div class="fixed inset-0 bg-gray-900 opacity-50 z-20" aria-hidden="true"></div>
         </template>
       </transition>
       <transition enter-from-class="transform opacity-0 scale-75" enter-active-class="duration-300 ease-out"
         enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
-        <ModalGameOver v-if="modalGameOver" :scoreProp="score" class="lg:mt-0 md:mt-0 mt-12">
+        <ModalGameOver v-if="modalGameOver" :scoreProp="score" class="lg:mt-0 md:mt-0 mt-12 z-30">
         </ModalGameOver>
       </transition>
     </Teleport>

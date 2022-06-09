@@ -77,12 +77,12 @@ const currentLevel = ref(3)
   <button @click="[showTime = 1000, moveTime = 15, currentLevel = 5]" :class="currentLevel == 5 && 'border-2 border-purple-500'"
     class=" rounded-md bg-white text-left font-semibold px-6 py-3 w-full text-lg shadow-md ">
     Help,
-    <small class="text-xs block  text-purple-500"> are you okay?</small>
+    <small class="text-xs block  text-purple-500">why are you choose this?</small>
   </button>
   <button @click="[showTime = 500, moveTime = 15, currentLevel = 6]" :class="currentLevel == 6 && 'border-2 border-black'"
     class=" rounded-md bg-white text-left font-semibold px-6 py-3 w-full text-lg shadow-md  ">
-    Nightmare
-    <small class="text-xs block  text-black">why are you choose this?</small>
+    Nightmare,
+    <small class="text-xs block  text-black">are you even human?</small>
   </button>
 
 

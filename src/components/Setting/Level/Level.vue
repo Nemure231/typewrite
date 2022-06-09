@@ -5,9 +5,6 @@ import ButtonLevel from "./ButtonLevel.vue";
 const showTime = inject('showTimeProv')
 const moveTime = inject('moveTimeProv')
 
-
-
-
 </script>
 
 
