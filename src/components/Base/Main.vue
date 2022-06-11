@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onUpdated, watch, inject, computed, defineComponent, watchEffect, provide } from 'vue';
+import { ref, onUpdated, watch, inject, computed, defineComponent, watchEffect, provide, onMounted } from 'vue';
 import { OnClickOutside } from '@vueuse/components'
 import ModalSetting from '../Setting/ModalSetting.vue'
 import ModalGameOver from '../ModalGameOver.vue'
@@ -9,7 +9,6 @@ import Setting from '../Game/Setting.vue'
 import Life from '../Game/Life.vue'
 import Start from '../Game/Start.vue'
 import Score from '../Game/Score.vue'
-import YouTubePlayer from 'youtube-player';
 
 defineComponent({ OnClickOutside, ModalSetting, ModalGameOver, Type, Life, Start })
 
@@ -38,7 +37,11 @@ const countTimer = inject('countTimerProv')
 const bgOrYtProv = inject('bgOrYtProv')
 const ytIdProv = inject('ytIdProv')
 const pauseProblemProv = inject('pauseProblemProv')
+const ytRestartProv = inject('ytRestartProv')
 const loopProv = inject('loopProv')
+const ytLinkProv = inject('ytLinkProv')
+
+
 
 provide('modalGameOverProv', computed({
   get: () => modalGameOver.value,
@@ -57,8 +60,8 @@ let rightPlus = async () => {
   list.value.forEach((e) => {
     e.right += 1
 
-    if(pauseProblemProv.value.length > 0){
-      e.right -=1
+    if (pauseProblemProv.value.length > 0) {
+      e.right -= 1
       e.right += 1
     }
   })
@@ -94,7 +97,8 @@ let startGame = () => {
   rightPlus()
 
   if (ytIdProv.value.length > 0) {
-    playin()
+    // playin()
+    player.value.player.play()
   }
 }
 
@@ -108,7 +112,7 @@ let openModalSetting = () => {
   pauseGame()
 
   if (ytIdProv.value.length > 0) {
-    stopin()
+     player.value.player.pause()
 
   }
 }
@@ -119,7 +123,6 @@ let closeModalSetting = () => {
   // if (listvalue.length > 0) {
   //       start.value.true
   //   }
-
 }
 
 let gameOver = () => {
@@ -140,6 +143,7 @@ let gameOver = () => {
 
 }
 
+
 watch(
   () => lose.value,
   (count, prevCount) => {
@@ -153,7 +157,8 @@ watch(
         list.value = []
         pass.value = []
         unPass.value = []
-        bgOrYtProv.value = true
+        ytLinkProv.value = ''
+
 
       } else {
         life.value -= 1
@@ -191,91 +196,131 @@ const changeBg = computed(() => {
 })
 
 
-var player1
+const player = ref(null)
+const stateYt = ref(-1)
+const ended = ref(false)
 
 
-watchEffect(() => {
-  if (ytIdProv.value.length > 0) {
-    player1 = YouTubePlayer('player-1', {
-      videoId: ytIdProv.value.at(-1),
-      width: `100%`,
-      height: `100%`,
-      playerVars: {
-        "autoplay": 0, 
-        "loop": 1,
-        "rel": 0, 
-        "controls": 0, 
-        "fs": 0,
-        "showinfo": 0
-      },
-    });
-
+provide('playerProv', computed({
+  get: () => player.value,
+  set: (val) => {
+    player.value = val
   }
+}))
+
+provide('endedProv', computed({
+  get: () => ended.value,
+  set: (val) => {
+    ended.value = val
+  }
+}))
+
+provide('stateYtProv', computed({
+  get: () => stateYt.value,
+  set: (val) => {
+    stateYt.value = val
+  }
+}))
+
+onMounted(() => {
+  player.value.player.on('statechange', (event) => {
+    stateYt.value = event.detail.code
+  })
+
+  var ameo = 0
+  player.value.player.on('ended', () => {
+
+    if (loopProv.value) {
+      ameo++
+
+      if (ameo >= ytIdProv.value.length) {
+        ameo = 0
+      }
+
+      player.value.player.source = {
+        type: 'video',
+        sources: [
+          {
+            src: ytIdProv.value[ameo].src,
+            provider: 'youtube',
+          },
+        ]
+      }
+
+      setTimeout(() => {
+        player.value.player.play()
+
+      }, 1000);
+    }
+  });
 })
 
-let stopin = () => {
-  player1
-    .pauseVideo()
-    .then(() => {
-    });
-}
+//  const ma = {
+//     // listType: "playlist",
+//     // list: "PLFhIY0W6Yx8q8ZChZHLD7MgYwmgrKzf7f",
+//     autoplay: 0,
+//     // loop: 0,
+//     // rel: 0,
+//     // controls: 0,
+//     // fs: 0,
+//     // showinfo: 0,
+//     // enablejsapi: 1
+//   }
+//  const embed = `https://www.youtube.com/embed/GdYw586tgQk?autoplay=${ma.autoplay}&rel=${ma.rel}&controls=${ma.controls}&fs=${ma.fs}&showinfo=${ma.showinfo}&enablejsapi=${ma.enablejsapi}` 
 
-let playin = () => {
-  player1.playVideo()
-    .then(function () {
-
-    });
-}
-
-let loopin = () => {
-  player1.setLoop({
-    loopPlaylists: true
-  })
-    .then(function () {
-    });
-}
-
-let notLoopin = () => {
-  player1.setLoop({
-    loopPlaylists: false
-  })
-    .then(function () {
-    });
-}
-
-let loopYt = () => {
-  loopProv.value = !loopProv.value
-  if(loopProv.value){
-    loopin()
-  }else{
-    notLoopin()
+const plys = computed(() => {
+  if (ytIdProv.value.length > 0) {
+    return `https://www.youtube.com/embed/${ytIdProv.value[0].src}`
+  } else {
+    return `https://www.youtube.com/embed/`
   }
 
+})
 
-} 
+const options = computed(() => {
+  const uu = {
+    controls: [],
+    loop: {
+      active: false
+    },
+    youtube: {
+      modestbranding: 0,
+      rel: 0,
+      showinfo: 0,
+      controls: 0,
+      fs: 0,
+      enablejsapi: 1
+    }
+  }
+
+  return uu
+})
+
 
 
 </script>
 
 <template>
-
+  <!-- {{ytIdProv}} -->
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
-
     <div v-if="bgOrYtProv" class="fixed bg-cover bg-center bg-no-repeat inset-0" ref="yt" :style="{
       backgroundImage: `url(${changeBg})`,
     }">
     </div>
-
-    <div v-if="!bgOrYtProv" style="position: fixed; width: 100%; height: 100%">
-      <div id="player-1" 
-        allowfullscreen="true"
-        mozallowfullscreen="mozallowfullscreen" 
-        msallowfullscreen="msallowfullscreen" 
-        oallowfullscreen="oallowfullscreen" 
-        webkitallowfullscreen="webkitallowfullscreen"></div>
-      <div class="absolute inset-0">
+    <div  class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
+      <div class=" fixed inset-0 z-10">
       </div>
+      <vue-plyr ref="player" :options="options">
+        <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
+          <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen allowtransparency
+            mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
+            oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+
+      </vue-plyr>
+
     </div>
 
     <p v-for="li in list" :key="li.id" :id="li.id" class="p-1 bg-white text-md absolute right-0" :style="[{
@@ -289,7 +334,7 @@ let loopYt = () => {
     <Score />
     <Life />
 
-    <div class="fixed inset-x-0 bottom-0">
+    <div class="fixed inset-x-0 bottom-0 z-20">
       <div class=" w-full h-20 p-3">
         <div class="flex items-center flex-row justify-between h-full gap-6">
           <PreviewType />
@@ -320,7 +365,7 @@ let loopYt = () => {
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
         <keep-alive>
 
-          <ModalSetting v-if="modalSettingButton" @childCloseModalSetting="() => closeModalSetting()" @childLoopYt="() => loopYt()" 
+          <ModalSetting class="z-30" v-if="modalSettingButton" @childCloseModalSetting="() => closeModalSetting()"
             @childStartGame="() => startGame()">
           </ModalSetting>
 

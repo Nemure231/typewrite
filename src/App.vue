@@ -3,7 +3,6 @@ import Main from './components/Base/Main.vue'
 import Footer from './components/Base/Footer.vue'
 import { ref, provide, defineComponent, computed, onMounted, onUpdated } from 'vue';
 import { words } from '../data/words.js'
-import YouTubePlayer from 'youtube-player';
 
 defineComponent({ Main, Footer })
 
@@ -35,6 +34,14 @@ const ytLink = ref('')
 const ytId = ref([])
 const pauseProblem = ref([])
 const loop = ref(false)
+const ytRestart = ref(true)
+
+provide('ytRestartProv', computed({
+  get: () => ytRestart.value,
+  set: (val) => {
+    ytRestart.value = val
+  }
+}))
 
 
 provide('loopProv', computed({

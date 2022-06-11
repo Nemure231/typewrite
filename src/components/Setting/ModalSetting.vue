@@ -13,7 +13,7 @@ defineComponent(
 )
 const listProv = inject('listProv')
 
-const emit = defineEmits(["childCloseModalSetting", 'childStartGame', 'childLoopYt']);
+const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
 
 let childCloseModalSetting = () => {
     emit("childCloseModalSetting")
@@ -27,9 +27,6 @@ let childStartGame = () => {
     emit("childStartGame")
 }
 
-let childLoopYt = () => {
-    emit("childLoopYt")
-}
 
 const currentMenu = ref(1)
 const menu = ref([
@@ -91,7 +88,7 @@ const menu = ref([
                                         <div class="flex">
                                             <Level v-if="currentMenu == 1" />
                                             <Font v-if="currentMenu == 3" />
-                                            <IndexBg v-if="currentMenu == 4" @childLoopYt2="() => childLoopYt()" />
+                                            <IndexBg v-if="currentMenu == 4" />
                                         </div>
 
                                     </div>

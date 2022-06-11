@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits } from 'vue'
+import { defineEmits, inject } from 'vue'
 
 const emit = defineEmits(["childStartGame"]);
 
@@ -12,7 +12,7 @@ let childStartGame = () => {
 
 <template>
 
-    <div class="absolute inset-0 flex justify-center items-center h-screen">
+    <div class="absolute inset-0 z-20 flex justify-center items-center h-screen">
         <div class="">
 
             <span class="text-7xl font-bold">
