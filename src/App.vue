@@ -1,7 +1,7 @@
 <script setup>
 import Main from './components/Base/Main.vue'
 import Footer from './components/Base/Footer.vue'
-import { ref, provide, defineComponent, computed, onMounted, onUpdated } from 'vue';
+import { ref, provide, defineComponent, computed } from 'vue';
 import { words } from '../data/words.js'
 
 defineComponent({ Main, Footer })

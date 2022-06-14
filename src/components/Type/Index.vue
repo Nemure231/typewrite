@@ -9,7 +9,7 @@ const list = inject('listProv')
 const previewType = inject('previewTypeProv')
 const pass = inject('passProv')
 
-const { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, Enter, Backspace, space } = useMagicKeys()
+const { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, Enter, Backspace, space, Delete } = useMagicKeys()
 const storeAbjad = ref([])
 const storedAbjadJoin = ref([])
 
@@ -45,12 +45,17 @@ watchEffect(() => {
 
         if (Backspace.value) {
             if (storeAbjad.value.length == 1) {
-
                 storeAbjad.value = []
             } else {
                 storeAbjad.value.pop()
             }
         }
+
+        if(Delete.value){
+            storeAbjad.value = [];
+        }
+
+
         var stored = storeAbjad.value.join('')
 
         previewType.value = stored
@@ -58,7 +63,6 @@ watchEffect(() => {
 
             if (Enter.value) {
                 storeAbjad.value = []
-
                 previewType.value = ''
                 storedAbjadJoin.value.push(stored)
                 var au = ''

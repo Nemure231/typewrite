@@ -249,7 +249,6 @@ const plys = computed(() => {
   } else {
     return `https://www.youtube.com/embed/`
   }
-
 })
 
 const options = computed(() => {
