@@ -42,11 +42,19 @@ watchEffect(() => {
         y.value && storeAbjad.value.push('y')
         z.value && storeAbjad.value.push('z')
         space.value && storeAbjad.value.push(' ')
-        Backspace.value && storeAbjad.value.pop()
+
+        if (Backspace.value) {
+            if (storeAbjad.value.length == 1) {
+
+                storeAbjad.value = []
+            } else {
+                storeAbjad.value.pop()
+            }
+        }
         var stored = storeAbjad.value.join('')
 
+        previewType.value = stored
         if (storeAbjad.value.length > 0) {
-            previewType.value = stored
 
             if (Enter.value) {
                 storeAbjad.value = []

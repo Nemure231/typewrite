@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onUpdated, watch, inject, computed, defineComponent, watchEffect, provide, onMounted } from 'vue';
+import { ref, watch, inject, computed, defineComponent, watchEffect, provide, onMounted } from 'vue';
 import { OnClickOutside } from '@vueuse/components'
 import ModalSetting from '../Setting/ModalSetting.vue'
 import ModalGameOver from '../ModalGameOver.vue'
@@ -37,9 +37,12 @@ const countTimer = inject('countTimerProv')
 const bgOrYtProv = inject('bgOrYtProv')
 const ytIdProv = inject('ytIdProv')
 const pauseProblemProv = inject('pauseProblemProv')
-const ytRestartProv = inject('ytRestartProv')
 const loopProv = inject('loopProv')
 const ytLinkProv = inject('ytLinkProv')
+
+const player = ref(null)
+const stateYt = ref(-1)
+const ended = ref(false)
 
 
 
@@ -97,7 +100,6 @@ let startGame = () => {
   rightPlus()
 
   if (ytIdProv.value.length > 0) {
-    // playin()
     player.value.player.play()
   }
 }
@@ -112,20 +114,16 @@ let openModalSetting = () => {
   pauseGame()
 
   if (ytIdProv.value.length > 0) {
-     player.value.player.pause()
+    player.value.player.pause()
 
   }
 }
 
 let closeModalSetting = () => {
   modalSettingButton.value = false
-
-  // if (listvalue.length > 0) {
-  //       start.value.true
-  //   }
 }
 
-let gameOver = () => {
+watchEffect(() => {
   list.value.forEach((e) => {
     const passId = pass.value.find(element => element == e.id);
     if (passId === undefined) {
@@ -141,14 +139,13 @@ let gameOver = () => {
     lose.value = unPass.value.length
   })
 
-}
 
+})
 
 watch(
   () => lose.value,
   (count, prevCount) => {
     setTimeout(() => {
-
       if (life.value <= 1) {
         start.value = false
         modalGameOver.value = true
@@ -158,7 +155,7 @@ watch(
         pass.value = []
         unPass.value = []
         ytLinkProv.value = ''
-
+        player.value.player.stop()
 
       } else {
         life.value -= 1
@@ -185,20 +182,11 @@ const changeStyle = computed(() => {
   return text
 })
 
-onUpdated(() => {
-  gameOver()
-})
-
 const changeBg = computed(() => {
   if (bg.value.length > 0) {
     return bg.value[countTimer.value].url
   }
 })
-
-
-const player = ref(null)
-const stateYt = ref(-1)
-const ended = ref(false)
 
 
 provide('playerProv', computed({
@@ -255,19 +243,6 @@ onMounted(() => {
   });
 })
 
-//  const ma = {
-//     // listType: "playlist",
-//     // list: "PLFhIY0W6Yx8q8ZChZHLD7MgYwmgrKzf7f",
-//     autoplay: 0,
-//     // loop: 0,
-//     // rel: 0,
-//     // controls: 0,
-//     // fs: 0,
-//     // showinfo: 0,
-//     // enablejsapi: 1
-//   }
-//  const embed = `https://www.youtube.com/embed/GdYw586tgQk?autoplay=${ma.autoplay}&rel=${ma.rel}&controls=${ma.controls}&fs=${ma.fs}&showinfo=${ma.showinfo}&enablejsapi=${ma.enablejsapi}` 
-
 const plys = computed(() => {
   if (ytIdProv.value.length > 0) {
     return `https://www.youtube.com/embed/${ytIdProv.value[0].src}`
@@ -292,7 +267,6 @@ const options = computed(() => {
       enablejsapi: 1
     }
   }
-
   return uu
 })
 
@@ -301,14 +275,13 @@ const options = computed(() => {
 </script>
 
 <template>
-  <!-- {{ytIdProv}} -->
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
     <div v-if="bgOrYtProv" class="fixed bg-cover bg-center bg-no-repeat inset-0" ref="yt" :style="{
       backgroundImage: `url(${changeBg})`,
     }">
     </div>
-    <div  class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
+    <div class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
       <div class=" fixed inset-0 z-10">
       </div>
       <vue-plyr ref="player" :options="options">
