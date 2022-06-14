@@ -61,11 +61,11 @@ let rightPlus = async () => {
   }
 
   list.value.forEach((e) => {
-    e.right += 1
+    e.dir += 1
 
     if (pauseProblemProv.value.length > 0) {
-      e.right -= 1
-      e.right += 1
+      e.dir -= 1
+      e.dir += 1
     }
   })
 
@@ -78,7 +78,7 @@ let addWord = async () => {
   if (!start.value) {
     return;
   }
-  const random = Math.floor(Math.random() * (28307 - 1 + 1)) + 1
+  const random = Math.floor(Math.random() * (allWords.value.length - 1 + 1)) + 1
 
   let obj = allWords.value.find(o => o.id === random);
 
@@ -127,7 +127,7 @@ watchEffect(() => {
   list.value.forEach((e) => {
     const passId = pass.value.find(element => element == e.id);
     if (passId === undefined) {
-      if (e.right == window.innerWidth) {
+      if (e.dir == window.innerWidth) {
         unPass.value.push(
           e.id
         )
@@ -211,6 +211,7 @@ provide('stateYtProv', computed({
 }))
 
 onMounted(() => {
+
   player.value.player.on('statechange', (event) => {
     stateYt.value = event.detail.code
   })
@@ -269,6 +270,30 @@ const options = computed(() => {
   return uu
 })
 
+const dirText = inject('dirTextProv')
+
+
+let direction = (li) => {
+
+  const dirRight = {
+    right: `${li.dir}px`,
+    top: `${li.top}px`
+  }
+
+  const dirLeft = {
+    left: `${li.dir}px`,
+    top: `${li.top}px`
+  }
+
+  if (dirText.value == 0) {
+
+    return dirRight
+  } else {
+    return dirLeft
+  }
+
+}
+
 
 
 </script>
@@ -276,9 +301,8 @@ const options = computed(() => {
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
-    <div v-if="bgOrYtProv" class="fixed bg-cover bg-center bg-no-repeat inset-0" ref="yt" :style="{
-      backgroundImage: `url(${changeBg})`,
-    }">
+    <div v-if="bgOrYtProv" class="fixed bg-cover bg-center bg-no-repeat inset-0" ref="yt"
+    :style="{backgroundImage: `url(${changeBg})`}">
     </div>
     <div class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
       <div class=" fixed inset-0 z-10">
@@ -295,10 +319,10 @@ const options = computed(() => {
 
     </div>
 
-    <p v-for="li in list" :key="li.id" :id="li.id" class="p-1 bg-white text-md absolute right-0" :style="[{
-      right: `${li.right}px`,
-      top: `${li.top}px`
-    }, changeStyle]">
+    <p v-for="li in list" :key="li.id" :id="li.id" class="p-1 bg-white text-md absolute"
+      :style="[direction(li), changeStyle]">
+       <div class=" fixed inset-0 z-10">
+      </div>
       {{ li.name }}
     </p>
 

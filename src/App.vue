@@ -1,13 +1,13 @@
 <script setup>
 import Main from './components/Base/Main.vue'
 import Footer from './components/Base/Footer.vue'
-import { ref, provide, defineComponent, computed } from 'vue';
-import { words } from '../data/words.js'
+import { ref, provide, defineComponent, computed, watchEffect } from 'vue';
+import { id } from '../data/words/id.js'
+import { en } from '../data/words/en.js'
 
 defineComponent({ Main, Footer })
 
 // Global Data
-const allWords = ref(words)
 const list = ref([])
 const pass = ref([])
 const unpass = ref([])
@@ -35,6 +35,53 @@ const ytId = ref([])
 const pauseProblem = ref([])
 const loop = ref(false)
 const ytRestart = ref(true)
+const dirText = ref(0)
+const selectLang = ref(0)
+const allWords = ref([])
+
+watchEffect(() => {
+  var uma = []
+  if (selectLang.value === 0) {
+    uma = id
+  } else if (selectLang.value === 1) {
+    uma = en
+  }
+  allWords.value = uma
+})
+
+provide('allWordsProv', computed({
+  get: () => allWords.value,
+  set: (val) => {
+    allWords.value = val
+  }
+}))
+
+
+provide('selectLangProv', computed({
+  get: () => selectLang.value,
+  set: (val) => {
+    selectLang.value = val
+  }
+}))
+
+
+
+
+provide('dirTextProv', computed({
+  get: () => dirText.value,
+  set: (val) => {
+    dirText.value = val
+  }
+}))
+
+
+provide('dirTextProv', computed({
+  get: () => dirText.value,
+  set: (val) => {
+    dirText.value = val
+  }
+}))
+
 
 provide('ytRestartProv', computed({
   get: () => ytRestart.value,
@@ -213,12 +260,7 @@ provide('countTimerProv', computed({
 }))
 
 
-provide('allWordsProv', computed({
-  get: () => allWords.value,
-  set: (val) => {
-    allWords.value = val
-  }
-}))
+
 
 provide('listProv', computed({
   get: () => list.value,

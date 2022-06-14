@@ -5,6 +5,7 @@ import { defineComponent, defineEmits, ref, inject } from 'vue'
 import Level from './Level/Level.vue'
 import Font from './Font/Font.vue';
 import IndexBg from './Bg/Index.vue';
+import IndexText from './Text/Index.vue';
 
 defineComponent(
     {
@@ -87,6 +88,7 @@ const menu = ref([
                                     <div class="flex-1 basis-[80%] h-screen px-12 py-6">
                                         <div class="flex">
                                             <Level v-if="currentMenu == 1" />
+                                            <IndexText v-if="currentMenu == 2" />
                                             <Font v-if="currentMenu == 3" />
                                             <IndexBg v-if="currentMenu == 4" />
                                         </div>
