@@ -6,6 +6,7 @@ import Level from './Level/Level.vue'
 import Font from './Font/Font.vue';
 import IndexBg from './Bg/Index.vue';
 import IndexText from './Text/Index.vue';
+import IndexMusic from './Music/Index.vue';
 
 defineComponent(
     {
@@ -46,6 +47,18 @@ const menu = ref([
     {
         id: 4,
         name: 'Background'
+    },
+    {
+        id: 5,
+        name: 'Music'
+    },
+    // {
+    //     id: 6,
+    //     name: 'Support!'
+    // },
+    {
+        id: 7,
+        name: 'About'
     }
 ])
 
@@ -75,14 +88,14 @@ const menu = ref([
                             <div class="flex-1">
                                 <div class="flex flex-row">
                                     <div class="flex-none  basis-[20%] rounded-xl">
-                                        <div class="flex flex-col items-center justify-center flex-wrap">
+                                        <div class="flex flex-col items-center justify-center flex-wrap py-2 px-2">
                                             <button v-for="m in menu" :key="m.id" @click="currentMenu = m.id"
-                                                class="w-full text-left border-sky-500 border-b  p-3">
-                                                <span class="text-xl w-full font-semibold">
+                                                class="w-full text-left p-2 rounded-xl" :class="currentMenu == m.id && 'bg-sky-200'">
+                                                <span class="text-xl w-full font-semibold relative">
+                                                    <span :class="m.id == 6 && `animate-ping absolute inline-flex h-3 w-3 top-0 -right-4 rounded-full bg-sky-400 opacity-75`"></span>
                                                     {{ m.name }}
                                                 </span>
                                             </button>
-
                                         </div>
                                     </div>
                                     <div class="flex-1 basis-[80%] h-screen px-12 py-6">
@@ -91,6 +104,7 @@ const menu = ref([
                                             <IndexText v-if="currentMenu == 2" />
                                             <Font v-if="currentMenu == 3" />
                                             <IndexBg v-if="currentMenu == 4" />
+                                            <IndexMusic v-if="currentMenu == 5" />
                                         </div>
 
                                     </div>

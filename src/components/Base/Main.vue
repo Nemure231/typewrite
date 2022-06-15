@@ -343,7 +343,7 @@ let direction = (li) => {
       <transition enter-from-class="transform opacity-0" enter-active-class="duration-300 ease-out"
         enter-to-class="opacity-100" leave-from-class="opacity-100" leave-active-class="duration-300 ease-in"
         leave-to-class="transform opacity-0 ">
-        <template v-if="modalGameOver">
+        <template v-show="modalGameOver">
           <div class="fixed inset-0 bg-gray-900 opacity-50 z-20" aria-hidden="true"></div>
         </template>
       </transition>
@@ -361,7 +361,7 @@ let direction = (li) => {
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
         <keep-alive>
 
-          <ModalSetting class="z-30" v-if="modalSettingButton" @childCloseModalSetting="() => closeModalSetting()"
+          <ModalSetting class="z-30" v-show="modalSettingButton" @childCloseModalSetting="() => closeModalSetting()"
             @childStartGame="() => startGame()">
           </ModalSetting>
 

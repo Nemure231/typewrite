@@ -1,11 +1,12 @@
 <script setup>
 import Main from './components/Base/Main.vue'
 import Footer from './components/Base/Footer.vue'
-import { ref, provide, defineComponent, computed, watchEffect } from 'vue';
+import Warning from './components/Base/Warning.vue'
+import ReOff from './components/Reload/Index.vue'
+import { ref, provide, computed, watchEffect } from 'vue';
 import { id } from '../data/words/id.js'
 import { en } from '../data/words/en.js'
 
-defineComponent({ Main, Footer })
 
 // Global Data
 const list = ref([])
@@ -294,9 +295,10 @@ provide('scoreProv', computed({
 </script>
 
 <template>
-  <Main />
-  <Footer />
-</template>
 
-<style>
-</style>
+  <Main class="lg:block md:block hidden" />
+  <Footer class="lg:block md:block hidden" />
+  <ReOff />
+  <Warning/>
+
+</template>
