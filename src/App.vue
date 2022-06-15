@@ -46,7 +46,9 @@ watchEffect(() => {
   var uma = []
   if (selectLang.value === 0) {
     uma = id
-  } else if (selectLang.value === 1) {
+  }
+  
+  if (selectLang.value === 1) {
     uma = en
   }
   allWords.value = uma

@@ -7,6 +7,7 @@ import Font from './Font/Font.vue';
 import IndexBg from './Bg/Index.vue';
 import IndexText from './Text/Index.vue';
 import IndexMusic from './Music/Index.vue';
+import IndexAbout from './About/Index.vue';
 
 defineComponent(
     {
@@ -84,7 +85,7 @@ const menu = ref([
                                 </svg>
                             </div>
                         </div>
-                        <div class="flex flex-col pb-4 w-[50rem] overflow-scroll overflow-x-hidden h-[30rem] ">
+                        <div class="flex flex-col pb-4 w-[50rem] overflow-scroll overflow-x-hidden h-[32rem]">
                             <div class="flex-1">
                                 <div class="flex flex-row">
                                     <div class="flex-none  basis-[20%] rounded-xl">
@@ -105,6 +106,7 @@ const menu = ref([
                                             <Font v-if="currentMenu == 3" />
                                             <IndexBg v-if="currentMenu == 4" />
                                             <IndexMusic v-if="currentMenu == 5" />
+                                             <IndexAbout v-if="currentMenu == 7" />
                                         </div>
 
                                     </div>
