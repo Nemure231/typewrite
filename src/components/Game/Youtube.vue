@@ -2,8 +2,6 @@
 import { inject } from 'vue'
 
 const bgOrYtProv = inject('bgOrYtProv')
-
-
 </script>
 
 <template>

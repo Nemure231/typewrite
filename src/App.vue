@@ -3,7 +3,9 @@ import Main from './components/Base/Main.vue'
 import Footer from './components/Base/Footer.vue'
 import Warning from './components/Base/Warning.vue'
 import ReOff from './components/Reload/Index.vue'
+import Offline from './components/Base/Offline.vue'
 import { ref, provide, computed, watchEffect } from 'vue';
+import { useOnline } from '@vueuse/core'
 import { id } from '../data/words/id.js'
 import { en } from '../data/words/en.js'
 
@@ -260,9 +262,6 @@ provide('countTimerProv', computed({
   }
 }))
 
-
-
-
 provide('listProv', computed({
   get: () => list.value,
   set: (val) => {
@@ -292,13 +291,26 @@ provide('scoreProv', computed({
     score.value = val
   }
 }))
+
+
+const online = useOnline()
 </script>
+
 
 <template>
 
-  <Main class="lg:block md:block sm:block hidden" />
-  <Footer class="lg:block md:block sm:block hidden" />
-  <ReOff />
-  <Warning/>
+  <template v-if="online">
+    <Main class="lg:block md:block sm:block hidden" />
+    <Footer class="lg:block md:block sm:block hidden" />
+    <ReOff />
+    <Warning />
+  </template>
+  <template v-else>
+
+    <Offline />
+
+  </template>
+
+
 
 </template>

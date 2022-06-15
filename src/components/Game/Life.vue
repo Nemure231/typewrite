@@ -24,7 +24,6 @@ const life = inject('lifeProv')
             </div>
             <span class="text-3xl font-bold bg-white py-0.5 rounded-2xl w-auto px-6">
                 {{ life }}
-
             </span>
         </div>
     </div>

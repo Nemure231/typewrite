@@ -2,7 +2,7 @@
 import { ref, watch, inject, computed, defineComponent, watchEffect, provide, onMounted } from 'vue';
 import { OnClickOutside } from '@vueuse/components'
 import ModalSetting from '../Setting/ModalSetting.vue'
-import ModalGameOver from '../ModalGameOver.vue'
+import ModalGameOver from '../Game/ModalGameOver.vue'
 import Type from '../Type/Index.vue'
 import PreviewType from '../Game/PreviewType.vue'
 import Setting from '../Game/Setting.vue'
@@ -31,7 +31,6 @@ const ytIdProv = inject('ytIdProv')
 const pauseProblemProv = inject('pauseProblemProv')
 const loopProv = inject('loopProv')
 const ytLinkProv = inject('ytLinkProv')
-
 const player = ref(null)
 const stateYt = ref(-1)
 const ended = ref(false)
