@@ -9,8 +9,11 @@ import Setting from '../Game/Setting.vue'
 import Life from '../Game/Life.vue'
 import Start from '../Game/Start.vue'
 import Score from '../Game/Score.vue'
+import Text from '../Game/Text.vue'
+import BgVue from '../Game/Bg.vue'
+import YoutubeVue from '../Game/Youtube.vue'
 
-defineComponent({ OnClickOutside, ModalSetting, ModalGameOver, Type, Life, Start })
+defineComponent({ OnClickOutside})
 
 const allWords = inject('allWordsProv')
 const pass = inject('passProv')
@@ -21,19 +24,8 @@ const modalGameOver = ref(false)
 const life = inject('lifeProv')
 const lose = inject('loseProv')
 const start = inject('startProv')
-const bg = inject('bgProv')
 const showTime = inject('showTimeProv')
 const moveTime = inject('moveTimeProv')
-const color = inject('fontColorProv')
-const bgColor = inject('bgColorProv')
-const fontSize = inject('fontSizeProv')
-const fontWeight = inject('fontWeightProv')
-const paddingY = inject('paddingYProv')
-const paddingX = inject('paddingXProv')
-const borderColor = inject('borderColorProv')
-const borderWidth = inject('borderWidthProv')
-const borderRadius = inject('borderRadiusProv')
-const countTimer = inject('countTimerProv')
 const bgOrYtProv = inject('bgOrYtProv')
 const ytIdProv = inject('ytIdProv')
 const pauseProblemProv = inject('pauseProblemProv')
@@ -43,6 +35,27 @@ const ytLinkProv = inject('ytLinkProv')
 const player = ref(null)
 const stateYt = ref(-1)
 const ended = ref(false)
+
+provide('playerProv', computed({
+  get: () => player.value,
+  set: (val) => {
+    player.value = val
+  }
+}))
+
+provide('endedProv', computed({
+  get: () => ended.value,
+  set: (val) => {
+    ended.value = val
+  }
+}))
+
+provide('stateYtProv', computed({
+  get: () => stateYt.value,
+  set: (val) => {
+    stateYt.value = val
+  }
+}))
 
 
 
@@ -165,53 +178,7 @@ watch(
 )
 
 
-const changeStyle = computed(() => {
-  const text = {
-    color: color.value,
-    backgroundColor: bgColor.value,
-    fontSize: `${fontSize.value}px`,
-    fontWeight: fontWeight.value,
-    paddingLeft: `${paddingX.value}px`,
-    paddingRight: `${paddingX.value}px`,
-    paddingTop: `${paddingY.value}px`,
-    paddingBottom: `${paddingY.value}px`,
-    borderColor: borderColor.value,
-    borderWidth: `${borderWidth.value}px`,
-    borderRadius: `${borderRadius.value}px`
-  }
-  return text
-})
-
-const changeBg = computed(() => {
-  if (bg.value.length > 0) {
-    return bg.value[countTimer.value].url
-  }
-})
-
-
-provide('playerProv', computed({
-  get: () => player.value,
-  set: (val) => {
-    player.value = val
-  }
-}))
-
-provide('endedProv', computed({
-  get: () => ended.value,
-  set: (val) => {
-    ended.value = val
-  }
-}))
-
-provide('stateYtProv', computed({
-  get: () => stateYt.value,
-  set: (val) => {
-    stateYt.value = val
-  }
-}))
-
 onMounted(() => {
-
   player.value.player.on('statechange', (event) => {
     stateYt.value = event.detail.code
   })
@@ -270,61 +237,33 @@ const options = computed(() => {
   return uu
 })
 
-const dirText = inject('dirTextProv')
-
-
-let direction = (li) => {
-
-  const dirRight = {
-    right: `${li.dir}px`,
-    top: `${li.top}px`
-  }
-
-  const dirLeft = {
-    left: `${li.dir}px`,
-    top: `${li.top}px`
-  }
-
-  if (dirText.value == 0) {
-
-    return dirRight
-  } else {
-    return dirLeft
-  }
-
-}
-
-
-
 </script>
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
-    <Type />
-    <div v-if="bgOrYtProv" class="fixed bg-cover bg-center bg-no-repeat inset-0" ref="yt"
-    :style="{backgroundImage: `url(${changeBg})`}">
-    </div>
+    <Type/>
+    <BgVue/>
+    
+    <YoutubeVue>
+      <template #vueplyr>
+        <vue-plyr ref="player" :options="options">
+          <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
+            <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen allowtransparency
+              mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
+              oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+          </div>
+        </vue-plyr>
+      </template>
+    </YoutubeVue>
+
     <div class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
       <div class=" fixed inset-0 z-10">
       </div>
-      <vue-plyr ref="player" :options="options">
-        <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
-          <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen allowtransparency
-            mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
-            oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-        </div>
-
-      </vue-plyr>
 
     </div>
 
-    <p v-for="li in list" :key="li.id" :id="li.id" class="p-1 bg-white text-md absolute"
-      :style="[direction(li), changeStyle]">
-       <div class=" fixed inset-0 z-10">
-      </div>
-      {{ li.name }}
-    </p>
+    <Text/>
 
     <Start v-if="!start" @childStartGame="() => startGame()" />
     <Score />

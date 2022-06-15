@@ -1,5 +1,5 @@
 <template>
-    <div class="mobile-type lg:hidden md:hidden ">
+    <div class="mobile-type lg:hidden md:hidden sm:hidden ">
         <img src="/pwa-512x512.png" class="mb-3 rounded-md" alt="" srcset="">
         <div>
             Please keep your browser on the large screen,

@@ -19,9 +19,9 @@ export default defineConfig({
       strategies: 'injectManifest',
       includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
-        name: 'Portare',
-        short_name: 'Portare',
-        description: 'A simple SPA PWA portfolio',
+        name: 'Typewrite',
+        short_name: 'Typewrite',
+        description: 'A simple typing game',
         theme_color: '#1f1f1f',
         icons: [
           {

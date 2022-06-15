@@ -7,7 +7,6 @@ import draggable from "vuedraggable";
 
 defineComponent({ DropZone, draggable })
 
-
 const bgProv = inject('bgProv')
 const countTimerProv = inject('countTimerProv')
 const ytLinkProv = inject('ytLinkProv')
@@ -111,10 +110,10 @@ let useYtBg = () => {
 				</div>
 				<small class="inline mx-2">Or</small>
 				<div class="inline font-light bg-sky-100 w-max rounded-lg py-1 px-2 mb-2 text-xs">
-					https://www.youtube.com/watch?v=-rfFIiHKrG0
+				https://www.youtube.com/watch?v=-rfFIiHKrG0
 				</div>
 				<div class="relative mt-2">
-					<input v-model="ytLinkProv"
+					<input v-model.trim="ytLinkProv"
 						class="py-2.5 pl-4 pr-24 focus:outline-none w-full border-2 border-sky-500 rounded-lg"
 						type="url" />
 

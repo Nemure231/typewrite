@@ -296,8 +296,8 @@ provide('scoreProv', computed({
 
 <template>
 
-  <Main class="lg:block md:block hidden" />
-  <Footer class="lg:block md:block hidden" />
+  <Main class="lg:block md:block sm:block hidden" />
+  <Footer class="lg:block md:block sm:block hidden" />
   <ReOff />
   <Warning/>
 
