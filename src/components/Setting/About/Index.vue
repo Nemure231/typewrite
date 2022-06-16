@@ -10,8 +10,8 @@
                 <span class="text-2xl font-bold">About</span>
                 <div class="flex flex-col gap-3 mt-6 font-normal text-justify">
                     <p>
-                        Typewrite is a typing game made by pure Javascript and with VueJs as a framework. The idea is
-                        not just started poping in my head when i am making this game.
+                        Typewrite is a typing game written by Javascript and with VueJs as a helping framework. The idea is
+                        not just poping in my head when i am making this game.
                     </p>
                     <p>
                         I've ever watch some random video on
@@ -24,17 +24,15 @@
                         <a class="underline decoration-sky-500 decoration-wavy"
                             href="https://www.youtube.com/watch?v=jnkOcAkLkBU">
                             WSpeed
-                        </a>, that made and playing by youtuber who named himself as Bisqwit, to provide how fast he is
-                        typing.
+                        </a>, that made and playing by youtuber who named himself as Bisqwit, to provide how fast he typing.
                     </p>
                     <p>
-                        The base idea Typewrite is semiliar to WSpeed, however i make it have more reature to be an
-                        enjoyable game.
+                        The base idea Typewrite is semiliar to WSpeed, however i make it have more feature to be more
+                        enjoyable.
                     </p>
                     <p>
                         I am always open with every opinion if you have, you can visit my github. Thank you for playing.
                     </p>
-
                     <p>
                         Sincerely,
                         Karol.Y

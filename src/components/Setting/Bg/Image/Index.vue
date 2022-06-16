@@ -1,10 +1,11 @@
 
 <script setup>
-import { ref, inject, defineComponent, watchEffect, computed} from 'vue'
+import { ref, inject, defineComponent, watchEffect, computed, provide } from 'vue'
 import DropZone from '../DropZone.vue'
 import draggable from "vuedraggable";
 import useFileList from '../../../../compositions/file-list'
-
+import Timer from './Timer.vue';
+import Button from './Button.vue';
 
 const { files, addFiles } = useFileList()
 
@@ -15,87 +16,70 @@ const bgProv = inject('bgProv')
 const countTimerProv = inject('countTimerProv')
 const bgTime = ref(1000)
 const loopBg = ref(false)
+const dragging = ref(false)
+const enabled = ref(true)
 
+
+provide('bgTimeProv', computed({
+	get: () => bgTime.value,
+	set: (val) => {
+		bgTime.value = val
+	}
+}))
+
+provide('loopBgProv', computed({
+	get: () => loopBg.value,
+	set: (val) => {
+		loopBg.value = val
+	}
+}))
 
 let clickBg = () => {
-    bgRef.value.click()
+	bgRef.value.click()
 }
 
 let removeOneBg = (id) => {
-    const idd = bgProv.value.findIndex((el) => el.id == id)
+	const idd = bgProv.value.findIndex((el) => el.id == id)
 
-    bgProv.value.splice(idd, 1);
+	bgProv.value.splice(idd, 1);
 }
 
 let timerBg = async () => {
-    if (!loopBg.value) {
-        return;
-    }
+	if (!loopBg.value) {
+		return;
+	}
 
-    countTimerProv.value++
-    if (countTimerProv.value >= bgProv.value.length) {
-        countTimerProv.value = 0
-
-    }
-    if (loopBg.value) {
-        setTimeout(timerBg, bgTime.value);
-    }
-}
-
-
-let startBg = () => {
-    loopBg.value = true
-    timerBg()
-}
-
-let stopBg = () => {
-    loopBg.value = false
+	countTimerProv.value++
+	if (countTimerProv.value >= bgProv.value.length) {
+		countTimerProv.value = 0
+	}
+	if (loopBg.value) {
+		setTimeout(timerBg, bgTime.value);
+	}
 }
 
 
 let chooseBg = (e) => {
-    addFiles(e.target.files)
-    e.target.value = null
+	addFiles(e.target.files)
+	e.target.value = null
 }
-
 
 watchEffect(() => {
-    if (files.value.length) {
-        for (let idx = 0; idx < files.value.length; idx++) {
-            bgProv.value.push(files.value[idx])
-        }
+	if (files.value.length) {
+		for (let idx = 0; idx < files.value.length; idx++) {
+			bgProv.value.push(files.value[idx])
+		}
 
-        setTimeout(() => {
-            files.value = []
-        }, 1000);
+		setTimeout(() => {
+			files.value = []
+		}, 1000);
 
-    }
+	}
 })
-
-let convertMillis = computed(() => {
-
-    const minutes = Math.floor((bgTime.value / 1000 / 60) % 60);
-    const seconds = Math.floor((bgTime.value / 1000) % 60);
-
-    const formattedTime = [
-        minutes.toString().padStart(2, "0"),
-        seconds.toString().padStart(2, "0")
-    ].join(":");
-
-    return formattedTime
-
-})
-
-const dragging = ref(false)
-const enabled = ref(true)
 
 let checkMove = (e) => {
-    window.console.log("Future index: " + e.draggedContext.futureIndex);
+	window.console.log("Future index: " + e.draggedContext.futureIndex);
 }
-
-
-
-
 </script>
 
 <template>
@@ -128,7 +112,7 @@ let checkMove = (e) => {
 									</button>
 								</div>
 							</div>
-
+							
 							<div for="file-input" class="font-normal">
 								<template v-if="dropZoneActive">
 									<span>Drop Them Here</span>
@@ -146,33 +130,12 @@ let checkMove = (e) => {
 							</div>
 						</DropZone>
 					</div>
-
 					<template v-if="bgProv.length > 0">
-
-						<div class="flex-1">
-							<span class="text-2xl font-bold block mb-4">Timer</span>
-							<label class="inline font-semibold" for="">Show / </label>
-							<small class="inline text-sm font-medium" v-text="convertMillis"> </small>
-							<input type="range" @change="timerBg()" class="custom-range mt-4" v-model="bgTime"
-								min="1000" step="1000" max="1000000" name="" id="">
-						</div>
-
-						<div class="flex-1">
-							<div class="flex flex-row justify-center items-center gap-8">
-								<button @click="startBg()"
-									class="font-semibold flex-1 text-lg text-white py-2 px-4 bg-sky-500 rounded-3xl">start</button>
-								<button @click="stopBg()"
-									class="font-semibold flex-1 text-lg text-white py-2 px-4 bg-sky-500 rounded-3xl">stop</button>
-							</div>
-						</div>
-
+						<Timer @childTimerBg="() => timerBg()" />
+						<Button @childTimerBg="() => timerBg()" />
 					</template>
-
 				</div>
-
 			</div>
-
-
 			<div class="flex-1 mb-6">
 				<draggable :list="bgProv" :disabled="!enabled" item-key="id" class="grid grid-cols-2 gap-6"
 					ghost-class="ghost" :move="checkMove" @start="dragging = true" @end="dragging = false">

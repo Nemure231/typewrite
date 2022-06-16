@@ -5,7 +5,7 @@ import Warning from './components/Base/Warning.vue'
 import ReOff from './components/Reload/Index.vue'
 import Offline from './components/Base/Offline.vue'
 import { ref, provide, computed, watchEffect } from 'vue';
-import { useOnline } from '@vueuse/core'
+
 import { id } from '../data/words/id.js'
 import { en } from '../data/words/en.js'
 
@@ -47,7 +47,7 @@ watchEffect(() => {
   if (selectLang.value === 0) {
     uma = id
   }
-  
+
   if (selectLang.value === 1) {
     uma = en
   }
@@ -295,23 +295,16 @@ provide('scoreProv', computed({
 }))
 
 
-const online = useOnline()
 </script>
 
 
 <template>
 
-  <template v-if="online">
     <Main class="lg:block md:block sm:block hidden" />
     <Footer class="lg:block md:block sm:block hidden" />
     <ReOff />
     <Warning />
-  </template>
-  <template v-else>
 
-    <Offline />
-
-  </template>
 
 
 
