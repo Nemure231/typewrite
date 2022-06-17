@@ -18,16 +18,11 @@ const changeStyle = computed(() => {
         borderWidth: `${borderWidth.value}px`,
     }
     return text
-
 })
-
-
 </script>
 
 <template>
-
-
-  <div class="flex-none">
+  <div class="fixed bottom-3 left-3 z-50">
     <div class="flex">
       <span class="text-3xl w-auto" :style="changeStyle">
         {{ previewType }}

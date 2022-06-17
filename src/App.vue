@@ -5,7 +5,6 @@ import Warning from './components/Base/Warning.vue'
 import ReOff from './components/Reload/Index.vue'
 import Offline from './components/Base/Offline.vue'
 import { ref, provide, computed, watchEffect } from 'vue';
-
 import { id } from '../data/words/id.js'
 import { en } from '../data/words/en.js'
 
@@ -41,6 +40,9 @@ const ytRestart = ref(true)
 const dirText = ref(0)
 const selectLang = ref(0)
 const allWords = ref([])
+const typeText = ref(0)
+const showEx = ref(false)
+const listExTxt = ref([])
 
 watchEffect(() => {
   var uma = []
@@ -51,6 +53,15 @@ watchEffect(() => {
   if (selectLang.value === 1) {
     uma = en
   }
+
+  if (selectLang.value === 2) {
+    if (showEx.value) {
+      if (listExTxt.value.length > 0) {
+        uma = listExTxt.value
+      }
+    }
+  }
+
   allWords.value = uma
 })
 
@@ -69,7 +80,28 @@ provide('selectLangProv', computed({
   }
 }))
 
+provide('showExProv', computed({
+  get: () => showEx.value,
+  set: (val) => {
+    showEx.value = val
+  }
+}))
 
+
+provide('listExTxtProv', computed({
+  get: () => listExTxt.value,
+  set: (val) => {
+    listExTxt.value = val
+  }
+}))
+
+
+provide('typeTextProv', computed({
+  get: () => typeText.value,
+  set: (val) => {
+    typeText.value = val
+  }
+}))
 
 
 provide('dirTextProv', computed({
@@ -300,10 +332,10 @@ provide('scoreProv', computed({
 
 <template>
 
-    <Main class="lg:block md:block sm:block hidden" />
-    <Footer class="lg:block md:block sm:block hidden" />
-    <ReOff />
-    <Warning />
+  <Main class="lg:block md:block sm:block hidden" />
+  <Footer class="lg:block md:block sm:block hidden" />
+  <ReOff />
+  <Warning />
 
 
 

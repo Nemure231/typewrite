@@ -60,7 +60,6 @@ watchEffect(() => {
 
         previewType.value = stored
         if (storeAbjad.value.length > 0) {
-
             if (Enter.value) {
                 storeAbjad.value = []
                 previewType.value = ''

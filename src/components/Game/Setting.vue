@@ -1,8 +1,5 @@
 <script setup>
-import { inject, defineEmits } from 'vue'
-
-const life = inject('lifeProv')
-
+import { defineEmits } from 'vue'
 
 const emit = defineEmits(["childOpenModalSetting"]);
 
@@ -14,11 +11,9 @@ let childOpenModalSetting = () => {
 </script>
 
 <template>
-
-
-  <div class="flex-none">
+  <div class="fixed bottom-3 right-3 z-50">
     <button @click="childOpenModalSetting()"
-      class="h-10 z-20 inline-flex justify-center items-center w-10 bg-sky-500 rounded-full text-white font-bold">
+      class="relative h-10 z-50 inline-flex justify-center items-center w-10 bg-sky-500 rounded-full text-white font-bold">
       <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
         aria-hidden="true" role="img" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
         <g fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-width="4">

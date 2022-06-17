@@ -13,7 +13,7 @@ import Text from '../Game/Text.vue'
 import BgVue from '../Game/Bg.vue'
 import YoutubeVue from '../Game/Youtube.vue'
 
-defineComponent({ OnClickOutside})
+defineComponent({ OnClickOutside })
 
 const allWords = inject('allWordsProv')
 const pass = inject('passProv')
@@ -34,6 +34,8 @@ const ytLinkProv = inject('ytLinkProv')
 const player = ref(null)
 const stateYt = ref(-1)
 const ended = ref(false)
+const nonrand = ref(1)
+const typeText = inject('typeTextProv')
 
 provide('playerProv', computed({
   get: () => player.value,
@@ -55,8 +57,6 @@ provide('stateYtProv', computed({
     stateYt.value = val
   }
 }))
-
-
 
 provide('modalGameOverProv', computed({
   get: () => modalGameOver.value,
@@ -90,9 +90,16 @@ let addWord = async () => {
   if (!start.value) {
     return;
   }
-  const random = Math.floor(Math.random() * (allWords.value.length - 1 + 1)) + 1
 
-  let obj = allWords.value.find(o => o.id === random);
+  var typeTxt
+
+  if (typeText.value == 0) {
+    typeTxt = Math.floor(Math.random() * (allWords.value.length - 1 + 1)) + 1
+  } else {
+    typeTxt = nonrand.value++
+  }
+
+  let obj = allWords.value.find(o => o.id === typeTxt);
 
   let objFind = list.value.find(o => o.name === obj.name);
 
@@ -127,7 +134,6 @@ let openModalSetting = () => {
 
   if (ytIdProv.value.length > 0) {
     player.value.player.pause()
-
   }
 }
 
@@ -150,8 +156,23 @@ watchEffect(() => {
   unPass.value.forEach(e => {
     lose.value = unPass.value.length
   })
+})
 
+watchEffect(() => {
+  const total = unPass.value.length + pass.value.length
 
+  if(pass.value.length > 0){
+    if (total == allWords.value.length) {
+      start.value = false
+      modalGameOver.value = true
+      lose.value = 0
+      list.value = []
+      pass.value = []
+      unPass.value = []
+      ytLinkProv.value = ''
+      player.value.player.stop()
+    }
+  }
 })
 
 watch(
@@ -241,15 +262,15 @@ const options = computed(() => {
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
-    <Type/>
-    <BgVue/>
-    
+    <Type />
+    <BgVue />
+
     <YoutubeVue>
       <template #vueplyr>
         <vue-plyr ref="player" :options="options">
           <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
-            <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen allowtransparency
-              mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
+            <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen
+              allowtransparency mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
               oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
           </div>
@@ -260,23 +281,14 @@ const options = computed(() => {
     <div class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
       <div class=" fixed inset-0 z-10">
       </div>
-
     </div>
 
-    <Text/>
-
+    <Text />
     <Start v-if="!start" @childStartGame="() => startGame()" />
     <Score />
     <Life />
-
-    <div class="fixed inset-x-0 bottom-0 z-20">
-      <div class=" w-full h-20 p-3">
-        <div class="flex items-center flex-row justify-between h-full gap-6">
-          <PreviewType />
-          <Setting @childOpenModalSetting="() => openModalSetting()" />
-        </div>
-      </div>
-    </div>
+    <PreviewType />
+    <Setting @childOpenModalSetting="() => openModalSetting()" />
 
     <Teleport to="body">
       <transition enter-from-class="transform opacity-0" enter-active-class="duration-300 ease-out"
@@ -300,7 +312,7 @@ const options = computed(() => {
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
         <keep-alive>
 
-          <ModalSetting class="z-30" v-show="modalSettingButton" @childCloseModalSetting="() => closeModalSetting()"
+          <ModalSetting class="z-50" v-show="modalSettingButton" @childCloseModalSetting="() => closeModalSetting()"
             @childStartGame="() => startGame()">
           </ModalSetting>
 
