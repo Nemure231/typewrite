@@ -10,7 +10,7 @@ const moveTime = inject('moveTimeProv')
 
 <template>
     <div class="flex-1">
-        <div class="flex-1 mb-4">
+        <div class="flex-1 mb-2">
             <span class="text-2xl font-bold">Custom</span>
         </div>
         <div class="flex-1 w-full">

@@ -11,7 +11,7 @@ const fontWeight = inject('fontWeightProv')
 <template>
     <div class="flex-1 basis-full">
         <span class="text-2xl font-bold">Font</span>
-        <div class="grid grid-cols-3 gap-4 mt-4">
+        <div class="grid grid-cols-3 gap-4 mt-2">
             <div class="">
                 <div class="flex flex-col">
                     <label class="text-sm font-semibold">Color</label>

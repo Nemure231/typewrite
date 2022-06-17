@@ -12,7 +12,7 @@ const borderRadius = inject('borderRadiusProv')
 <template>
     <div class="flex-1 basis-full">
         <span class="text-2xl font-bold">Border</span>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-3 gap-4 mt-2">
             <div>
                 <div class="flex flex-col">
                     <label class="text-sm font-semibold">Color</label>

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://raw.githubusercontent.com/Nemure231/portare/main/public/logo.png" alt="Portare"></a>
+ <img width=150px height=150px src="https://raw.githubusercontent.com/Nemure231/typewrite/main/public/logo.png" alt="Portare"></a>
 </p>
 
 <h3 align="center">Typewrite</h3>

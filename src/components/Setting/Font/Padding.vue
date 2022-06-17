@@ -11,7 +11,7 @@ const paddingY = inject('paddingYProv')
 <template>
     <div class="flex-1 basis-1/3">
         <span class="text-2xl font-bold">Padding</span>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4 mt-2">
             <div class="">
                 <div class="flex flex-col">
                     <label class="text-sm font-semibold mb-2.5">X</label>

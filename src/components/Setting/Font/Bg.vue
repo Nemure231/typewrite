@@ -10,7 +10,7 @@ const bgColor = inject('bgColorProv')
 <template>
     <div class="flex-1">
         <span class="text-2xl font-bold">Background</span>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-3 gap-4 mt-2">
 
             <div class="col-span-3">
                 <div class="flex flex-col">

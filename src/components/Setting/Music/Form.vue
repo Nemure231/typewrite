@@ -36,7 +36,7 @@ let checkUrlImg = (url) => {
 
 <template>
     <div class="relative mt-2">
-        <input v-model="spotify" class="py-2.5 pl-4 pr-24 focus:outline-none w-full border-2 border-sky-500 rounded-lg"
+        <input v-model.trim="spotify" class="font-normal py-2.5 pl-4 pr-24 focus:outline-none w-full border-2 border-sky-500 rounded-lg"
             type="url" />
         <button type="submit" @click="addSpotify()"
             class="absolute top-1 right-1 py-2 px-4 bg-sky-500 text-white font-semibold rounded-lg">
