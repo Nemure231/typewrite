@@ -93,25 +93,27 @@ let addWord = async () => {
 
   var typeTxt
 
-  if (typeText.value == 0) {
-    typeTxt = Math.floor(Math.random() * allWords.value.length)
-  } else {
-    typeTxt = nonrand.value++
-  }
+  if(allWords.value.length > list.value.length){
 
-  let obj = allWords.value.find((o, index) => index === typeTxt);
-
-  if(obj.name){
-    let objFind = list.value.find(o => o.name === obj.name);
-
+    if (typeText.value == 0) {
+      typeTxt = Math.floor(Math.random() * allWords.value.length)
+    } else {
+      typeTxt = nonrand.value++
+    }
+  
+    let obj = allWords.value.find((o, index) => index === typeTxt);
+  
+      let objFind = list.value.find(o => o.name === obj.name);
+  
       if (!objFind) {
         list.value.push(obj)
       }
-    
+      
       if (start.value) {
         setTimeout(addWord, showTime.value)
       }
   }
+
 
 }
 

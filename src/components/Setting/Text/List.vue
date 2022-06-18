@@ -22,18 +22,16 @@ let removeOneExTxt = (event) => {
                     class="border-l-2 border-t-2 border-b-2 border-sky-500 py-2 px-3 text-lg rounded-l-md font-normal">
                     {{ lex.name }}
                 </span>
-                <template v-if="list.length <= 0">
-                    <button @click="removeOneExTxt(lex.id)"
-                        class="cursor-pointer py-2 px-2 rounded-r-md border-t-2 border-b-2 border-r-2 border-sky-500 hover:bg-red-100">
-                        <svg class=" w-6 h-6" xmlns="http://www.w3.org/2000/svg"
+                    <div @click="removeOneExTxt(lex.id)"
+                        class="cursor-pointer py-2 px-2 rounded-r-md border-t-2 border-b-2 border-r-2 border-sky-500 ">
+                        <svg v-if="list.length <= 0" @click="removeOneExTxt(lex.id)" class="cursor-pointer w-6 h-6" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                             preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
                             <path fill="#bb3535"
                                 d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6Z">
                             </path>
                         </svg>
-                    </button>
-                </template>
+                    </div>
             </div>
         </div>
     </div>
