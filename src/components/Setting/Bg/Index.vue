@@ -1,12 +1,12 @@
 <script setup>
 import { inject } from 'vue'
-import { useOnline } from '@vueuse/core'
+// import { useOnline } from '@vueuse/core'
 import ImageBg from './Image/Index.vue'
 import YoutubeBg from './Youtube/Index.vue'
-import IndexOffline from '../Offline/Index.vue';
+// import IndexOffline from '../Offline/Index.vue';
 
 const bgOrYtProv = inject('bgOrYtProv')
-const online = useOnline()
+// const online = useOnline()
 
 </script>
 
@@ -28,8 +28,8 @@ const online = useOnline()
         <div class="flex flex-col">
             <ImageBg v-if="bgOrYtProv" />
             <template v-else>
-                <YoutubeBg v-if="online" />
-                <IndexOffline v-else />
+                <YoutubeBg />
+                <!-- <IndexOffline v-else /> -->
             </template>
         </div>
     </div>

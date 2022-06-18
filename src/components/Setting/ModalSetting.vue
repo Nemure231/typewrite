@@ -1,5 +1,5 @@
 <script setup>
-import { useOnline } from '@vueuse/core'
+// import { useOnline } from '@vueuse/core'
 import { defineEmits, ref, inject } from 'vue'
 import Level from './Level/Level.vue'
 import IndexFont from './Font/Index.vue';
@@ -7,10 +7,10 @@ import IndexBg from './Bg/Index.vue';
 import IndexText from './Text/Index.vue';
 import IndexMusic from './Music/Index.vue';
 import IndexAbout from './About/Index.vue';
-import IndexOffline from './Offline/Index.vue';
+// import IndexOffline from './Offline/Index.vue';
 
 const listProv = inject('listProv')
-const online = useOnline()
+// const online = useOnline()
 
 const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
 
@@ -97,15 +97,15 @@ const menu = ref([
                                 </div>
                                 <div class="flex-1 basis-[80%] h-screen px-12 py-6">
                                     <div class="flex">
-                                        <Level v-if="currentMenu == 1" />
-                                        <IndexText v-if="currentMenu == 2" />
-                                        <IndexFont v-if="currentMenu == 3" />
-                                        <IndexBg v-if="currentMenu == 4" />
-                                        <template v-if="currentMenu == 5">
-                                            <IndexMusic v-if="online" />
-                                            <IndexOffline v-else />
-                                        </template>
-                                        <IndexAbout v-if="currentMenu == 7" />
+                                        <Level v-show="currentMenu == 1" />
+                                        <IndexText v-show="currentMenu == 2" />
+                                        <IndexFont v-show="currentMenu == 3" />
+                                        <IndexBg v-show="currentMenu == 4" />
+                                        <!-- <template v-show="currentMenu == 5"> -->
+                                            <IndexMusic v-show="currentMenu == 5" />
+                                            <!-- <IndexOffline v-show="!online" /> -->
+                                        <!-- </template> -->
+                                        <IndexAbout v-show="currentMenu == 7" />
                                     </div>
 
                                 </div>
