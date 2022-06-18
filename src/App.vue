@@ -5,8 +5,9 @@ import Warning from './components/Base/Warning.vue'
 import ReOff from './components/Reload/Index.vue'
 import Offline from './components/Base/Offline.vue'
 import { ref, provide, computed, watchEffect } from 'vue';
+import { useOnline } from '@vueuse/core'
 import { id } from 'https://nemure231.github.io/typewrite/data/words/id.js'
-import { en }  from 'https://nemure231.github.io/typewrite/data/words/en.js'
+import { en } from 'https://nemure231.github.io/typewrite/data/words/en.js'
 
 
 // Global Data
@@ -43,6 +44,7 @@ const allWords = ref([])
 const typeText = ref(0)
 const showEx = ref(false)
 const listExTxt = ref([])
+const online = useOnline()
 
 watchEffect(() => {
   var uma = []
@@ -332,10 +334,15 @@ provide('scoreProv', computed({
 
 <template>
 
-  <Main class="lg:block md:block sm:block hidden" />
-  <Footer class="lg:block md:block sm:block hidden" />
-  <ReOff />
-  <Warning />
+  <template v-if="online">
+    <Main class="lg:block md:block sm:block hidden" />
+    <Footer class="lg:block md:block sm:block hidden" />
+    <ReOff />
+    <Warning />
+  </template>
+  <template v-else>
+    <Offline />
+  </template>
 
 
 

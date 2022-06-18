@@ -31,7 +31,7 @@ export default defineComponent({
                 App ready to install
             </span>
             <span class="font-semibold text-primary dark:text-light" v-else>
-                New content available, click on reload button to update.
+                New content available, please reload your app.
             </span>
         </div>
         <button class="py-0 px-4 bg-light dark:bg-dark dark:border  text-primary dark:text-light rounded-xl border-2 border-primary/50 dark:border-light/50" v-if="needRefresh"
