@@ -30,21 +30,27 @@ watchEffect(() => {
 })
 
 let addExTxt = () => {
-    if (exTxt.value == '') {
+    if (exTxt.value === '') {
         alert('External text cannot be empty!')
     } else {
         const splt = exTxt.value.split(' ')
         splt.forEach((element, index) => {
-            listExTxt.value.push({
-                id: index + 1,
-                name: element.toLowerCase(),
-                dir: 0,
-                top: Math.floor(Math.random() * ((window.innerHeight - 96) - 0 + 1)) + 0
-            })
+
+            const filt = element.toLowerCase().replace(/\W/g, '').replace(/[0-9]/g, '')
+
+            if (filt !== '') {
+                listExTxt.value.push({
+                    id: listExTxt.value.length > 0 ? listExTxt.value.length + 1 : index + 1,
+                    name: filt,
+                    dir: 0,
+                    top: Math.floor(Math.random() * ((window.innerHeight - 96) - 0 + 1)) + 0
+                })
+            }
         });
         exTxt.value = ''
     }
 }
+
 </script>
 
 
@@ -70,9 +76,10 @@ let addExTxt = () => {
         <div class="flex-1" v-if="showEx">
             <span class="text-2xl font-bold">External Text</span>
             <div class="flex flex-col justify-end items-end gap-3 mt-3">
+                <!-- @input="$event.target.value = $event.target.value.replace(/\W/g, '').replace(/[0-9]/g, '')" -->
                 <textarea v-model="exTxt" :disabled="list.length > 0 == true" :readonly="list.length > 0 == true"
                     class="py-2.5 pl-4 pr-24 font-normal focus:outline-none w-full border-2 border-sky-500 rounded-lg"
-                    type="text"></textarea>
+                    type="text" pattern="[A-Za-z]"></textarea>
 
                 <button type="submit" @click="addExTxt()" :disabled="list.length > 0 == true"
                     :readonly="list.length > 0 == true"

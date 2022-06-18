@@ -14,7 +14,7 @@ let removeOneExTxt = (event) => {
 <template>
     <div class="flex-1" v-if="listExTxt.length > 0">
         <span class="text-2xl font-bold">List External Text</span>
-        <div class="flex flex-row flex-wrap justify-start items-end gap-3 mt-3">
+        <div class="flex flex-row flex-wrap justify-start items-end gap-3 my-3">
             <div v-for="lex in listExTxt" :key="lex.id" class="flex flex-row flex-nowrap">
                 <span
                     class="border-l-2 border-t-2 border-b-2 border-sky-500 py-2 px-3 text-lg rounded-l-md font-normal">
