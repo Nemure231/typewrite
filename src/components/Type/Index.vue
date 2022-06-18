@@ -9,7 +9,7 @@ const list = inject('listProv')
 const previewType = inject('previewTypeProv')
 const pass = inject('passProv')
 
-const { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, Enter, Backspace, space, Delete } = useMagicKeys()
+const { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, Enter, Backspace, space, Delete, Minus } = useMagicKeys()
 const storeAbjad = ref([])
 const storedAbjadJoin = ref([])
 
@@ -41,6 +41,7 @@ watchEffect(() => {
         x.value && storeAbjad.value.push('x')
         y.value && storeAbjad.value.push('y')
         z.value && storeAbjad.value.push('z')
+        Minus.value && storeAbjad.value.push('-')
         space.value && storeAbjad.value.push(' ')
 
         if (Backspace.value) {
@@ -54,21 +55,25 @@ watchEffect(() => {
         if(Delete.value){
             storeAbjad.value = [];
         }
-
-
         var stored = storeAbjad.value.join('')
 
         previewType.value = stored
+
         if (storeAbjad.value.length > 0) {
             if (Enter.value) {
+                storedAbjadJoin.value.push(stored)
                 storeAbjad.value = []
                 previewType.value = ''
-                storedAbjadJoin.value.push(stored)
+
                 var au = ''
                 if (storedAbjadJoin.value.length > 1) {
                     au = storedAbjadJoin.value.splice(0, 1)
                 }
-                const storedName = storedAbjadJoin.value[0].replace(au, '')
+
+                const storedName =storedAbjadJoin.value[0]
+
+                console.log(storedName)
+                // const storedName = storedAbjadJoin.value[0].replace(au, '')
 
                 let obj = list.value.find(o => o.name === storedName);
                 if (obj) {
