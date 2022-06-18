@@ -5,8 +5,8 @@ import Warning from './components/Base/Warning.vue'
 import ReOff from './components/Reload/Index.vue'
 import Offline from './components/Base/Offline.vue'
 import { ref, provide, computed, watchEffect } from 'vue';
-import { id } from 'https://nemure231.github.io/typewrite/words/id.js'
-import { en }  from 'https://nemure231.github.io/typewrite/words/en.js'
+import { id } from 'https://nemure231.github.io/typewrite/data/words/id.js'
+import { en }  from 'https://nemure231.github.io/typewrite/data/words/en.js'
 
 
 // Global Data
