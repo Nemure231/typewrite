@@ -6,7 +6,7 @@ import ReOff from './components/Reload/Index.vue'
 import Offline from './components/Base/Offline.vue'
 import { ref, provide, computed, watchEffect } from 'vue';
 import { id } from '../data/words/id.js'
-import { en } from '../data/words/en.js'
+import en  from '../data/words/en.json'
 
 
 // Global Data

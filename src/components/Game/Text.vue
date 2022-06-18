@@ -3,7 +3,6 @@ import { inject, computed } from 'vue'
 
 
 const list = inject('listProv')
-
 const color = inject('fontColorProv')
 const bgColor = inject('bgColorProv')
 const fontSize = inject('fontSizeProv')

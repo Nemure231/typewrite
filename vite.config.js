@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      base: "/",
+      base: "/typewrite/",
       srcDir: "src",
       useCredentials: true,
       filename: "sw.ts",
