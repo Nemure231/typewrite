@@ -7,6 +7,8 @@ const list = inject('listProv')
 let removeOneExTxt = (event) => {
     const idd = listExTxt.value.findIndex((el) => el.id == event)
     listExTxt.value.splice(idd, 1);
+
+    console.log(listExTxt.value)
 }
 </script>
 

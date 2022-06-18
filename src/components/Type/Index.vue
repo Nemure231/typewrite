@@ -70,10 +70,7 @@ watchEffect(() => {
                     au = storedAbjadJoin.value.splice(0, 1)
                 }
 
-                const storedName =storedAbjadJoin.value[0]
-
-                console.log(storedName)
-                // const storedName = storedAbjadJoin.value[0].replace(au, '')
+                const storedName = storedAbjadJoin.value[0]
 
                 let obj = list.value.find(o => o.name === storedName);
                 if (obj) {

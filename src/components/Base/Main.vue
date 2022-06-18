@@ -34,7 +34,7 @@ const ytLinkProv = inject('ytLinkProv')
 const player = ref(null)
 const stateYt = ref(-1)
 const ended = ref(false)
-const nonrand = ref(1)
+const nonrand = ref(0)
 const typeText = inject('typeTextProv')
 
 provide('playerProv', computed({
@@ -94,22 +94,25 @@ let addWord = async () => {
   var typeTxt
 
   if (typeText.value == 0) {
-    typeTxt = Math.floor(Math.random() * (allWords.value.length - 1 + 1)) + 1
+    typeTxt = Math.floor(Math.random() * allWords.value.length)
   } else {
     typeTxt = nonrand.value++
   }
 
-  let obj = allWords.value.find(o => o.id === typeTxt);
+  let obj = allWords.value.find((o, index) => index === typeTxt);
 
-  let objFind = list.value.find(o => o.name === obj.name);
+  if(obj.name){
+    let objFind = list.value.find(o => o.name === obj.name);
 
-  if (!objFind) {
-    list.value.push(obj)
+      if (!objFind) {
+        list.value.push(obj)
+      }
+    
+      if (start.value) {
+        setTimeout(addWord, showTime.value)
+      }
   }
 
-  if (start.value) {
-    setTimeout(addWord, showTime.value)
-  }
 }
 
 let startGame = () => {
