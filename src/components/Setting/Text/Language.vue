@@ -43,7 +43,7 @@ let addExTxt = () => {
                     id: listExTxt.value.length > 0 ? listExTxt.value.length + 1 : index + 1,
                     name: filt,
                     dir: 0,
-                    top: Math.floor(Math.random() * ((window.innerHeight - 96) - 0 + 1)) + 0
+                    top: Math.floor(Math.random() * ((window.innerHeight - 90) - 0 + 1)) + 0
                 })
             }
         });
