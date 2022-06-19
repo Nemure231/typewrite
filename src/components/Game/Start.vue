@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, inject } from 'vue'
+import { defineEmits } from 'vue'
 
 const emit = defineEmits(["childStartGame"]);
 

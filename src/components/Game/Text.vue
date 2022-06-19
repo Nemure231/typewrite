@@ -13,6 +13,9 @@ const borderColor = inject('borderColorProv')
 const borderWidth = inject('borderWidthProv')
 const borderRadius = inject('borderRadiusProv')
 const dirText = inject('dirTextProv')
+const highlightColor = inject('highlightColorProv')
+const highlightStyle = inject('highlightStyleProv')
+const highlightThick = inject('highlightThickProv')
 
 
 let direction = (li) => {
@@ -49,7 +52,10 @@ const changeStyle = computed(() => {
     paddingBottom: `${paddingY.value}px`,
     borderColor: borderColor.value,
     borderWidth: `${borderWidth.value}px`,
-    borderRadius: `${borderRadius.value}px`
+    borderRadius: `${borderRadius.value}px`,
+    textDecorationColor: `${highlightColor.value}`,
+    textDecorationStyle: `${highlightStyle.value}`,
+    textDecorationThickness: `${highlightThick.value}px`,
   }
   return text
 })
@@ -58,11 +64,13 @@ const changeStyle = computed(() => {
 
 <template>
 
-    <p v-for="li in list" :key="li.id" :id="li.id" class="p-1 z-50 bg-white text-md absolute"
-      :style="[direction(li), changeStyle]">
-       <div class=" fixed inset-0 z-10">
-      </div>
-      {{ li.name }}
-    </p>
+  <p v-for="li in list" :key="li.id" :id="li.id" class="p-1 z-50 bg-white text-md absolute"
+    :style="[direction(li), changeStyle]">
+  <div class=" fixed inset-0 z-10">
+  </div>
+  <div v-html="li.name">
+
+  </div>
+  </p>
 
 </template>

@@ -14,12 +14,47 @@ const storeAbjad = ref([])
 const storedAbjadJoin = ref([])
 
 
+const highlightColor = inject('highlightColorProv')
+const highlightStyle = inject('highlightStyleProv')
+const highlightThick = inject('highlightThickProv')
+
+
+watchEffect(() => {
+    if (start.value) {
+        if (a.value || b.value || c.value || d.value || e.value || f.value || g.value || h.value || i.value || j.value || k.value || l.value || m.value || n.value || o.value || p.value || q.value || r.value || s.value || t.value || u.value || v.value || w.value || x.value || y.value || z.value || Minus.value || space.value || Backspace.value) {
+            list.value.forEach((element, index) => {
+                element.name = element.name.replace(`<div class="underline underline-offset-4 inline" style="text-decoration-color:${highlightColor.value};text-decoration-style:${highlightStyle.value};text-decoration-thickness:${highlightThick.value}">`, '');
+                element.name = element.name.replace('</div>', '');
+
+                if (element.name.indexOf(previewType.value) !== -1) {
+                    const convertedString = `<div class="underline underline-offset-4 inline" style="text-decoration-color:${highlightColor.value};text-decoration-style:${highlightStyle.value};text-decoration-thickness:${highlightThick.value}">${previewType.value}</div>`
+                    const highligh = element.name.replace(previewType.value, convertedString);
+                    list.value.splice(index, 1, {
+                        id: element.id,
+                        name: highligh,
+                        dir: element.dir,
+                        top: element.top
+                    })
+                } else {
+                    list.value.splice(index, 1, {
+                        id: element.id,
+                        name: element.name,
+                        dir: element.dir,
+                        top: element.top
+                    })
+                }
+            });
+
+        }
+    }
+})
+
+
 watchEffect(() => {
     if (start.value) {
         a.value && storeAbjad.value.push('a')
     }
 })
-
 
 watchEffect(() => {
     if (start.value) {
@@ -171,7 +206,6 @@ watchEffect(() => {
     }
 })
 
-
 watchEffect(() => {
     if (start.value) {
         z.value && storeAbjad.value.push('z')
@@ -230,14 +264,16 @@ watchEffect(() => {
 
                 const storedName = storedAbjadJoin.value[0]
 
-                let obj = list.value.find(o => o.name === storedName);
+                const regStoredName = `<div class="underline underline-offset-4 inline" style="text-decoration-color:${highlightColor.value};text-decoration-style:${highlightStyle.value};text-decoration-thickness:${highlightThick.value}">${storedName}</div>`
+
+                let obj = list.value.find(o => o.name === regStoredName);
                 if (obj) {
                     if (obj.name) {
                         let passFind = pass.value.find(e => e === obj.id);
 
                         if (passFind === undefined) {
 
-                            if (storedName == obj.name) {
+                            if (regStoredName == obj.name) {
 
                                 previewType.value = ''
 

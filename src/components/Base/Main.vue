@@ -1,6 +1,6 @@
 <script setup>
-import { ref, watch, inject, computed, defineComponent, watchEffect, provide, onMounted } from 'vue';
-import { OnClickOutside } from '@vueuse/components'
+import { ref, watch, inject, computed, watchEffect, provide, onMounted } from 'vue';
+import { usePageLeave } from '@vueuse/core'
 import ModalSetting from '../Setting/ModalSetting.vue'
 import ModalGameOver from '../Game/ModalGameOver.vue'
 import Type from '../Type/Index.vue'
@@ -12,8 +12,8 @@ import Score from '../Game/Score.vue'
 import Text from '../Game/Text.vue'
 import BgVue from '../Game/Bg.vue'
 import YoutubeVue from '../Game/Youtube.vue'
+import Timer from '../Game/Timer.vue'
 
-defineComponent({ OnClickOutside })
 
 const allWords = inject('allWordsProv')
 const pass = inject('passProv')
@@ -36,6 +36,12 @@ const stateYt = ref(-1)
 const ended = ref(false)
 const nonrand = ref(0)
 const typeText = inject('typeTextProv')
+
+const hour = inject('hourProv');
+const minute = inject('minuteProv');
+const second = inject('secondProv');
+const millisecond = inject('milliProv');
+const stateTimer = ref();
 
 provide('playerProv', computed({
   get: () => player.value,
@@ -93,25 +99,25 @@ let addWord = async () => {
 
   var typeTxt
 
-  if(allWords.value.length > list.value.length){
+  if (allWords.value.length > list.value.length) {
 
     if (typeText.value == 0) {
       typeTxt = Math.floor(Math.random() * allWords.value.length)
     } else {
       typeTxt = nonrand.value++
     }
-  
+
     let obj = allWords.value.find((o, index) => index === typeTxt);
-  
-      let objFind = list.value.find(o => o.name === obj.name);
-  
-      if (!objFind) {
-        list.value.push(obj)
-      }
-      
-      if (start.value) {
-        setTimeout(addWord, showTime.value)
-      }
+
+    let objFind = list.value.find(o => o.name === obj.name);
+
+    if (!objFind) {
+      list.value.push(obj)
+    }
+
+    if (start.value) {
+      setTimeout(addWord, showTime.value)
+    }
   }
 
 
@@ -122,6 +128,7 @@ let startGame = () => {
 
   addWord()
   rightPlus()
+  startTimer()
 
   if (ytIdProv.value.length > 0) {
     player.value.player.play()
@@ -136,6 +143,7 @@ let pauseGame = () => {
 let openModalSetting = () => {
   modalSettingButton.value = !modalSettingButton.value
   pauseGame()
+  pauseTimer()
 
   if (ytIdProv.value.length > 0) {
     player.value.player.pause()
@@ -166,7 +174,7 @@ watchEffect(() => {
 watchEffect(() => {
   const total = unPass.value.length + pass.value.length
 
-  if(pass.value.length > 0){
+  if (pass.value.length > 0) {
     if (total == allWords.value.length) {
       start.value = false
       modalGameOver.value = true
@@ -194,7 +202,7 @@ watch(
         unPass.value = []
         ytLinkProv.value = ''
         player.value.player.stop()
-
+        pauseTimer()
       } else {
         life.value -= 1
       }
@@ -262,7 +270,40 @@ const options = computed(() => {
   return uu
 })
 
+let startTimer = () => {
+  pauseTimer();
+  stateTimer.value = setInterval(() => { countDown() }, 10);
+}
 
+let pauseTimer = () => {
+  clearInterval(stateTimer.value);
+}
+
+let countDown = () => {
+  if ((millisecond.value += 10) == 1000) {
+    millisecond.value = 0;
+    second.value++;
+  }
+  if (second.value == 60) {
+    second.value = 0;
+    minute.value++;
+  }
+  if (minute.value == 60) {
+    minute.value = 0;
+    hour.value++
+  }
+}
+
+const isLeft = usePageLeave();
+watch(() => isLeft.value, () => {
+    if (start.value) {
+      if (isLeft.value) {
+        openModalSetting()
+      }
+
+    }
+
+  })
 </script>
 
 <template>
@@ -291,6 +332,7 @@ const options = computed(() => {
     <Text />
     <Start v-if="!start" @childStartGame="() => startGame()" />
     <Score />
+    <Timer />
     <Life />
     <PreviewType />
     <Setting @childOpenModalSetting="() => openModalSetting()" />

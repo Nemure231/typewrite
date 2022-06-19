@@ -25,7 +25,7 @@ const color = ref('#000000')
 const bgColor = ref(`#FFFFFF`)
 const fontSize = ref(14)
 const fontWeight = ref(400)
-const paddingY = ref(3)
+const paddingY = ref(4)
 const paddingX = ref(6)
 const borderColor = ref(`#FFFFFF`)
 const borderWidth = ref(1)
@@ -46,6 +46,18 @@ const showEx = ref(false)
 const listExTxt = ref([])
 const online = useOnline()
 
+//Highligh
+const highlightColor = ref('#000000')
+const highlightStyle = ref('solid')
+const highlightThick = ref(2)
+
+
+//Timer
+const hour = ref(0);
+const minute = ref(0);
+const second = ref(0);
+const milli = ref(0);
+
 watchEffect(() => {
   var uma = []
   if (selectLang.value === 0) {
@@ -63,9 +75,33 @@ watchEffect(() => {
       }
     }
   }
-
   allWords.value = uma
 })
+
+
+
+
+provide('highlightColorProv', computed({
+  get: () => highlightColor.value,
+  set: (val) => {
+    highlightColor.value = val
+  }
+}))
+
+provide('highlightStyleProv', computed({
+  get: () => highlightStyle.value,
+  set: (val) => {
+    highlightStyle.value = val
+  }
+}))
+
+provide('highlightThickProv', computed({
+  get: () => highlightThick.value,
+  set: (val) => {
+    highlightThick.value = val
+  }
+}))
+
 
 provide('allWordsProv', computed({
   get: () => allWords.value,
@@ -73,6 +109,35 @@ provide('allWordsProv', computed({
     allWords.value = val
   }
 }))
+
+provide('hourProv', computed({
+  get: () => hour.value,
+  set: (val) => {
+    hour.value = val
+  }
+}))
+
+provide('minuteProv', computed({
+  get: () => minute.value,
+  set: (val) => {
+    minute.value = val
+  }
+}))
+
+provide('secondProv', computed({
+  get: () => second.value,
+  set: (val) => {
+    second.value = val
+  }
+}))
+
+provide('milliProv', computed({
+  get: () => milli.value,
+  set: (val) => {
+    milli.value = val
+  }
+}))
+
 
 
 provide('selectLangProv', computed({
