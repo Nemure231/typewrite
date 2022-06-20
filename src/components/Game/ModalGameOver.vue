@@ -36,7 +36,7 @@ let shareScore = () => {
     if (isSupported) {
         share({
             title: 'Playing Typewrite',
-            text: `Hey, i got ${score.value} within ${showTimer}!`,
+            text: `Hey, i got ${score.value} within ${showTimer.value}!`,
             url: location.href,
         })
     }
