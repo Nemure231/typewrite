@@ -43,6 +43,7 @@ const second = inject('secondProv');
 const millisecond = inject('milliProv');
 const stateTimer = ref();
 const sound = inject('soundProv')
+const isLeft = usePageLeave();
 
 provide('playerProv', computed({
   get: () => player.value,
@@ -295,7 +296,6 @@ let countDown = () => {
   }
 }
 
-const isLeft = usePageLeave();
 watch(() => isLeft.value, () => {
   if (start.value) {
     if (isLeft.value) {

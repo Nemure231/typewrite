@@ -42,6 +42,9 @@ const showEx = ref(false)
 const listExTxt = ref([])
 const online = useOnline()
 
+//Type
+const testType = ref('')
+
 //yOUTUBE
 const mute = ref(false)
 const loop = ref(false)
@@ -88,6 +91,13 @@ provide('muteProv', computed({
   get: () => mute.value,
   set: (val) => {
     mute.value = val
+  }
+}))
+
+provide('testTypeProv', computed({
+  get: () => testType.value,
+  set: (val) => {
+    testType.value = val
   }
 }))
 

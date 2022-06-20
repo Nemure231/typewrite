@@ -7,6 +7,7 @@ import IndexBg from './Bg/Index.vue';
 import IndexText from './Text/Index.vue';
 import IndexMusic from './Music/Index.vue';
 import IndexAbout from './About/Index.vue';
+import IndexType from './Type/Index.vue';
 // import IndexOffline from './Offline/Index.vue';
 
 const listProv = inject('listProv')
@@ -49,8 +50,12 @@ const menu = ref([
         id: 5,
         name: 'Music'
     },
+    {
+        id: 6,
+        name: 'Type'
+    },
     // {
-    //     id: 6,
+    //     id: 7,
     //     name: 'Support!'
     // },
     {
@@ -88,8 +93,9 @@ const menu = ref([
                                             class="w-full text-left p-2 rounded-xl"
                                             :class="currentMenu == m.id && 'bg-sky-200'">
                                             <span class="text-xl w-full font-semibold relative">
-                                                <span
-                                                    :class="m.id == 6 && `animate-ping absolute inline-flex h-3 w-3 top-0 -right-4 rounded-full bg-sky-400 opacity-75`"></span>
+                                                <span 
+                                                    ></span>
+                                                    <!-- :class="m.id ==  && `animate-ping absolute inline-flex h-3 w-3 top-0 -right-4 rounded-full bg-sky-400 opacity-75`" -->
                                                 {{ m.name }}
                                             </span>
                                         </button>
@@ -105,6 +111,7 @@ const menu = ref([
                                             <IndexMusic v-show="currentMenu == 5" />
                                             <!-- <IndexOffline v-show="!online" /> -->
                                         <!-- </template> -->
+                                        <IndexType v-show="currentMenu == 6"/>
                                         <IndexAbout v-show="currentMenu == 7" />
                                     </div>
 

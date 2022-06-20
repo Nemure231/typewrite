@@ -1,5 +1,5 @@
 <script setup>
-import { watchEffect, ref, inject } from 'vue';
+import { watchEffect, ref, inject, watch } from 'vue';
 import { useMagicKeys } from '@vueuse/core'
 
 const start = inject('startProv')
@@ -48,7 +48,6 @@ watchEffect(() => {
         }
     }
 })
-
 
 watchEffect(() => {
     if (start.value) {
