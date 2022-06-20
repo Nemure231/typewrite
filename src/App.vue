@@ -1,8 +1,8 @@
 <script setup>
 import { ref, provide, computed, watchEffect } from 'vue';
 import { useOnline } from '@vueuse/core'
-import { id } from '../data/words/id.min.js'
-import { en } from 'https://nemure231.github.io/typewrite/data/words/en.js'
+import { id } from 'https://nemure231.github.io/typewrite/data/words/id.min.js'
+import { en } from 'https://nemure231.github.io/typewrite/data/words/en.min.js'
 import Main from './components/Base/Main.vue'
 import Footer from './components/Base/Footer.vue'
 import Warning from './components/Base/Warning.vue'
