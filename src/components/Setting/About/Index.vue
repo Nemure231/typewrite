@@ -19,7 +19,7 @@
                             Youtube
                         </a>
 
-                        back than (2020, i maybe). From the video i watched, there is a C++ Typing Game,
+                        back than (2020, maybe). From the video i watched, there is a C++ Typing Game,
                         <a class="underline decoration-sky-500 decoration-wavy"
                             href="https://www.youtube.com/watch?v=jnkOcAkLkBU">
                             WSpeed
@@ -30,11 +30,10 @@
                         enjoyable.
                     </p>
                     <p>
-                        I am always open with every opinion if you have, you can visit my github. Thank you for playing.
+                        I am always open if you have any opinion, you can visit my github. Thank you for playing.
                     </p>
                     <p>
-                        Sincerely,
-                        Karol.Y
+                        Sincerely, Karol.Y
                     </p>
                 </div>
             </div>
@@ -53,7 +52,7 @@
                     <a href="https://github.com/Nemure231/typewrite#license" class="rounded-md py-2 px-3 space-x-2 text-white bg-gray-400 inline-flex items-center justify-center">
                         <span>License</span>
 
-                       <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32"><path fill="#ffffff" d="M10 6h12v2H10zm0 4h12v2H10zm0 14h6v2h-6zm0-10h6v2h-6z"></path><path fill="currentColor" d="M24 30H8a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v24a2.002 2.002 0 0 1-2 2ZM8 4v24h16V4Z"></path></svg>
+                        <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32"><path fill="#ffffff" d="M10 6h12v2H10zm0 4h12v2H10zm0 14h6v2h-6zm0-10h6v2h-6z"></path><path fill="currentColor" d="M24 30H8a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v24a2.002 2.002 0 0 1-2 2ZM8 4v24h16V4Z"></path></svg>
                     </a>
 
                 </div>
