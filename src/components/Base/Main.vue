@@ -13,6 +13,7 @@ import Text from '../Game/Text.vue'
 import BgVue from '../Game/Bg.vue'
 import YoutubeVue from '../Game/Youtube.vue'
 import Timer from '../Game/Timer.vue'
+import Total from '../Game/Total.vue';
 
 
 const allWords = inject('allWordsProv')
@@ -36,7 +37,6 @@ const stateYt = ref(-1)
 const ended = ref(false)
 const nonrand = ref(0)
 const typeText = inject('typeTextProv')
-
 const hour = inject('hourProv');
 const minute = inject('minuteProv');
 const second = inject('secondProv');
@@ -260,7 +260,7 @@ const options = computed(() => {
     },
     youtube: {
       modestbranding: 0,
-      rel: 0,
+      rel: 1,
       showinfo: 0,
       controls: 0,
       fs: 0,
@@ -331,6 +331,7 @@ watch(() => isLeft.value, () => {
 
     <Text />
     <Start v-if="!start" @childStartGame="() => startGame()" />
+    <Total/>
     <Score />
     <Timer />
     <Life />

@@ -12,7 +12,6 @@ let addBgYt = () => {
 	if (checkUrlType === true) {
 		const link = ytLinkProv.value.split('/')
 
-		console.log(link)
 
 		if (link[2] != 'www.youtube.com' && link[2] != 'youtube.com' && link[2] != 'youtu.be') {
 			alert(`The domain isn't from youtube!`)

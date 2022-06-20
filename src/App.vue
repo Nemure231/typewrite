@@ -45,6 +45,7 @@ const typeText = ref(0)
 const showEx = ref(false)
 const listExTxt = ref([])
 const online = useOnline()
+const mute = ref(false)
 
 //Highligh
 const highlightColor = ref('#000000')
@@ -80,6 +81,12 @@ watchEffect(() => {
 
 
 
+provide('muteProv', computed({
+  get: () => mute.value,
+  set: (val) => {
+    mute.value = val
+  }
+}))
 
 provide('highlightColorProv', computed({
   get: () => highlightColor.value,
