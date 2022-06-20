@@ -10,10 +10,10 @@ export default function () {
 		newUploadableFiles.forEach((element, index) => {
 			const fileType = element.file.type
 			const fileSize = element.file.size
-			const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+			const validImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
 			// TYPE IMAGE VALIDATION
 			if (!validImageTypes.includes(fileType)) {
-				alert(`Error BG ${index + 1}: Please, choose the right format image! The avaiable format is JPG, JPEG, and PNG!`);
+				alert(`Error BG ${index + 1}: Please, choose the right format image! The avaiable format is JPG, JPEG, PNG, and SVG!`);
 			}
 			//SIZE IMAGE VALIDATION
 			else if (fileSize >= 1045301) {

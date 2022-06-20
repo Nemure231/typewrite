@@ -44,6 +44,7 @@ const online = useOnline()
 
 //Type
 const testType = ref('')
+const submitType = ref(0)
 
 //yOUTUBE
 const mute = ref(false)
@@ -91,6 +92,13 @@ provide('muteProv', computed({
   get: () => mute.value,
   set: (val) => {
     mute.value = val
+  }
+}))
+
+provide('submitTypeProv', computed({
+  get: () => submitType.value,
+  set: (val) => {
+    submitType.value = val
   }
 }))
 

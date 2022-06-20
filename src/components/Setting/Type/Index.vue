@@ -3,6 +3,7 @@ import { watch, inject, ref } from 'vue';
 import { useMagicKeys } from '@vueuse/core'
 
 const testType = inject('testTypeProv')
+const submitType = inject('submitTypeProv')
 
 const ava = ref([
     {
@@ -168,7 +169,6 @@ watch(() => [a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.va
         Backspace.value ? testType.value = 'Backspace' : ''
         Delete.value ? testType.value = 'Delete' : ''
 
-
         setTimeout(() => {
             testType.value = ''
         }, 1000);
@@ -181,16 +181,61 @@ watch(() => [a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.va
 <template>
     <div class="flex-1">
         <div class="flex flex-col gap-6">
+
+            <div class="flex-1">
+                <span class="text-2xl font-bold">Submit Type</span>
+                <div class="flex gap-3 mt-3">
+                    <button :class="submitType == 0 && 'bg-sky-100'" @click="submitType = 0"
+                        class="flex-1 py-2 px-3 rounded-md border-2 border-sky-500">
+                        <div class="inline-flex justify-center items-center gap-2">
+                            <span class="text-lg">
+                                Auto
+                            </span>
+                            <svg class="w-6 h-6 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                aria-hidden="true" role="img"  preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
+                                <g fill="none" stroke="#0ea5e9" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="4">
+                                    <path d="M13 35H7v6m34 0h-6v-6m0-22h6V7M7 7h6v6"></path>
+                                    <path
+                                        d="M13 7.294C7.578 10.871 4 17.018 4 24c0 1.02.076 2.021.223 3M27 43.776A20.16 20.16 0 0 1 24 44c-6.982 0-13.129-3.578-16.706-9m36.482-14c.148.979.224 1.98.224 3c0 6.982-3.578 13.129-9 16.706M21 4.223A20.16 20.16 0 0 1 24 4c6.982 0 13.129 3.578 16.706 9">
+                                    </path>
+                                </g>
+                            </svg>
+                            <input class="hidden" type="radio" v-model="submitType" value="0" />
+                        </div>
+                    </button>
+                    <button :class="submitType == 1 && 'bg-sky-100'" @click="submitType = 1"
+                        class="flex-1 py-0.25 px-3 rounded-md border-2 border-sky-500">
+                        <div class="inline-flex justify-center items-center gap-2">
+                            <span class="text-lg">
+                                Enter
+                            </span>
+                            <svg class="w-6 h-6 " xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+                                preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
+                                <g fill="none" stroke="#0ea5e9" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="4">
+                                    <path d="M44 44V4H24v16H4v24h40Z"></path>
+                                    <path d="m21 28l-4 4l4 4"></path>
+                                    <path d="M34 23v9H17"></path>
+                                </g>
+                            </svg>
+                            <input class="hidden" type="radio" v-model="submitType" value="1" />
+                        </div>
+                    </button>
+                </div>
+            </div>
             <div class="flex-1">
                 <span class="text-2xl font-bold">Available Type</span>
                 <div class="flex flex-row flex-wrap gap-3 mt-3 font-normal justify-center">
-                    <span v-for="als in ava" :key="als.id" 
-                    :class="testType == als.name && 'bg-sky-100'"
+                    <span v-for="als in ava" :key="als.id" :class="testType == als.name && 'bg-sky-100'"
                         class="py-1 px-3 rounded-md border border-sky-500 shadow-md text-lg text-center">
                         {{ als.name }}
                     </span>
 
-
+                    <small class="flex-1 basis-full text-right">
+                        Test by yourself with keyboard.
+                    </small>
                 </div>
             </div>
 

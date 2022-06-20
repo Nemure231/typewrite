@@ -15,8 +15,11 @@ const changeBg = computed(() => {
 </script>
 
 <template>
-     <div class="fixed bg-cover bg-center bg-no-repeat inset-0" ref="yt"
-    :style="{backgroundImage: `url(${changeBg})`}">
-    </div>
-
+  <div class="fixed bg-center bg-no-repeat inset-0" ref="yt" :style="{
+    backgroundImage: `url(${changeBg})`,
+    backgroundSize: 'auto',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: '#FFFFFF'
+  }">
+  </div>
 </template>

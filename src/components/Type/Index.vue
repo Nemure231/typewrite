@@ -8,6 +8,7 @@ const score = inject('scoreProv')
 const list = inject('listProv')
 const previewType = inject('previewTypeProv')
 const pass = inject('passProv')
+const submitType = inject('submitTypeProv')
 
 const { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, Enter, Backspace, space, Delete, Minus } = useMagicKeys()
 const storeAbjad = ref([])
@@ -251,62 +252,43 @@ watchEffect(() => {
         previewType.value = stored
 
         if (storeAbjad.value.length > 0) {
-            if (Enter.value) {
-                storedAbjadJoin.value.push(stored)
-                storeAbjad.value = []
-                previewType.value = ''
+            const rum = `<div class="underline underline-offset-4 inline" style="text-decoration-color:${highlightColor.value};text-decoration-style:${highlightStyle.value};text-decoration-thickness:${highlightThick.value}">${previewType.value}</div>`
+            let obj = list.value.find(o => o.name === rum);
 
-                var au = ''
-                if (storedAbjadJoin.value.length > 1) {
-                    au = storedAbjadJoin.value.splice(0, 1)
+
+            if (obj !== undefined) {
+                
+                var typeTik;
+                if (submitType.value === 0) {
+                    typeTik = rum == obj.name
+                } else {
+                    typeTik = Enter.value
                 }
 
-                const storedName = storedAbjadJoin.value[0]
+                if (typeTik) {
+                    let passFind = pass.value.find(e => e === obj.id);
+                    if (passFind === undefined) {
+                        pass.value.push(obj.id)
 
-                const regStoredName = `<div class="underline underline-offset-4 inline" style="text-decoration-color:${highlightColor.value};text-decoration-style:${highlightStyle.value};text-decoration-thickness:${highlightThick.value}">${storedName}</div>`
+                        score.value += 10
+                        document.getElementById(obj.id).remove()
 
-                let obj = list.value.find(o => o.name === regStoredName);
-                if (obj) {
-                    if (obj.name) {
-                        let passFind = pass.value.find(e => e === obj.id);
-
-                        if (passFind === undefined) {
-
-                            if (regStoredName == obj.name) {
-
-                                previewType.value = ''
-
-                                pass.value.push(obj.id)
-
-                                score.value += 10
-
-                                document.getElementById(obj.id).remove()
-
-                                for (let lif = 1; lif < 100; lif++) {
-
-                                    const liff = lif * 100
-
-                                    if (score.value == liff) {
-                                        life.value += 1
-                                    }
-
-                                }
+                        for (let lif = 1; lif < 100; lif++) {
+                            const liff = lif * 100
+                            if (score.value == liff) {
+                                life.value += 1
                             }
                         }
+                        setTimeout(() => {
+                            previewType.value = ''
+                            storeAbjad.value = []
+                        }, 200);
                     }
                 }
-
             }
         }
-
-
-
     }
-
-}, { immediate: true })
-
-
-
+})
 </script>
 
 <template>

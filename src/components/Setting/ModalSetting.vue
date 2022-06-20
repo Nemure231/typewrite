@@ -101,7 +101,7 @@ const menu = ref([
                                         </button>
                                     </div>
                                 </div>
-                                <div class="flex-1 basis-[80%] h-screen px-12 py-6">
+                                <div class="flex-1 basis-[80%] px-12 py-6">
                                     <div class="flex">
                                         <Level v-show="currentMenu == 1" />
                                         <IndexText v-show="currentMenu == 2" />
