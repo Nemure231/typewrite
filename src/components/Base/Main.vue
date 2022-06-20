@@ -42,6 +42,7 @@ const minute = inject('minuteProv');
 const second = inject('secondProv');
 const millisecond = inject('milliProv');
 const stateTimer = ref();
+const sound = inject('soundProv')
 
 provide('playerProv', computed({
   get: () => player.value,
@@ -296,22 +297,26 @@ let countDown = () => {
 
 const isLeft = usePageLeave();
 watch(() => isLeft.value, () => {
-    if (start.value) {
-      if (isLeft.value) {
-        openModalSetting()
-      }
-
+  if (start.value) {
+    if (isLeft.value) {
+      openModalSetting()
     }
 
-  })
+  }
+
+})
+
+const soundOnly = computed(() => {
+  return sound.value ? 'hidden' : 'block'
+})
+
 </script>
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
     <BgVue />
-
-    <YoutubeVue>
+    <YoutubeVue v-show="!bgOrYtProv" :class="soundOnly">
       <template #vueplyr>
         <vue-plyr ref="player" :options="options">
           <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
@@ -331,7 +336,7 @@ watch(() => isLeft.value, () => {
 
     <Text />
     <Start v-if="!start" @childStartGame="() => startGame()" />
-    <Total/>
+    <Total />
     <Score />
     <Timer />
     <Life />

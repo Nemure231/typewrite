@@ -1,13 +1,13 @@
 <script setup>
+import { ref, provide, computed, watchEffect } from 'vue';
+import { useOnline } from '@vueuse/core'
+import { id } from 'https://nemure231.github.io/typewrite/data/words/id.js'
+import { en } from 'https://nemure231.github.io/typewrite/data/words/en.js'
 import Main from './components/Base/Main.vue'
 import Footer from './components/Base/Footer.vue'
 import Warning from './components/Base/Warning.vue'
 import ReOff from './components/Reload/Index.vue'
 import Offline from './components/Base/Offline.vue'
-import { ref, provide, computed, watchEffect } from 'vue';
-import { useOnline } from '@vueuse/core'
-import { id } from 'https://nemure231.github.io/typewrite/data/words/id.js'
-import { en } from 'https://nemure231.github.io/typewrite/data/words/en.js'
 
 
 // Global Data
@@ -32,11 +32,7 @@ const borderWidth = ref(1)
 const borderRadius = ref(0)
 const previewType = ref('')
 const countTimer = ref(0)
-const bgOrYt = ref(true)
-const ytLink = ref('')
-const ytId = ref([])
 const pauseProblem = ref([])
-const loop = ref(false)
 const ytRestart = ref(true)
 const dirText = ref(0)
 const selectLang = ref(0)
@@ -45,19 +41,26 @@ const typeText = ref(0)
 const showEx = ref(false)
 const listExTxt = ref([])
 const online = useOnline()
+
+//yOUTUBE
 const mute = ref(false)
+const loop = ref(false)
+const bgOrYt = ref(true)
+const ytLink = ref('')
+const ytId = ref([])
+const sound = ref(false)
 
 //Highligh
 const highlightColor = ref('#000000')
 const highlightStyle = ref('solid')
 const highlightThick = ref(2)
 
-
 //Timer
 const hour = ref(0);
 const minute = ref(0);
 const second = ref(0);
 const milli = ref(0);
+
 
 watchEffect(() => {
   var uma = []
@@ -85,6 +88,13 @@ provide('muteProv', computed({
   get: () => mute.value,
   set: (val) => {
     mute.value = val
+  }
+}))
+
+provide('soundProv', computed({
+  get: () => sound.value,
+  set: (val) => {
+    sound.value = val
   }
 }))
 
