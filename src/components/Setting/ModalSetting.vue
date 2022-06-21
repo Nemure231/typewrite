@@ -1,6 +1,7 @@
 <script setup>
 // import { useOnline } from '@vueuse/core'
-import { defineEmits, ref, inject } from 'vue'
+import { OnClickOutside } from '@vueuse/components'
+import { defineEmits, ref, inject, defineComponent } from 'vue'
 import Level from './Level/Level.vue'
 import IndexFont from './Font/Index.vue';
 import IndexBg from './Bg/Index.vue';
@@ -10,7 +11,12 @@ import IndexAbout from './About/Index.vue';
 import IndexType from './Type/Index.vue';
 // import IndexOffline from './Offline/Index.vue';
 
-const listProv = inject('listProv')
+defineComponent(
+    { OnClickOutside }
+)
+
+const milli = inject('milliProv');
+
 // const online = useOnline()
 
 const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
@@ -18,7 +24,7 @@ const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
 let childCloseModalSetting = () => {
     emit("childCloseModalSetting")
 
-    if (listProv.value.length > 0) {
+    if (milli.value > 0) {
         childStartGame()
     }
 
@@ -72,6 +78,7 @@ const menu = ref([
             <span class="hidden sm:inline-block rounded-xl" aria-hidden="true">&#8203;</span>
             <div
                 class="relative inline-block  align-bottom rounded-xl text-left  shadow-xl transform transition-all sm:align-middle">
+                <OnClickOutside @trigger="childCloseModalSetting()" class="bg-transparent">
                 <div class="backdrop-blur-sm bg-white/75 relative rounded-xl">
                     <div class="absolute right-6 top-3">
                         <div @click="childCloseModalSetting()" class="cursor-pointer hover:bg-red-100">
@@ -124,6 +131,9 @@ const menu = ref([
                     </div>
 
                 </div>
+                
+                
+                </OnClickOutside>
             </div>
         </div>
     </div>

@@ -15,7 +15,6 @@ import YoutubeVue from '../Game/Youtube.vue'
 import Timer from '../Game/Timer.vue'
 import Total from '../Game/Total.vue';
 
-
 const allWords = inject('allWordsProv')
 const pass = inject('passProv')
 const unPass = inject('unpassProv')
@@ -29,7 +28,6 @@ const showTime = inject('showTimeProv')
 const moveTime = inject('moveTimeProv')
 const bgOrYtProv = inject('bgOrYtProv')
 const ytIdProv = inject('ytIdProv')
-const pauseProblemProv = inject('pauseProblemProv')
 const loopProv = inject('loopProv')
 const ytLinkProv = inject('ytLinkProv')
 const player = ref(null)
@@ -44,6 +42,8 @@ const millisecond = inject('milliProv');
 const stateTimer = ref();
 const sound = inject('soundProv')
 const isLeft = usePageLeave();
+const stateMoveWord = ref()
+const stateAddWord = ref()
 
 provide('playerProv', computed({
   get: () => player.value,
@@ -74,31 +74,39 @@ provide('modalGameOverProv', computed({
 }))
 
 
-let rightPlus = async () => {
-
-  if (!start.value) {
-    return;
-  }
-
-  list.value.forEach((e) => {
-    e.dir += 1
-
-    if (pauseProblemProv.value.length > 0) {
-      e.dir -= 1
-      e.dir += 1
-    }
-  })
+let startMoveWord = () => {
+  pauseMoveWord();
 
   if (start.value) {
-    setTimeout(rightPlus, moveTime.value);
+
+    stateMoveWord.value = setInterval(() => { countMoveWord() }, moveTime.value);
   }
 }
 
-let addWord = async () => {
-  if (!start.value) {
-    return;
-  }
+let pauseMoveWord = () => {
+  clearInterval(stateMoveWord.value);
+}
 
+let countMoveWord = () => {
+  list.value.forEach((e) => {
+    e.dir += 1
+  })
+}
+
+
+let startAddWord = () => {
+  pauseAddWord();
+
+  if (start.value) {
+    stateAddWord.value = setInterval(() => { countAddWord() }, showTime.value);
+  }
+}
+
+let pauseAddWord = () => {
+  clearInterval(stateAddWord.value);
+}
+
+let countAddWord = () => {
   var typeTxt
 
   if (allWords.value.length > list.value.length) {
@@ -116,20 +124,15 @@ let addWord = async () => {
     if (!objFind) {
       list.value.push(obj)
     }
-
-    if (start.value) {
-      setTimeout(addWord, showTime.value)
-    }
   }
-
-
 }
+
 
 let startGame = () => {
   start.value = true
 
-  addWord()
-  rightPlus()
+  startMoveWord()
+  startAddWord()
   startTimer()
 
   if (ytIdProv.value.length > 0) {
@@ -139,7 +142,8 @@ let startGame = () => {
 
 let pauseGame = () => {
   start.value = false
-  pauseProblemProv.value.push(1)
+  pauseMoveWord()
+  pauseAddWord()
 }
 
 let openModalSetting = () => {
@@ -204,6 +208,8 @@ watch(
         unPass.value = []
         ytLinkProv.value = ''
         player.value.player.stop()
+        pauseAddWord()
+        pauseMoveWord()
         pauseTimer()
       } else {
         life.value -= 1
@@ -240,7 +246,6 @@ onMounted(() => {
 
       setTimeout(() => {
         player.value.player.play()
-
       }, 1000);
     }
   });

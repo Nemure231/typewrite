@@ -14,13 +14,33 @@ import Offline from './components/Base/Offline.vue'
 const list = ref([])
 const pass = ref([])
 const unpass = ref([])
+
+
+//Game
 const score = ref(0)
 const life = ref(5)
 const lose = ref(0)
 const start = ref(false)
-const bg = ref([]);
 const showTime = ref(3000)
 const moveTime = ref(50)
+
+const previewType = ref('')
+const countTimer = ref(0)
+const selectLang = ref(0)
+const allWords = ref([])
+const typeText = ref(0)
+const showEx = ref(false)
+const listExTxt = ref([])
+const online = useOnline()
+
+//Bg
+const bg = ref([]);
+
+
+//Text
+const dirText = ref(0)
+
+//Font
 const color = ref('#000000')
 const bgColor = ref(`#FFFFFF`)
 const fontSize = ref(14)
@@ -30,21 +50,11 @@ const paddingX = ref(6)
 const borderColor = ref(`#FFFFFF`)
 const borderWidth = ref(1)
 const borderRadius = ref(0)
-const previewType = ref('')
-const countTimer = ref(0)
-const pauseProblem = ref([])
-const ytRestart = ref(true)
-const dirText = ref(0)
-const selectLang = ref(0)
-const allWords = ref([])
-const typeText = ref(0)
-const showEx = ref(false)
-const listExTxt = ref([])
-const online = useOnline()
 
 //Type
 const testType = ref('')
 const submitType = ref(0)
+const ytRestart = ref(true)
 
 //yOUTUBE
 const mute = ref(false)
@@ -236,14 +246,6 @@ provide('loopProv', computed({
     loop.value = val
   }
 }))
-
-provide('pauseProblemProv', computed({
-  get: () => pauseProblem.value,
-  set: (val) => {
-    pauseProblem.value = val
-  }
-}))
-
 
 provide('ytIdProv', computed({
   get: () => ytId.value,
@@ -443,8 +445,4 @@ provide('scoreProv', computed({
   <template v-else>
     <Offline />
   </template>
-
-
-
-
 </template>
