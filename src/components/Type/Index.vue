@@ -8,6 +8,7 @@ const score = inject('scoreProv')
 const list = inject('listProv')
 const previewType = inject('previewTypeProv')
 const pass = inject('passProv')
+const unPass = inject('unpassProv')
 const submitType = inject('submitTypeProv')
 
 const { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, Enter, Backspace, space, Delete, Minus } = useMagicKeys()
@@ -253,11 +254,11 @@ watchEffect(() => {
 
         if (storeAbjad.value.length > 0) {
             const rum = `<div class="underline underline-offset-4 inline" style="text-decoration-color:${highlightColor.value};text-decoration-style:${highlightStyle.value};text-decoration-thickness:${highlightThick.value}">${previewType.value}</div>`
+
             let obj = list.value.find(o => o.name === rum);
 
 
             if (obj !== undefined) {
-                
                 var typeTik;
                 if (submitType.value === 0) {
                     typeTik = rum == obj.name
@@ -267,9 +268,10 @@ watchEffect(() => {
 
                 if (typeTik) {
                     let passFind = pass.value.find(e => e === obj.id);
-                    if (passFind === undefined) {
-                        pass.value.push(obj.id)
 
+                    if (passFind === undefined) {
+
+                        pass.value.push(obj.id)
                         score.value += 10
                         document.getElementById(obj.id).remove()
 
@@ -279,6 +281,11 @@ watchEffect(() => {
                                 life.value += 1
                             }
                         }
+
+                        const isIndex = (element) => element.id == obj.id
+                        const bb = list.value.findIndex(isIndex)
+                        list.value.splice(bb, 1)
+
                         setTimeout(() => {
                             previewType.value = ''
                             storeAbjad.value = []

@@ -16,7 +16,7 @@ defineComponent(
 )
 
 const milli = inject('milliProv');
-const life = inject('lifeProv')
+const modalGameOver = inject('modalGameOverProv')
 
 // const online = useOnline()
 
@@ -26,7 +26,7 @@ let childCloseModalSetting = () => {
     emit("childCloseModalSetting")
 
     if (milli.value > 0) {
-        if(life.value != 0){
+        if(!modalGameOver.value){
             childStartGame()
         }
     }

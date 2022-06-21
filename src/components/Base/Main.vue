@@ -119,11 +119,14 @@ let countAddWord = () => {
 
     let obj = allWords.value.find((o, index) => index === typeTxt);
 
-    let objFind = list.value.find(o => o.name === obj.name);
+    let objPass = pass.value.find(o => o === obj.id);
+    let objUnPass = unPass.value.find(o => o === obj.id);
 
-    if (!objFind) {
-      list.value.push(obj)
-    }
+    if (objPass === undefined) {
+      if (objUnPass === undefined) {
+        list.value.push(obj)
+      } 
+    } 
   }
 }
 
@@ -161,6 +164,7 @@ let closeModalSetting = () => {
 }
 
 watchEffect(() => {
+  console.log(list.value)
   list.value.forEach((e) => {
     const passId = pass.value.find(element => element == e.id);
     if (passId === undefined) {
@@ -177,6 +181,7 @@ watchEffect(() => {
   })
 })
 
+//win
 watchEffect(() => {
   const total = unPass.value.length + pass.value.length
 
@@ -186,8 +191,9 @@ watchEffect(() => {
       modalGameOver.value = true
       lose.value = 0
       list.value = []
-      pass.value = []
-      unPass.value = []
+      pauseAddWord()
+      pauseMoveWord()
+      pauseTimer()
       ytLinkProv.value = ''
       player.value.player.stop()
     }
