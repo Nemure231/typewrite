@@ -15,7 +15,6 @@ const bgRef = ref();
 const bgProv = inject('bgProv')
 const countTimerProv = inject('countTimerProv')
 const bgTime = ref(1000)
-const loopBg = ref(false)
 const dragging = ref(false)
 const enabled = ref(true)
 
@@ -27,12 +26,6 @@ provide('bgTimeProv', computed({
 	}
 }))
 
-provide('loopBgProv', computed({
-	get: () => loopBg.value,
-	set: (val) => {
-		loopBg.value = val
-	}
-}))
 
 const urlImg = ref('')
 
@@ -60,20 +53,24 @@ let removeOneBg = (id) => {
 	bgProv.value.splice(idd, 1);
 }
 
-let timerBg = async () => {
-	if (!loopBg.value) {
-		return;
-	}
+const stateBgTimer = ref()
 
+let startTimerBg = () => {
+	pauseTimerBg();
+	stateBgTimer.value = setInterval(() => { countTimerBg() }, bgTime.value);
+}
+
+let pauseTimerBg = () => {
+	clearInterval(stateBgTimer.value);
+}
+
+let countTimerBg = () => {
 	countTimerProv.value++
+
 	if (countTimerProv.value >= bgProv.value.length) {
 		countTimerProv.value = 0
 	}
-	if (loopBg.value) {
-		setTimeout(timerBg, bgTime.value);
-	}
 }
-
 
 let chooseBg = (e) => {
 	addFiles(e.target.files)
@@ -98,7 +95,7 @@ let checkMove = (e) => {
 }
 
 let checkUrlImg = (url) => {
- if (url.match(/^https:?:\/\/.+\/.+$/) && url.match(/\.(jpeg|jpg|png|gif|svg)$/) !== null) {
+	if (url.match(/^https:?:\/\/.+\/.+$/) && url.match(/\.(jpeg|jpg|png|gif|svg)$/) !== null) {
 		return true
 	} else {
 		return false
@@ -161,8 +158,8 @@ let checkUrlImg = (url) => {
 						</DropZone>
 					</div>
 					<template v-if="bgProv.length > 0">
-						<Timer @childTimerBg="() => timerBg()" />
-						<Button @childTimerBg="() => timerBg()" />
+						<Timer @childStartTimerBg="() => startTimerBg()" />
+						<Button @childStartTimerBg="() => startTimerBg()" @childPauseTimerBg="() => pauseTimerBg()" />
 					</template>
 				</div>
 			</div>

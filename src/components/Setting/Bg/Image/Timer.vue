@@ -4,10 +4,10 @@ import { inject, computed, defineEmits } from 'vue'
 
 const bgTime = inject('bgTimeProv')
 
-const emit = defineEmits(["childTimerBg"]);
+const emit = defineEmits(["childStartTimerBg"]);
 
-let timerBg = () => {
-    emit("childTimerBg")
+let start = () => {
+    emit("childStartTimerBg")
 
 }
 
@@ -31,7 +31,7 @@ let convertMillis = computed(() => {
 		<span class="text-2xl font-bold block mb-4">Timer</span>
 		<label class="inline font-semibold" for="">Show / </label>
 		<small class="inline text-sm font-medium" v-text="convertMillis"> </small>
-		<input type="range" @change="timerBg()" class="custom-range mt-4" v-model="bgTime" min="1000" step="1000"
+		<input @change="start()" type="range" class="custom-range mt-4" v-model="bgTime" min="1000" step="1000"
 			max="1000000" name="" id="">
 	</div>
 

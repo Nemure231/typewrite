@@ -1,23 +1,25 @@
 
 <script setup>
-import { defineEmits, inject } from 'vue'
+import { defineEmits} from 'vue'
 
-const loopBg = inject('loopBgProv')
+const emit = defineEmits(["childStartTimerBg", "childPauseTimerBg"]);
 
-const emit = defineEmits(["childTimerBg"]);
+let start = () => {
+    emit("childStartTimerBg")
 
-let timerBg = () => {
-    emit("childTimerBg")
+}
+
+let pause = () => {
+    emit("childPauseTimerBg")
 
 }
 
 let startBg = () => {
-	loopBg.value = true
-	timerBg()
+	start()
 }
 
 let stopBg = () => {
-	loopBg.value = false
+	pause()
 }
 
 </script>
