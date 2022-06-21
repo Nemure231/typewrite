@@ -39,6 +39,8 @@ let clickBg = () => {
 				id: new Date(),
 				url: urlImg.value
 			})
+			urlImg.value = ''
+
 		} else {
 			alert('The url only accept https protocol, and with .jpg, .jpeg, .png, and svg. extension in the end of url!')
 		}
