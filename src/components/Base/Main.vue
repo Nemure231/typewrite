@@ -164,14 +164,15 @@ let closeModalSetting = () => {
 }
 
 watchEffect(() => {
-  console.log(list.value)
   list.value.forEach((e) => {
     const passId = pass.value.find(element => element == e.id);
     if (passId === undefined) {
       if (e.dir == window.innerWidth) {
-        unPass.value.push(
-          e.id
-        )
+        unPass.value.push(e.id)
+
+        const isIndex = (element) => element.id == e.id
+        const bb = list.value.findIndex(isIndex)
+        list.value.splice(bb, 1)
       }
     }
   })
@@ -179,6 +180,7 @@ watchEffect(() => {
   unPass.value.forEach(e => {
     lose.value = unPass.value.length
   })
+
 })
 
 //win
