@@ -1,24 +1,13 @@
 <script setup>
-// import { useOnline } from '@vueuse/core'
-import { OnClickOutside } from '@vueuse/components'
-import { defineEmits, ref, inject, defineComponent } from 'vue'
-import Level from './Level/Level.vue'
-import IndexFont from './Font/Index.vue';
-import IndexBg from './Bg/Index.vue';
-import IndexText from './Text/Index.vue';
+import { defineEmits, ref, inject, computed, defineAsyncComponent } from 'vue'
 import IndexMusic from './Music/Index.vue';
-import IndexAbout from './About/Index.vue';
-import IndexType from './Type/Index.vue';
-// import IndexOffline from './Offline/Index.vue';
-
-defineComponent(
-    { OnClickOutside }
-)
+import { onClickOutside } from '@vueuse/core'
 
 const milli = inject('milliProv');
 const modalGameOver = inject('modalGameOverProv')
+const outsideClick = ref()
 
-// const online = useOnline()
+onClickOutside(outsideClick, () => (childCloseModalSetting()))
 
 const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
 
@@ -26,7 +15,7 @@ let childCloseModalSetting = () => {
     emit("childCloseModalSetting")
 
     if (milli.value > 0) {
-        if(!modalGameOver.value){
+        if (!modalGameOver.value) {
             childStartGame()
         }
     }
@@ -36,42 +25,15 @@ let childStartGame = () => {
     emit("childStartGame")
 }
 
+const currentTab = ref('Level')
+const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'About'])
+const currentComponent = computed(() => {
+    const def = currentTab.value != 'Music' ? `./${currentTab.value}/Index.vue` : './Music/Empty.vue'
+    return defineAsyncComponent(() => import(/* @vite-ignore */ def))
+})
 
-const currentMenu = ref(1)
-const menu = ref([
-    {
-        id: 1,
-        name: 'Level'
-    },
-    {
-        id: 2,
-        name: 'Text'
-    },
-    {
-        id: 3,
-        name: 'Font'
-    },
-    {
-        id: 4,
-        name: 'Background'
-    },
-    {
-        id: 5,
-        name: 'Music'
-    },
-    {
-        id: 6,
-        name: 'Type'
-    },
-    // {
-    //     id: 7,
-    //     name: 'Support!'
-    // },
-    {
-        id: 7,
-        name: 'About'
-    }
-])
+
+
 
 </script>
 
@@ -81,8 +43,7 @@ const menu = ref([
             <span class="hidden sm:inline-block rounded-xl" aria-hidden="true">&#8203;</span>
             <div
                 class="relative inline-block  align-bottom rounded-xl text-left  shadow-xl transform transition-all sm:align-middle">
-                <OnClickOutside @trigger="childCloseModalSetting()" class="bg-transparent">
-                <div class="backdrop-blur-sm bg-white/75 relative rounded-xl">
+                <div class="backdrop-blur-sm bg-white/75 relative rounded-xl " ref="outsideClick">
                     <div class="absolute right-6 top-3">
                         <div @click="childCloseModalSetting()" class="cursor-pointer hover:bg-red-100">
                             <svg class=" w-8 h-8" xmlns="http://www.w3.org/2000/svg"
@@ -99,44 +60,30 @@ const menu = ref([
                             <div class="flex flex-row">
                                 <div class="flex-none  basis-[20%] rounded-xl">
                                     <div class="flex flex-col items-center justify-center flex-wrap py-2 px-2">
-                                        <button v-for="m in menu" :key="m.id" @click="currentMenu = m.id"
+                                        <button v-for="m in tabs" :key="m" @click="currentTab = m"
                                             class="w-full text-left p-2 rounded-xl"
-                                            :class="currentMenu == m.id && 'bg-sky-200'">
+                                            :class="currentTab === m && 'bg-sky-200'">
                                             <span class="text-xl w-full font-semibold relative">
-                                                <span 
-                                                    ></span>
-                                                    <!-- :class="m.id ==  && `animate-ping absolute inline-flex h-3 w-3 top-0 -right-4 rounded-full bg-sky-400 opacity-75`" -->
-                                                {{ m.name }}
+                                                <span></span>
+                                                <!-- :class="m.id ==  && `animate-ping absolute inline-flex h-3 w-3 top-0 -right-4 rounded-full bg-sky-400 opacity-75`" -->
+                                                {{ m }}
                                             </span>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="flex-1 basis-[80%] px-12 py-6">
                                     <div class="flex">
-                                        <Level v-show="currentMenu == 1" />
-                                        <IndexText v-show="currentMenu == 2" />
-                                        <IndexFont v-show="currentMenu == 3" />
-                                        <IndexBg v-show="currentMenu == 4" />
-                                        <!-- <template v-show="currentMenu == 5"> -->
-                                            <IndexMusic v-show="currentMenu == 5" />
-                                            <!-- <IndexOffline v-show="!online" /> -->
-                                        <!-- </template> -->
-                                        <IndexType v-show="currentMenu == 6"/>
-                                        <IndexAbout v-show="currentMenu == 7" />
+                                        <keep-alive>
+                                            <component :is="currentComponent">
+                                            </component>
+                                        </keep-alive>
+                                        <IndexMusic v-show="currentTab == 'Music'" />
                                     </div>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-                
-                
-                </OnClickOutside>
             </div>
         </div>
     </div>

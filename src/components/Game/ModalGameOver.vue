@@ -67,14 +67,14 @@ let shareScore = () => {
 
                     <p class="relative">
                         <span class="absolute -top-4 text-xs">Score:</span>
-                        <span class="text-xl font-semibold" v-text="score">
+                        <span class="text-xl font-semibold" v-once v-text="score">
 
                         </span>
                     </p>
 
                     <p class="relative">
                         <span class="absolute -top-4 text-xs">Playtime:</span>
-                        <span class="text-xl font-semibold" v-text="showTimer">
+                        <span class="text-xl font-semibold" v-once v-text="showTimer">
 
                         </span>
                     </p>

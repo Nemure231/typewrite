@@ -24,13 +24,15 @@ const changeStyle = computed(() => {
   return text
 })
 
+const changeTimer =  computed(() => `${allWords.value.length - (pass.value.length + unPass.value.length) }/${pass.value.length + unPass.value.length}`)
+
 </script>
 <template>
 
   <div class="fixed top-3 w-full">
     <div class="flex justify-center items-center">
       <span class="text-2xl bg-white py-0.5 w-auto px-3.5" :style="changeStyle"
-      v-text="`${allWords.length - (pass.length + unPass.length) }/${pass.length + unPass.length}`">
+      v-text="changeTimer">
   
       </span>
     </div>

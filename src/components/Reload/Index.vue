@@ -13,10 +13,6 @@ export default defineComponent({
         return { offlineReady, needRefresh, updateServiceWorker, close };
     },
     methods: {
-        async close() {
-            this.offlineReady.value = false;
-            this.needRefresh.value = false;
-        },
         async updateServiceWorker() {
             await updateServiceWorker();
         },
@@ -24,7 +20,7 @@ export default defineComponent({
 });
 </script>
 <template>
-    <div   v-if="offlineReady || needRefresh"
+    <div v-memo="[offlineReady, needRefresh]"  v-if="offlineReady || needRefresh"
         class="fixed right-3 bottom-3 text-left p-4 rounded-lg shadow-lg z-50 dark:bg-secondary bg-light border dark:border-light/25 border-secondary/25" role="alert">
         <div class="mb-3">
             <span class="font-semibold text-primary dark:text-light" v-if="offlineReady">

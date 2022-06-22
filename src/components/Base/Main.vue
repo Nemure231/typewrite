@@ -1,8 +1,6 @@
 <script setup>
-import { ref, watch, inject, computed, watchEffect, provide, onMounted } from 'vue';
+import { ref, watch, inject, computed, watchEffect, provide, onMounted, defineAsyncComponent } from 'vue';
 import { usePageLeave } from '@vueuse/core'
-import ModalSetting from '../Setting/ModalSetting.vue'
-import ModalGameOver from '../Game/ModalGameOver.vue'
 import Type from '../Type/Index.vue'
 import PreviewType from '../Game/PreviewType.vue'
 import Setting from '../Game/Setting.vue'
@@ -44,6 +42,39 @@ const sound = inject('soundProv')
 const isLeft = usePageLeave();
 const stateMoveWord = ref()
 const stateAddWord = ref()
+
+onMounted(() => {
+  player.value.player.on('statechange', (event) => {
+    stateYt.value = event.detail.code
+  })
+
+  var ameo = 0
+  player.value.player.on('ended', () => {
+
+    if (loopProv.value) {
+      ameo++
+
+      if (ameo >= ytIdProv.value.length) {
+        ameo = 0
+      }
+
+      player.value.player.source = {
+        type: 'video',
+        sources: [
+          {
+            src: ytIdProv.value[ameo].src,
+            provider: 'youtube',
+          },
+        ]
+      }
+
+      setTimeout(() => {
+        player.value.player.play()
+      }, 1000);
+    }
+  });
+})
+
 
 provide('playerProv', computed({
   get: () => player.value,
@@ -125,8 +156,24 @@ let countAddWord = () => {
     if (objPass === undefined) {
       if (objUnPass === undefined) {
         list.value.push(obj)
-      } 
-    } 
+      }
+    }
+  }
+}
+
+
+let countDown = () => {
+  if ((millisecond.value += 10) == 1000) {
+    millisecond.value = 0;
+    second.value++;
+  }
+  if (second.value == 60) {
+    second.value = 0;
+    minute.value++;
+  }
+  if (minute.value == 60) {
+    minute.value = 0;
+    hour.value++
   }
 }
 
@@ -151,6 +198,7 @@ let pauseGame = () => {
 
 let openModalSetting = () => {
   modalSettingButton.value = !modalSettingButton.value
+
   pauseGame()
   pauseTimer()
 
@@ -162,6 +210,17 @@ let openModalSetting = () => {
 let closeModalSetting = () => {
   modalSettingButton.value = false
 }
+
+
+let startTimer = () => {
+  pauseTimer();
+  stateTimer.value = setInterval(() => { countDown() }, 10);
+}
+
+let pauseTimer = () => {
+  clearInterval(stateTimer.value);
+}
+
 
 watchEffect(() => {
   list.value.forEach((e) => {
@@ -227,43 +286,20 @@ watch(
 )
 
 
-onMounted(() => {
-  player.value.player.on('statechange', (event) => {
-    stateYt.value = event.detail.code
-  })
-
-  var ameo = 0
-  player.value.player.on('ended', () => {
-
-    if (loopProv.value) {
-      ameo++
-
-      if (ameo >= ytIdProv.value.length) {
-        ameo = 0
-      }
-
-      player.value.player.source = {
-        type: 'video',
-        sources: [
-          {
-            src: ytIdProv.value[ameo].src,
-            provider: 'youtube',
-          },
-        ]
-      }
-
-      setTimeout(() => {
-        player.value.player.play()
-      }, 1000);
-    }
-  });
-})
-
 const plys = computed(() => {
   if (ytIdProv.value.length > 0) {
     return `https://www.youtube.com/embed/${ytIdProv.value[0].src}`
   } else {
     return `https://www.youtube.com/embed/`
+  }
+})
+
+
+watch(() => isLeft.value, () => {
+  if (start.value) {
+    if (isLeft.value) {
+      openModalSetting()
+    }
   }
 })
 
@@ -285,43 +321,25 @@ const options = computed(() => {
   return uu
 })
 
-let startTimer = () => {
-  pauseTimer();
-  stateTimer.value = setInterval(() => { countDown() }, 10);
-}
-
-let pauseTimer = () => {
-  clearInterval(stateTimer.value);
-}
-
-let countDown = () => {
-  if ((millisecond.value += 10) == 1000) {
-    millisecond.value = 0;
-    second.value++;
-  }
-  if (second.value == 60) {
-    second.value = 0;
-    minute.value++;
-  }
-  if (minute.value == 60) {
-    minute.value = 0;
-    hour.value++
-  }
-}
-
-watch(() => isLeft.value, () => {
-  if (start.value) {
-    if (isLeft.value) {
-      openModalSetting()
-    }
-
-  }
-
-})
 
 const soundOnly = computed(() => {
   return sound.value ? 'hidden' : 'block'
 })
+
+
+const isModalSetting = computed(() => {
+  if (modalSettingButton.value) {
+    return defineAsyncComponent(() => import(/* @vite-ignore */ '../Setting/ModalSetting.vue'))
+  }
+})
+
+const isModalGameOver = computed(() => {
+  if (modalGameOver.value) {
+    return defineAsyncComponent(() => import(/* @vite-ignore */ '../Game/ModalGameOver.vue'))
+  }
+})
+
+
 
 </script>
 
@@ -329,9 +347,9 @@ const soundOnly = computed(() => {
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
     <BgVue />
-    <YoutubeVue v-show="!bgOrYtProv" :class="soundOnly">
+    <YoutubeVue v-memo="[bgOrYtProv, soundOnly]" v-show="!bgOrYtProv" :class="soundOnly">
       <template #vueplyr>
-        <vue-plyr ref="player" :options="options">
+        <vue-plyr ref="player" v-memo="[options]" :options="options">
           <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
             <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen
               allowtransparency mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
@@ -342,13 +360,13 @@ const soundOnly = computed(() => {
       </template>
     </YoutubeVue>
 
-    <div class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
+    <div class="relative" v-memo="[bgOrYtProv]" :class="!bgOrYtProv ? 'block' : 'hidden'">
       <div class=" fixed inset-0 z-10">
       </div>
     </div>
 
     <Text />
-    <Start v-if="!start" @childStartGame="() => startGame()" />
+    <Start v-memo="[start]" v-if="!start" @childStartGame="() => startGame()" />
     <Total />
     <Score />
     <Timer />
@@ -367,8 +385,8 @@ const soundOnly = computed(() => {
       <transition enter-from-class="transform opacity-0 scale-75" enter-active-class="duration-300 ease-out"
         enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
-        <ModalGameOver v-if="modalGameOver" class="lg:mt-0 md:mt-0 mt-12 z-30">
-        </ModalGameOver>
+        <component :is="isModalGameOver" v-if="modalGameOver" class="lg:mt-0 md:mt-0 mt-12 z-30">
+        </component>
       </transition>
     </Teleport>
 
@@ -376,14 +394,9 @@ const soundOnly = computed(() => {
       <transition enter-from-class="transform opacity-0 scale-75" enter-active-class="duration-300 ease-out"
         enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
-        <keep-alive>
-
-          <ModalSetting class="z-50" v-show="modalSettingButton" @childCloseModalSetting="() => closeModalSetting()"
-            @childStartGame="() => startGame()">
-          </ModalSetting>
-
-        </keep-alive>
-
+        <component :is="isModalSetting" class="z-50" v-show="modalSettingButton"
+          @childCloseModalSetting="() => closeModalSetting()" @childStartGame="() => startGame()">
+        </component>
       </transition>
     </Teleport>
   </main>

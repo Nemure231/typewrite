@@ -1,5 +1,5 @@
 <script setup>
-import { ref, provide, computed, watchEffect } from 'vue';
+import { ref, provide, computed, watchEffect} from 'vue';
 import { useOnline } from '@vueuse/core'
 import { id } from 'https://nemure231.github.io/typewrite/data/words/id.min.js'
 import { en } from 'https://nemure231.github.io/typewrite/data/words/en.min.js'
@@ -8,7 +8,6 @@ import Footer from './components/Base/Footer.vue'
 import Warning from './components/Base/Warning.vue'
 import ReOff from './components/Reload/Index.vue'
 import Offline from './components/Base/Offline.vue'
-
 
 // Global Data
 const list = ref([])
@@ -78,7 +77,9 @@ const milli = ref(0);
 
 watchEffect(() => {
   var uma = []
+
   if (selectLang.value === 0) {
+
     uma = id
   }
 
@@ -95,7 +96,6 @@ watchEffect(() => {
   }
   allWords.value = uma
 })
-
 
 
 provide('muteProv', computed({
