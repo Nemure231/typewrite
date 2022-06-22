@@ -21,7 +21,7 @@
 
                         back than (2020, maybe). From the video i watched, there is a C++ Typing Game,
                         <a class="underline decoration-sky-500 decoration-wavy"
-                            href="https://www.youtube.com/watch?v=jnkOcAkLkBU">
+                            href="https://bisqwit.iki.fi/wspeed">
                             WSpeed
                         </a>, that created and playing by youtuber Bisqwit, to provide how fast he typing.
                     </p>
