@@ -1,5 +1,5 @@
 <script setup>
-import { ref, provide, computed, watchEffect } from 'vue';
+import { ref, provide, computed, watchEffect, defineAsyncComponent } from 'vue';
 import { useOnline } from '@vueuse/core'
 import Main from './components/Base/Main.vue'
 import Warning from './components/Base/Warning.vue'
@@ -29,10 +29,8 @@ const typeText = ref(0)
 const showEx = ref(false)
 const listExTxt = ref([])
 
-
 //Bg
 const bg = ref([]);
-
 
 //Text
 const dirText = ref(0)
@@ -84,15 +82,26 @@ watchEffect(() => {
   var uma = []
 
   if (selectLang.value === 0) {
-    uma = []
-    loadData(id, 'id', 'https://nemure231.github.io/typewrite/data/words/id.min.js')
-    uma = id.value
+
+    if(online.value){
+      uma = []
+      loadData(id, 'id', 'https://nemure231.github.io/typewrite/data/words/id.min.js')
+      uma = id.value
+    }else{
+      uma = []
+    }
   }
 
   if (selectLang.value === 1) {
-    uma = []
-    loadData(en, 'en', 'https://nemure231.github.io/typewrite/data/words/en.min.js')
-    uma = en.value
+
+     if(online.value){
+      uma = []
+      loadData(en, 'en', 'https://nemure231.github.io/typewrite/data/words/en.min.js')
+      uma = en.value
+
+    }else{
+      uma = []
+    }
   }
 
   if (selectLang.value === 2) {
@@ -441,7 +450,7 @@ provide('scoreProv', computed({
 
 
 const isOnline = computed(() => {
-  if (online.value) {
+  if (!online.value) {
     return defineAsyncComponent(() => import(/* @vite-ignore */ './components/Base/Offline.vue'))
   }
 })
@@ -450,15 +459,14 @@ const isOnline = computed(() => {
 
 
 <template>
-
-  <template v-if="online">
+  <!-- <template v-if="online"> -->
     <Main class="lg:block md:block sm:block hidden" />
     <ReOff />
     <Warning />
-  </template>
-  <template v-else>
+  <!-- </template> -->
+  <!-- <template v-else>
     <component :is="isOnline">
 
     </component>
-  </template>
+  </template> -->
 </template>

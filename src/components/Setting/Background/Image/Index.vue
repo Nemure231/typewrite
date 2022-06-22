@@ -1,6 +1,7 @@
 
 <script setup>
 import { ref, inject, defineComponent, watchEffect, computed, provide } from 'vue'
+import { useOnline } from '@vueuse/core'
 import DropZone from '../DropZone.vue'
 import draggable from "vuedraggable";
 import useFileList from '../../../../compositions/file-list'
@@ -11,6 +12,7 @@ const { files, addFiles } = useFileList()
 
 defineComponent({ DropZone, draggable })
 
+const online = useOnline()
 const bgRef = ref();
 const bgProv = inject('bgProv')
 const countTimerProv = inject('countTimerProv')
@@ -29,20 +31,20 @@ provide('bgTimeProv', computed({
 
 const urlImg = ref('')
 
-
 let clickBg = () => {
-
 	if (urlImg.value) {
-		const checkUrlType = checkUrlImg(urlImg.value);
-		if (checkUrlType === true) {
-			bgProv.value.push({
-				id: new Date(),
-				url: urlImg.value
-			})
-			urlImg.value = ''
-
-		} else {
-			alert('The url only accept https protocol, and with .jpg, .jpeg, .png, and svg. extension in the end of url!')
+		if(online.value){
+			const checkUrlType = checkUrlImg(urlImg.value);
+			if (checkUrlType === true) {
+				bgProv.value.push({
+					id: new Date(),
+					url: urlImg.value
+				})
+				urlImg.value = ''
+	
+			} else {
+				alert('The url only accept https protocol, and with .jpg, .jpeg, .png, and svg. extension in the end of url!')
+			}
 		}
 	} else {
 		bgRef.value.click()
@@ -103,6 +105,8 @@ let checkUrlImg = (url) => {
 		return false
 	}
 }
+
+const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relative')
 </script>
 
 <template>
@@ -114,15 +118,19 @@ let checkUrlImg = (url) => {
 						<DropZone class="drop-area" @files-dropped="addFiles" #default="{ dropZoneActive }">
 
 							<div class="border-dashed border-4 mb-2 border-sky-500 w-full h-36 rounded-lg">
-								<div class="flex h-full items-center justify-center bg-cover bg-center rounded-lg">
+								<div class="flex flex-col h-full items-center justify-center bg-cover bg-center rounded-lg">
 									<div class="flex items-center relative">
-										<input v-model="urlImg"
+										<input v-if="online" v-model="urlImg" :disabled="!online && true" :readonly="!online && true"
 											class="relative border w-96 font-normal border-sky-500 rounded-md pl-3 pr-[5.5rem] lg:py-3 md:py-3 py-3 focus:outline-none"
 											type="url" placeholder="Link/Local Image ....">
-
-										<button
-											class="absolute inline-flex justify-center items-center  right-1 font-semibold px-6 py-2 text-white  rounded-md bg-sky-500"
+			
+										<button :class="isOnlineInput"
+											class=" inline-flex justify-center items-center font-semibold px-6 py-2 text-white  rounded-md bg-sky-500"
 											@click="clickBg()">
+											<span class="pr-3" v-if="!online">
+											Choose Image
+
+											</span>
 											<input class="hidden" type="file" ref="file" id="img-target"
 												@change="loadImage($event)" accept="image/*">
 											<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg"
@@ -140,18 +148,19 @@ let checkUrlImg = (url) => {
 											</svg>
 										</button>
 									</div>
+							
 								</div>
 							</div>
 
 							<div for="file-input" class="font-normal">
 								<template v-if="dropZoneActive">
 									<span>Drop Them Here</span>
-									<span>to add.</span>
+									<span> to add.</span>
 								</template>
 								<template v-else>
 									<span>Drag Your Images </span>
 									<span>
-										or click<strong> Choose Images</strong>.
+										or click<strong> Image Icon</strong>.
 									</span>
 								</template>
 								<input class="hidden" type="file" ref="bgRef" multiple @change="chooseBg($event)"
