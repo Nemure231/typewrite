@@ -1,13 +1,11 @@
 <script setup>
-import { ref, provide, computed, watchEffect} from 'vue';
+import { ref, provide, computed, watchEffect } from 'vue';
 import { useOnline } from '@vueuse/core'
-import { id } from 'https://nemure231.github.io/typewrite/data/words/id.min.js'
-import { en } from 'https://nemure231.github.io/typewrite/data/words/en.min.js'
 import Main from './components/Base/Main.vue'
-import Footer from './components/Base/Footer.vue'
 import Warning from './components/Base/Warning.vue'
 import ReOff from './components/Reload/Index.vue'
-import Offline from './components/Base/Offline.vue'
+
+const online = useOnline()
 
 // Global Data
 const list = ref([])
@@ -30,7 +28,7 @@ const allWords = ref([])
 const typeText = ref(0)
 const showEx = ref(false)
 const listExTxt = ref([])
-const online = useOnline()
+
 
 //Bg
 const bg = ref([]);
@@ -74,20 +72,31 @@ const minute = ref(0);
 const second = ref(0);
 const milli = ref(0);
 
+const id = ref([])
+const en = ref([])
+
+let loadData = async (state, name, url) => {
+  let emu = await import(url);
+  state.value = emu[name]
+}
 
 watchEffect(() => {
   var uma = []
 
   if (selectLang.value === 0) {
-
-    uma = id
+    uma = []
+    loadData(id, 'id', 'https://nemure231.github.io/typewrite/data/words/id.min.js')
+    uma = id.value
   }
 
   if (selectLang.value === 1) {
-    uma = en
+    uma = []
+    loadData(en, 'en', 'https://nemure231.github.io/typewrite/data/words/en.min.js')
+    uma = en.value
   }
 
   if (selectLang.value === 2) {
+    uma = []
     if (showEx.value) {
       if (listExTxt.value.length > 0) {
         uma = listExTxt.value
@@ -431,6 +440,12 @@ provide('scoreProv', computed({
 }))
 
 
+const isOnline = computed(() => {
+  if (online.value) {
+    return defineAsyncComponent(() => import(/* @vite-ignore */ './components/Base/Offline.vue'))
+  }
+})
+
 </script>
 
 
@@ -438,11 +453,12 @@ provide('scoreProv', computed({
 
   <template v-if="online">
     <Main class="lg:block md:block sm:block hidden" />
-    <Footer class="lg:block md:block sm:block hidden" />
     <ReOff />
     <Warning />
   </template>
   <template v-else>
-    <Offline />
+    <component :is="isOnline">
+
+    </component>
   </template>
 </template>
