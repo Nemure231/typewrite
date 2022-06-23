@@ -31,9 +31,35 @@ let childStartGame = () => {
 const currentTab = ref('Level')
 const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'About'])
 const currentComponent = computed(() => {
-    const def = currentTab.value != 'Music' ? `./${currentTab.value}/Index.vue` : './Music/Empty.vue'
+
+    var def = ''
+
+    if (currentTab.value == 'Level') {
+        def = `./Level/Index.vue`
+    }
+
+    if (currentTab.value == 'Font') {
+        def = `./Font/Index.vue`
+    }
+
+    if (currentTab.value == 'Background') {
+        def = `./Background/Index.vue`
+    }
+
+    if (currentTab.value == 'Music') {
+        def = './Music/Empty.vue'
+    }
+
+    if (currentTab.value == 'Type') {
+        def = `./Type/Index.vue`
+    }
+
+    if (currentTab.value == 'About') {
+        def = `./About/Index.vue`
+    }
+
     const asyncComp = defineAsyncComponent({
-        loader: () =>   import(/* @vite-ignore */ def),
+        loader: () => import(/* @vite-ignore */ def),
         loadingComponent: Loading,
         delay: 200,
         errorComponent: Error,
