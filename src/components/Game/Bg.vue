@@ -15,6 +15,7 @@ const changeBg = computed(() => {
     }
   }
 })
+
 </script>
 
 <template>

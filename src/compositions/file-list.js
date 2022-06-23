@@ -21,9 +21,7 @@ export default function () {
 			} else {
 
 					files.value.push({
-						id: setTimeout(() => {
-							Date.now() 
-						}, 200),
+						id: element.url.split('/')[3],
 						url: element.url,
 						size: 'cover',
 						repeat: 'no-repeat',

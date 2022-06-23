@@ -8,7 +8,6 @@ import useFileList from '../../../../compositions/file-list'
 import Timer from './Timer.vue';
 import Button from './Button.vue';
 
-
 const { files, addFiles } = useFileList()
 const online = useOnline()
 const bgRef = ref();
