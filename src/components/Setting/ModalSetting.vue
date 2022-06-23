@@ -44,6 +44,16 @@ const currentComponent = computed(() => {
         })
     }
 
+     if (currentTab.value == 'Text') {
+        asyncComp = defineAsyncComponent({
+            loader: () => import(`./Text/Index.vue`),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
+    }
+
     if (currentTab.value == 'Font') {
         asyncComp = defineAsyncComponent({
             loader: () => import(`./Font/Index.vue`),
