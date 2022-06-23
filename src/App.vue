@@ -1,5 +1,5 @@
 <script setup>
-import { ref, provide, computed, watchEffect, defineAsyncComponent } from 'vue';
+import { ref, provide, computed, watchEffect, defineAsyncComponent, inject } from 'vue';
 import { useOnline } from '@vueuse/core'
 import Main from './components/Base/Main.vue'
 import Warning from './components/Base/Warning.vue'
@@ -70,6 +70,7 @@ const minute = ref(0);
 const second = ref(0);
 const milli = ref(0);
 
+
 const id = ref([])
 const en = ref([])
 
@@ -115,6 +116,27 @@ watchEffect(() => {
   allWords.value = uma
 })
 
+
+// provide('bgScreenSizeProv', computed({
+//   get: () => bgScreenSize.value,
+//   set: (val) => {
+//     bgScreenSize.value = val
+//   }
+// }))
+
+// provide('bgScreenRepeatProv', computed({
+//   get: () => bgScreenRepeat.value,
+//   set: (val) => {
+//     bgScreenRepeat.value = val
+//   }
+// }))
+
+// provide('bgScreenColorProv', computed({
+//   get: () => bgScreenColor.value,
+//   set: (val) => {
+//     bgScreenColor.value = val
+//   }
+// }))
 
 provide('muteProv', computed({
   get: () => mute.value,

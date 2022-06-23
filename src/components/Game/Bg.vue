@@ -6,7 +6,12 @@ const countTimer = inject('countTimerProv')
 
 const changeBg = computed(() => {
   if (bg.value.length > 0) {
-    return bg.value[countTimer.value].url
+    return {
+      backgroundImage: `url(${bg.value[countTimer.value].url})`,
+      backgroundSize: bg.value[countTimer.value].size,
+      backgroundRepeat: bg.value[countTimer.value].repeat,
+      backgroundColor: bg.value[countTimer.value].color
+    }
   }
 })
 
@@ -14,11 +19,6 @@ const changeBg = computed(() => {
 </script>
 
 <template>
-  <div class="fixed bg-center bg-no-repeat inset-0" :style="{
-    backgroundImage: `url(${changeBg})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor: '#FFFFFF'
-  }">
+  <div class="fixed bg-center bg-no-repeat inset-0" :style="changeBg">
   </div>
 </template>

@@ -19,10 +19,17 @@ export default function () {
 			else if (fileSize >= 1045301) {
 				alert(`Error BG ${index + 1}: The maximum size image to upload is 2MB, please reduce your image size before upload again!`);
 			} else {
-				files.value.push({
-					id: Date.now(),
-					url: element.url
-				})
+
+					files.value.push({
+						id: setTimeout(() => {
+							Date.now() 
+						}, 200),
+						url: element.url,
+						size: 'cover',
+						repeat: 'no-repeat',
+						color: '#FFFFFF'
+					})
+					
 			}
 		});
 

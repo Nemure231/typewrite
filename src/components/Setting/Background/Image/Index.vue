@@ -1,6 +1,6 @@
 
 <script setup>
-import { ref, inject, defineComponent, watchEffect, computed, provide } from 'vue'
+import { ref, inject, watchEffect, computed, provide, watch } from 'vue'
 import { useOnline } from '@vueuse/core'
 import DropZone from '../DropZone.vue'
 import draggable from "vuedraggable";
@@ -8,10 +8,8 @@ import useFileList from '../../../../compositions/file-list'
 import Timer from './Timer.vue';
 import Button from './Button.vue';
 
+
 const { files, addFiles } = useFileList()
-
-defineComponent({ DropZone, draggable })
-
 const online = useOnline()
 const bgRef = ref();
 const bgProv = inject('bgProv')
@@ -19,6 +17,54 @@ const countTimerProv = inject('countTimerProv')
 const bgTime = ref(1000)
 const dragging = ref(false)
 const enabled = ref(true)
+const urlImg = ref('')
+
+const currentPop = ref(0)
+const bgRepeat = ref(bgProv.value)
+const bgRepeatOption = ref([
+	{
+		id: 1,
+		name: 'no-repeat',
+	},
+	{
+		id: 2,
+		name: 'repeat'
+	},
+	{
+		id: 3,
+		name: 'repeat-x'
+	},
+	{
+		id: 4,
+		name: 'repeat-y'
+	},
+	{
+		id: 5,
+		name: 'round'
+	},
+	{
+		id: 6,
+		name: 'space'
+	}
+])
+
+const bgSize = ref(bgProv.value)
+const bgSizeOption = ref([
+	{
+		id: 1,
+		name: 'cover',
+	},
+	{
+		id: 2,
+		name: 'auto'
+	},
+	{
+		id: 3,
+		name: 'contain'
+	}
+])
+
+const bgColor = ref(bgProv.value)
 
 
 provide('bgTimeProv', computed({
@@ -29,19 +75,21 @@ provide('bgTimeProv', computed({
 }))
 
 
-const urlImg = ref('')
-
 let clickBg = () => {
 	if (urlImg.value) {
-		if(online.value){
+		if (online.value) {
 			const checkUrlType = checkUrlImg(urlImg.value);
 			if (checkUrlType === true) {
 				bgProv.value.push({
-					id: new Date(),
-					url: urlImg.value
+					id: Date.now(),
+					url: urlImg.value,
+					size: 'cover',
+					repeat: 'no-repeat',
+					color: '#FFFFFF'
+
 				})
 				urlImg.value = ''
-	
+
 			} else {
 				alert('The url only accept https protocol, and with .jpg, .jpeg, .png, and svg. extension in the end of url!')
 			}
@@ -81,6 +129,18 @@ let chooseBg = (e) => {
 	e.target.value = null
 }
 
+let checkMove = (e) => {
+	window.console.log("Future index: " + e.draggedContext.futureIndex);
+}
+
+let checkUrlImg = (url) => {
+	if (url.match(/^https:?:\/\/.+\/.+$/) && url.match(/\.(jpeg|jpg|png|gif|svg)$/) !== null) {
+		return true
+	} else {
+		return false
+	}
+}
+
 watchEffect(() => {
 	if (files.value.length) {
 		for (let idx = 0; idx < files.value.length; idx++) {
@@ -94,20 +154,65 @@ watchEffect(() => {
 	}
 })
 
-let checkMove = (e) => {
-	window.console.log("Future index: " + e.draggedContext.futureIndex);
-}
-
-let checkUrlImg = (url) => {
-	if (url.match(/^https:?:\/\/.+\/.+$/) && url.match(/\.(jpeg|jpg|png|gif|svg)$/) !== null) {
-		return true
+let openBgSetting = (index) => {
+	if (currentPop.value !== 0) {
+		currentPop.value = (currentPop.value == index) ? 0 : index;
 	} else {
-		return false
+		currentPop.value = index;
 	}
 }
 
+
+watch(() => bgRepeat.value, (newval, oldval) => {
+	const el = bgProv.value.find(element => element.id == currentPop.value);
+	const bgrep = bgRepeatOption.value.find(element => element.id == newval);
+	const isIndex = (element) => element.id == currentPop.value
+	const index = bgProv.value.findIndex(isIndex)
+
+	bgProv.value.splice(index, 1, {
+		id: el.id,
+		url: el.url,
+		size: el.size,
+		repeat: bgrep.name,
+		color: el.color
+	})
+})
+
+
+watch(() => bgSize.value, (newval, oldval) => {
+
+	const el = bgProv.value.find(element => element.id == currentPop.value)
+	const bgsiz = bgSizeOption.value.find(element => element.id == newval)
+	const isIndex = (element) => element.id == currentPop.value
+	const index = bgProv.value.findIndex(isIndex)
+
+	bgProv.value.splice(index, 1, {
+		id: el.id,
+		url: el.url,
+		size: bgsiz.name,
+		repeat: el.repeat,
+		color: el.color
+	})
+})
+
+
+watch(() => bgColor.value, (newval, oldval) => {
+	const el = bgProv.value.find(element => element.id == currentPop.value);
+	const isIndex = (element) => element.id == currentPop.value
+	const index = bgProv.value.findIndex(isIndex)
+
+	bgProv.value.splice(index, 1, {
+		id: el.id,
+		url: el.url,
+		size: el.size,
+		repeat: el.repeat,
+		color: newval
+	})
+})
+
 const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relative')
 </script>
+
 
 <template>
 	<div class="flex-1">
@@ -118,17 +223,19 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 						<DropZone class="drop-area" @files-dropped="addFiles" #default="{ dropZoneActive }">
 
 							<div class="border-dashed border-4 mb-2 border-sky-500 w-full h-36 rounded-lg">
-								<div class="flex flex-col h-full items-center justify-center bg-cover bg-center rounded-lg">
+								<div
+									class="flex flex-col h-full items-center justify-center bg-cover bg-center rounded-lg">
 									<div class="flex items-center relative">
-										<input v-if="online" v-model="urlImg" :disabled="!online && true" :readonly="!online && true"
+										<input v-if="online" v-model="urlImg" :disabled="!online && true"
+											:readonly="!online && true"
 											class="relative border w-96 font-normal border-sky-500 rounded-md pl-3 pr-[5.5rem] lg:py-3 md:py-3 py-3 focus:outline-none"
 											type="url" placeholder="Link/Local Image ....">
-			
+
 										<button :class="isOnlineInput"
 											class=" inline-flex justify-center items-center font-semibold px-6 py-2 text-white  rounded-md bg-sky-500"
 											@click="clickBg()">
 											<span class="pr-3" v-if="!online">
-											Choose Image
+												Choose Image
 
 											</span>
 											<input class="hidden" type="file" ref="file" id="img-target"
@@ -148,7 +255,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 											</svg>
 										</button>
 									</div>
-							
+
 								</div>
 							</div>
 
@@ -177,9 +284,9 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 			<div class="flex-1 mb-6">
 				<draggable :list="bgProv" :disabled="!enabled" item-key="id" class="grid grid-cols-2 gap-6"
 					ghost-class="ghost" :move="checkMove" @start="dragging = true" @end="dragging = false">
-					<template #item="{ element }">
+					<template #item="{ element, index }">
 						<div class="relative cursor-move">
-							<div class="absolute right-0">
+							<div class="absolute right-0 z-40">
 								<div @click="removeOneBg(element.id)"
 									class="cursor-pointer hover:bg-red-100 rounded-tr-xl">
 									<svg class=" w-6 h-6" xmlns="http://www.w3.org/2000/svg"
@@ -190,8 +297,75 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 										</path>
 									</svg>
 								</div>
+
 							</div>
-							<img class="w-64 rounded-xl shadow-md h-36 object-cover object-center" :src="element.url"
+							<div class="absolute left-0 z-40">
+								<div @click="openBgSetting(element.id)" class="cursor-pointer rounded-tr-xl">
+
+									<svg class=" w-6 h-6 relative z-40" xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+										preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
+										<mask id="IconifyId1818f46953ad89b2e2326">
+											<g fill="none" stroke-linejoin="round" stroke-width="4">
+												<path fill="#fff" stroke="#fff"
+													d="M36.686 15.171a15.37 15.37 0 0 1 2.529 6.102H44v5.454h-4.785a15.37 15.37 0 0 1-2.529 6.102l3.385 3.385l-3.857 3.857l-3.385-3.385a15.37 15.37 0 0 1-6.102 2.529V44h-5.454v-4.785a15.37 15.37 0 0 1-6.102-2.529l-3.385 3.385l-3.857-3.857l3.385-3.385a15.37 15.37 0 0 1-2.529-6.102H4v-5.454h4.785a15.37 15.37 0 0 1 2.529-6.102l-3.385-3.385l3.857-3.857l3.385 3.385a15.37 15.37 0 0 1 6.102-2.529V4h5.454v4.785a15.37 15.37 0 0 1 6.102 2.529l3.385-3.385l3.857 3.857l-3.385 3.385Z">
+												</path>
+												<path fill="#000" stroke="#000"
+													d="M24 29a5 5 0 1 0 0-10a5 5 0 0 0 0 10Z"></path>
+											</g>
+										</mask>
+										<path fill="#0ea5e9" d="M0 0h48v48H0z"
+											mask="url(#IconifyId1818f46953ad89b2e2326)"></path>
+									</svg>
+								</div>
+
+							</div>
+							<div class="absolute inset-0 z-20 backdrop-blur-sm bg-white/25 rounded-xl"
+								v-show="currentPop === element.id">
+								<div class="cursor-pointer relative rounded-tr-xl">
+									<div class="absolute inset-0 z-10">
+										<div class="rounded-md px-3 py-6 h-auto">
+											<div class="flex flex-row flex-wrap justify-start">
+												<div class="basis-1/2 px-1">
+													<label class="block text-sm font-normal" for="">Size</label>
+													<select v-model="bgSize[index].size"
+														class="cursor-pointer w-full rounded-md py-1 px-2 text-xs"
+														name="" id="">
+														<option v-for="bs in bgSizeOption" :key="bs.id"
+															class="py-1 px-2" :value="bs.name">
+															{{ bs.name }}
+														</option>
+													</select>
+												</div>
+												<div class="basis-1/2 px-1">
+													<label class="block text-sm font-normal" for="">Repeat</label>
+													<select v-model="bgSize[index].repeat"
+														class="cursor-pointer w-full rounded-md py-1 px-2 text-xs"
+														name="" id="">
+														<option v-for="br in bgRepeatOption" :key="br.id"
+															class="py-1 px-2" :value="br.name">
+															{{ br.name }}
+														</option>
+													</select>
+
+												</div>
+												<div class="basis-full px-1 pt-2">
+													<label class="block text-sm font-normal" for="">Color</label>
+													<input v-model="bgSize[index].color" class="cursor-pointer w-full"
+														type="color" name="" id="">
+												</div>
+
+
+											</div>
+
+										</div>
+
+									</div>
+								</div>
+
+
+							</div>
+							<img class="w-64 rounded-xl shadow-md h-40 object-cover object-center" :src="element.url"
 								alt="">
 						</div>
 					</template>

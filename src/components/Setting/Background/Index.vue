@@ -4,7 +4,6 @@ import { useOnline } from '@vueuse/core'
 import ImageBg from './Image/Index.vue'
 import YoutubeBg from './Youtube/Index.vue'
 
-// const player = inject('playerProv')
 
 const bgOrYtProv = inject('bgOrYtProv')
 const online = useOnline()

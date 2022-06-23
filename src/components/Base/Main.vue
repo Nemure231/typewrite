@@ -345,11 +345,13 @@ const isModalGameOver = computed(() => {
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
+
+   
     <Type />
     <BgVue />
     <YoutubeVue v-show="!bgOrYtProv" :class="soundOnly">
       <template #vueplyr>
-        <vue-plyr ref="player"  :options="options">
+        <vue-plyr ref="player" :options="options">
           <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
             <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen
               allowtransparency mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
