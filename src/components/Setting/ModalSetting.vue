@@ -2,6 +2,9 @@
 import { defineEmits, ref, inject, computed, defineAsyncComponent } from 'vue'
 import IndexMusic from './Music/Index.vue';
 import { onClickOutside } from '@vueuse/core'
+import Loading from './Loading/Index.vue'
+import Error from './Error/Index.vue'
+
 
 const milli = inject('milliProv');
 const modalGameOver = inject('modalGameOverProv')
@@ -29,7 +32,14 @@ const currentTab = ref('Level')
 const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'About'])
 const currentComponent = computed(() => {
     const def = currentTab.value != 'Music' ? `./${currentTab.value}/Index.vue` : './Music/Empty.vue'
-    return defineAsyncComponent(() => import(/* @vite-ignore */ def))
+    const asyncComp = defineAsyncComponent({
+        loader: () =>   import(/* @vite-ignore */ def),
+        loadingComponent: Loading,
+        delay: 200,
+        errorComponent: Error,
+        timeout: 2000
+    })
+    return asyncComp
 })
 
 

@@ -1,10 +1,13 @@
 <script setup>
-import { inject, ref, watchEffect } from "vue";
+import { inject, ref, watchEffect } from "vue"
+import { useOnline } from '@vueuse/core'
 const selectLangProv = inject('selectLangProv')
 const showEx = inject('showExProv')
 const listExTxt = inject('listExTxtProv')
 const exTxt = ref('')
 const list = inject('listProv')
+
+const online = useOnline()
 
 const lang = ref([
     {
@@ -53,10 +56,9 @@ let addExTxt = () => {
 
 </script>
 
-
 <template>
     <template v-if="list.length <= 0">
-        <div class="flex-1">
+        <div class="flex-1" v-if="online">
             <span class="text-2xl font-bold">Language</span>
             <div class="relative mt-3">
                 <select v-model="selectLangProv" :disabled="list.length > 0 == true" :readonly="list.length > 0 == true"
@@ -73,7 +75,7 @@ let addExTxt = () => {
                 </div>
             </div>
         </div>
-        <div class="flex-1" v-if="showEx">
+        <div class="flex-1" v-if="showEx || !online">
             <span class="text-2xl font-bold">External Text</span>
             <div class="flex flex-col justify-end items-end gap-3 mt-3">
                 <textarea v-model="exTxt" :disabled="list.length > 0 == true" :readonly="list.length > 0 == true"

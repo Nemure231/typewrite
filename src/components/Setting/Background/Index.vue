@@ -1,36 +1,49 @@
 <script setup>
-import { inject } from 'vue'
+import { inject, computed, defineAsyncComponent } from 'vue'
 import { useOnline } from '@vueuse/core'
 import ImageBg from './Image/Index.vue'
 import YoutubeBg from './Youtube/Index.vue'
-import IndexOffline from '../Offline/Index.vue';
+
+// const player = inject('playerProv')
 
 const bgOrYtProv = inject('bgOrYtProv')
 const online = useOnline()
+
+const isBgOrYtTrue = computed(() => bgOrYtProv.value ? 'bg-sky-500 text-white' : 'border-2 bg-white text-sky-500 border-sky-500')
+const isBgOrYtFalse = computed(() => !bgOrYtProv.value ? 'bg-sky-500 text-white' : 'border-2 bg-white text-sky-500 border-sky-500')
+
+
+const isOffline = computed(() => {
+    if (!online.value) {
+        return defineAsyncComponent(() => import('../Offline/Index.vue'))
+    }
+})
+
 
 </script>
 
 <template>
     <div class="flex-1">
         <div class="flex gap-3 mt-6">
-            <button @click="bgOrYtProv = true"
-                :class="bgOrYtProv ? 'bg-sky-500 text-white' : 'border-2 bg-white text-sky-500 border-sky-500'"
+            <button @click="bgOrYtProv = true" :class="isBgOrYtTrue"
                 class="text-lg py-2 px-6 flex-1 text-1 font-semibold rounded-md">
                 Image
             </button>
-            <button @click="bgOrYtProv = false"
-                :class="!bgOrYtProv ? 'bg-sky-500 text-white' : 'border-2 bg-white text-sky-500 border-sky-500'"
+            <button @click="bgOrYtProv = false" :class="isBgOrYtFalse"
                 class="text-lg py-2 px-6 flex-1 text-1 font-semibold rounded-md">
                 Youtube
             </button>
         </div>
 
         <div class="flex flex-col">
-            <ImageBg v-if="bgOrYtProv" />
+            <template v-if="bgOrYtProv">
+                <ImageBg  />
+            </template>
             <template v-else>
                 <YoutubeBg v-if="online" />
-                <IndexOffline v-else />
+                <component :is="isOffline"></component>
             </template>
+
         </div>
     </div>
 </template>

@@ -14,7 +14,6 @@ const ytIdProv = inject('ytIdProv')
 const dragging = ref(false)
 const enabled = ref(true)
 
-
 let removeOneYt = (id) => {
     const idd = ytIdProv.value.findIndex((el) => el.id == id)
 

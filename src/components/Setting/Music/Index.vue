@@ -1,9 +1,11 @@
 <script setup>
-import { ref, provide, computed } from "vue";
+import { ref, provide, computed, defineAsyncComponent } from "vue";
+import { useOnline } from '@vueuse/core'
 import Example from "./Example.vue";
 import Form from "./Form.vue";
 import Spotify from "./Spotify.vue";
 
+const online = useOnline()
 const spotify = ref('');
 const spotifyVal = ref('')
 
@@ -21,6 +23,11 @@ provide('spotifyValProv', computed({
     }
 }))
 
+const isOffline = computed(() => {
+    if (!online.value) {
+        return defineAsyncComponent(() => import('../Offline/Index.vue'))
+    }
+})
 </script>
 
 <template>
@@ -28,11 +35,14 @@ provide('spotifyValProv', computed({
         <div class="flex flex-col gap-6">
             <div class="flex-1">
                 <span class="text-2xl font-bold">Spotify Playlist</span>
-                <div class="flex flex-col gap-3 mt-3">
-                    <Example />
-                    <Form />
-                </div>
-                <Spotify v-if="spotifyVal"/>
+                <template v-if="online">
+                    <div class="flex flex-col gap-3 mt-3">
+                        <Example />
+                        <Form />
+                    </div>
+                    <Spotify v-if="spotifyVal" />
+                </template>
+                <component :is="isOffline"></component>
             </div>
 
         </div>

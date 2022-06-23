@@ -347,9 +347,9 @@ const isModalGameOver = computed(() => {
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
     <BgVue />
-    <YoutubeVue v-memo="[bgOrYtProv, soundOnly]" v-show="!bgOrYtProv" :class="soundOnly">
+    <YoutubeVue v-show="!bgOrYtProv" :class="soundOnly">
       <template #vueplyr>
-        <vue-plyr ref="player" v-memo="[options]" :options="options">
+        <vue-plyr ref="player"  :options="options">
           <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
             <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen
               allowtransparency mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
@@ -360,13 +360,13 @@ const isModalGameOver = computed(() => {
       </template>
     </YoutubeVue>
 
-    <div class="relative" v-memo="[bgOrYtProv]" :class="!bgOrYtProv ? 'block' : 'hidden'">
+    <div class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
       <div class=" fixed inset-0 z-10">
       </div>
     </div>
 
     <Text />
-    <Start v-memo="[start]" v-if="!start" @childStartGame="() => startGame()" />
+    <Start v-if="!start" @childStartGame="() => startGame()" />
     <Total />
     <Score />
     <Timer />
@@ -375,13 +375,6 @@ const isModalGameOver = computed(() => {
     <Setting @childOpenModalSetting="() => openModalSetting()" />
 
     <Teleport to="body">
-      <transition enter-from-class="transform opacity-0" enter-active-class="duration-300 ease-out"
-        enter-to-class="opacity-100" leave-from-class="opacity-100" leave-active-class="duration-300 ease-in"
-        leave-to-class="transform opacity-0 ">
-        <template v-show="modalGameOver">
-          <div class="fixed inset-0 bg-gray-900 opacity-50 z-20" aria-hidden="true"></div>
-        </template>
-      </transition>
       <transition enter-from-class="transform opacity-0 scale-75" enter-active-class="duration-300 ease-out"
         enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
