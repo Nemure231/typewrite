@@ -32,39 +32,68 @@ const currentTab = ref('Level')
 const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'About'])
 const currentComponent = computed(() => {
 
-    var def = ''
+    var asyncComp
 
     if (currentTab.value == 'Level') {
-        def = `./Level/Index.vue`
+        asyncComp = defineAsyncComponent({
+            loader: () => import(`./Level/Index.vue`),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
     }
 
     if (currentTab.value == 'Font') {
-        def = `./Font/Index.vue`
+        asyncComp = defineAsyncComponent({
+            loader: () => import(`./Font/Index.vue`),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
     }
 
     if (currentTab.value == 'Background') {
-        def = `./Background/Index.vue`
+        asyncComp = defineAsyncComponent({
+            loader: () => import(`./Background/Index.vue`),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
     }
 
     if (currentTab.value == 'Music') {
-        def = './Music/Empty.vue'
+        asyncComp = defineAsyncComponent({
+            loader: () => import('./Music/Empty.vue'),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
     }
 
     if (currentTab.value == 'Type') {
-        def = `./Type/Index.vue`
+        asyncComp = defineAsyncComponent({
+            loader: () => import(`./Type/Index.vue`),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
     }
 
     if (currentTab.value == 'About') {
-        def = `./About/Index.vue`
+        asyncComp = defineAsyncComponent({
+            loader: () => import(`./About/Index.vue`),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
     }
 
-    const asyncComp = defineAsyncComponent({
-        loader: () => import(/* @vite-ignore */ def),
-        loadingComponent: Loading,
-        delay: 200,
-        errorComponent: Error,
-        timeout: 2000
-    })
     return asyncComp
 })
 
