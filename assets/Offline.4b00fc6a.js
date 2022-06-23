@@ -1,1 +1,0 @@
-import{_ as t,o,c as n,a as e,b as i}from"./index.28d3c344.js";const s={},r={class:"mobile-type"},c=e("img",{src:i,class:"mb-3 rounded-md",alt:"",srcset:""},null,-1),l=e("div",null," Please turn on your internet. ",-1),a=[c,l];function _(f,m){return o(),n("div",r,a)}var p=t(s,[["render",_]]);export{p as default};
