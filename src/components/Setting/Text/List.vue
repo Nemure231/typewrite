@@ -3,7 +3,6 @@ import { inject } from "vue";
 const listExTxt = inject('listExTxtProv')
 const list = inject('listProv')
 
-
 let removeOneExTxt = (event) => {
     const idd = listExTxt.value.findIndex((el) => el.id == event)
     listExTxt.value.splice(idd, 1);
