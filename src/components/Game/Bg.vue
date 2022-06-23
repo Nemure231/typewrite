@@ -10,12 +10,11 @@ const changeBg = computed(() => {
       backgroundImage: `url(${bg.value[countTimer.value].url})`,
       backgroundSize: bg.value[countTimer.value].size,
       backgroundRepeat: bg.value[countTimer.value].repeat,
-      backgroundColor: bg.value[countTimer.value].color
+      backgroundColor: bg.value[countTimer.value].color,
+      backgroundPosition: bg.value[countTimer.value].position
     }
   }
 })
-
-
 </script>
 
 <template>

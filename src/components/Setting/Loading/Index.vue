@@ -8,7 +8,7 @@
         <div class="flex flex-col gap-6">
             <div class="flex-1">
                 <div class="flex flex-col gap-3 font-normal text-justify items-center overflow-hidden">
-                    <svg class="fill-sky-500 mt-20 w-24 h-24" xmlns="http://www.w3.org/2000/svg"
+                    <svg class="fill-sky-500 mt-20 w-24 h-24 animate-spin" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                         preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
                         <path fill="none" stroke="#0ea5e9" stroke-linecap="round" stroke-linejoin="round"

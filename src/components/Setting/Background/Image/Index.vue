@@ -67,6 +67,47 @@ const bgSizeOption = ref([
 const bgColor = ref(bgProv.value)
 
 
+const bgPosition = ref(bgProv.value)
+const bgPositionOption = ref([
+	{
+		id: 1,
+		name: 'center',
+	},
+	{
+		id: 2,
+		name: 'top',
+	},
+	{
+		id: 3,
+		name: 'bottom'
+	},
+	{
+		id: 4,
+		name: 'left'
+	},
+	{
+		id: 5,
+		name: 'left-top'
+	},
+	{
+		id: 6,
+		name: 'left-bottom'
+	},
+	{
+		id: 7,
+		name: 'right'
+	},
+	{
+		id: 8,
+		name: 'right-top'
+	},
+	{
+		id: 9,
+		name: 'right-bottom'
+	},
+])
+
+
 provide('bgTimeProv', computed({
 	get: () => bgTime.value,
 	set: (val) => {
@@ -85,7 +126,8 @@ let clickBg = () => {
 					url: urlImg.value,
 					size: 'cover',
 					repeat: 'no-repeat',
-					color: '#FFFFFF'
+					color: '#FFFFFF',
+					position: 'center'
 
 				})
 				urlImg.value = ''
@@ -174,7 +216,8 @@ watch(() => bgRepeat.value, (newval, oldval) => {
 		url: el.url,
 		size: el.size,
 		repeat: bgrep.name,
-		color: el.color
+		color: el.color,
+		position: el.position
 	})
 })
 
@@ -191,10 +234,28 @@ watch(() => bgSize.value, (newval, oldval) => {
 		url: el.url,
 		size: bgsiz.name,
 		repeat: el.repeat,
-		color: el.color
+		color: el.color,
+		position: el.position
+
 	})
 })
 
+watch(() => bgPosition.value, (newval, oldval) => {
+	const el = bgProv.value.find(element => element.id == currentPop.value)
+	const bgPos = bgPositionOption.value.find(element => element.id == newval)
+	const isIndex = (element) => element.id == currentPop.value
+	const index = bgProv.value.findIndex(isIndex)
+
+	bgProv.value.splice(index, 1, {
+		id: el.id,
+		url: el.url,
+		size: el.size,
+		repeat: el.repeat,
+		color: el.color,
+		position: bgPos
+
+	})
+})
 
 watch(() => bgColor.value, (newval, oldval) => {
 	const el = bgProv.value.find(element => element.id == currentPop.value);
@@ -206,11 +267,13 @@ watch(() => bgColor.value, (newval, oldval) => {
 		url: el.url,
 		size: el.size,
 		repeat: el.repeat,
-		color: newval
+		color: newval,
+		position: el.position
 	})
 })
 
 const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relative')
+
 </script>
 
 
@@ -320,16 +383,16 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 								</div>
 
 							</div>
-							<div class="absolute inset-0 z-20 backdrop-blur-sm bg-white/25 rounded-xl"
+							<div class="absolute w-[15.9rem] inset-0 z-20 backdrop-blur-sm bg-white/25 rounded-xl"
 								v-show="currentPop === element.id">
 								<div class="cursor-pointer relative rounded-tr-xl">
 									<div class="absolute inset-0 z-10">
 										<div class="rounded-md px-3 py-6 h-auto">
 											<div class="flex flex-row flex-wrap justify-start">
 												<div class="basis-1/2 px-1">
-													<label class="block text-sm font-normal" for="">Size</label>
+													<label class="block text-sm font-semibold" for="">Size</label>
 													<select v-model="bgSize[index].size"
-														class="cursor-pointer w-full rounded-md py-1 px-2 text-xs"
+														class="cursor-pointer font-normal w-full rounded-md py-1 px-2 text-xs"
 														name="" id="">
 														<option v-for="bs in bgSizeOption" :key="bs.id"
 															class="py-1 px-2" :value="bs.name">
@@ -338,9 +401,20 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 													</select>
 												</div>
 												<div class="basis-1/2 px-1">
-													<label class="block text-sm font-normal" for="">Repeat</label>
+													<label class="block text-sm font-semibold" for="">Position</label>
+													<select v-model="bgSize[index].position"
+														class="cursor-pointer font-normal w-full rounded-md py-1 px-2 text-xs"
+														name="" id="">
+														<option v-for="bp in bgPositionOption" :key="bp.id"
+															class="py-1 px-2" :value="bp.name">
+															{{ bp.name }}
+														</option>
+													</select>
+												</div>
+												<div class="basis-1/2 px-1 pt-2">
+													<label class="block text-sm font-semibold" for="">Repeat</label>
 													<select v-model="bgSize[index].repeat"
-														class="cursor-pointer w-full rounded-md py-1 px-2 text-xs"
+														class="cursor-pointer font-normal w-full rounded-md py-1 px-2 text-xs"
 														name="" id="">
 														<option v-for="br in bgRepeatOption" :key="br.id"
 															class="py-1 px-2" :value="br.name">
@@ -349,8 +423,8 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 													</select>
 
 												</div>
-												<div class="basis-full px-1 pt-2">
-													<label class="block text-sm font-normal" for="">Color</label>
+												<div class="basis-1/2 px-1 pt-2">
+													<label class="block text-sm font-semibold" for="">Color</label>
 													<input v-model="bgSize[index].color" class="cursor-pointer w-full"
 														type="color" name="" id="">
 												</div>
@@ -365,8 +439,10 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 
 
 							</div>
-							<img class="w-64 rounded-xl shadow-md h-40 object-cover object-center" :src="element.url"
-								alt="">
+							<div class="w-67 rounded-xl shadow-md h-40 bg-cover bg-center" :style="{
+								backgroundImage: `url(${element.url})`,
+							}">
+							</div>
 						</div>
 					</template>
 				</draggable>

@@ -27,7 +27,8 @@ export default function () {
 						url: element.url,
 						size: 'cover',
 						repeat: 'no-repeat',
-						color: '#FFFFFF'
+						color: '#FFFFFF',
+						position: 'center'
 					})
 					
 			}

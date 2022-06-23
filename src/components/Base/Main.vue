@@ -329,13 +329,13 @@ const soundOnly = computed(() => {
 
 const isModalSetting = computed(() => {
   if (modalSettingButton.value) {
-    return defineAsyncComponent(() => import(/* @vite-ignore */ '../Setting/ModalSetting.vue'))
+    return defineAsyncComponent(() => import('../Setting/ModalSetting.vue'))
   }
 })
 
 const isModalGameOver = computed(() => {
   if (modalGameOver.value) {
-    return defineAsyncComponent(() => import(/* @vite-ignore */ '../Game/ModalGameOver.vue'))
+    return defineAsyncComponent(() => import('../Game/ModalGameOver.vue'))
   }
 })
 
