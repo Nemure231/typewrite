@@ -1,8 +1,10 @@
 
 <script setup>
-import { defineEmits} from 'vue'
+import { defineEmits, inject} from 'vue'
 
 const emit = defineEmits(["childStartTimerBg", "childPauseTimerBg"]);
+
+const startBgTimer = inject('startBgTimerProv')
 
 let start = () => {
     emit("childStartTimerBg")
@@ -16,10 +18,12 @@ let pause = () => {
 
 let startBg = () => {
 	start()
+	startBgTimer.value = true
 }
 
 let stopBg = () => {
 	pause()
+	startBgTimer.value = false
 }
 
 </script>

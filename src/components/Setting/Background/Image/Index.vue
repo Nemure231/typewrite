@@ -1,6 +1,6 @@
 
 <script setup>
-import { ref, inject, watchEffect, computed, provide, watch } from 'vue'
+import { ref, inject, watchEffect, computed, provide } from 'vue'
 import { useOnline } from '@vueuse/core'
 import DropZone from '../DropZone.vue'
 import draggable from "vuedraggable";
@@ -13,13 +13,12 @@ const online = useOnline()
 const bgRef = ref();
 const bgProv = inject('bgProv')
 const countTimerProv = inject('countTimerProv')
-const bgTime = ref(1000)
+const bgTime = inject('bgTimeProv')
 const dragging = ref(false)
 const enabled = ref(true)
 const urlImg = ref('')
 
 const currentPop = ref(0)
-const bgRepeat = ref(bgProv.value)
 const bgRepeatOption = ref([
 	{
 		id: 1,
@@ -47,7 +46,6 @@ const bgRepeatOption = ref([
 	}
 ])
 
-const bgSize = ref(bgProv.value)
 const bgSizeOption = ref([
 	{
 		id: 1,
@@ -63,10 +61,6 @@ const bgSizeOption = ref([
 	}
 ])
 
-const bgColor = ref(bgProv.value)
-
-
-const bgPosition = ref(bgProv.value)
 const bgPositionOption = ref([
 	{
 		id: 1,
@@ -142,7 +136,6 @@ let clickBg = () => {
 
 let removeOneBg = (id) => {
 	const idd = bgProv.value.findIndex((el) => el.id == id)
-
 	bgProv.value.splice(idd, 1);
 }
 
@@ -182,6 +175,15 @@ let checkUrlImg = (url) => {
 	}
 }
 
+let openBgSetting = (index) => {
+	if (currentPop.value !== 0) {
+		currentPop.value = (currentPop.value == index) ? 0 : index;
+	} else {
+		currentPop.value = index;
+	}
+}
+
+
 watchEffect(() => {
 	if (files.value.length) {
 		for (let idx = 0; idx < files.value.length; idx++) {
@@ -193,82 +195,6 @@ watchEffect(() => {
 		}, 1000);
 
 	}
-})
-
-let openBgSetting = (index) => {
-	if (currentPop.value !== 0) {
-		currentPop.value = (currentPop.value == index) ? 0 : index;
-	} else {
-		currentPop.value = index;
-	}
-}
-
-
-watch(() => bgRepeat.value, (newval, oldval) => {
-	const el = bgProv.value.find(element => element.id == currentPop.value);
-	const bgrep = bgRepeatOption.value.find(element => element.id == newval);
-	const isIndex = (element) => element.id == currentPop.value
-	const index = bgProv.value.findIndex(isIndex)
-
-	bgProv.value.splice(index, 1, {
-		id: el.id,
-		url: el.url,
-		size: el.size,
-		repeat: bgrep.name,
-		color: el.color,
-		position: el.position
-	})
-})
-
-
-watch(() => bgSize.value, (newval, oldval) => {
-
-	const el = bgProv.value.find(element => element.id == currentPop.value)
-	const bgsiz = bgSizeOption.value.find(element => element.id == newval)
-	const isIndex = (element) => element.id == currentPop.value
-	const index = bgProv.value.findIndex(isIndex)
-
-	bgProv.value.splice(index, 1, {
-		id: el.id,
-		url: el.url,
-		size: bgsiz.name,
-		repeat: el.repeat,
-		color: el.color,
-		position: el.position
-
-	})
-})
-
-watch(() => bgPosition.value, (newval, oldval) => {
-	const el = bgProv.value.find(element => element.id == currentPop.value)
-	const bgPos = bgPositionOption.value.find(element => element.id == newval)
-	const isIndex = (element) => element.id == currentPop.value
-	const index = bgProv.value.findIndex(isIndex)
-
-	bgProv.value.splice(index, 1, {
-		id: el.id,
-		url: el.url,
-		size: el.size,
-		repeat: el.repeat,
-		color: el.color,
-		position: bgPos
-
-	})
-})
-
-watch(() => bgColor.value, (newval, oldval) => {
-	const el = bgProv.value.find(element => element.id == currentPop.value);
-	const isIndex = (element) => element.id == currentPop.value
-	const index = bgProv.value.findIndex(isIndex)
-
-	bgProv.value.splice(index, 1, {
-		id: el.id,
-		url: el.url,
-		size: el.size,
-		repeat: el.repeat,
-		color: newval,
-		position: el.position
-	})
 })
 
 const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relative')
@@ -390,7 +316,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 											<div class="flex flex-row flex-wrap justify-start">
 												<div class="basis-1/2 px-1">
 													<label class="block text-sm font-semibold" for="">Size</label>
-													<select v-model="bgSize[index].size"
+													<select v-model="bgProv[index].size"
 														class="cursor-pointer font-normal w-full rounded-md py-1 px-2 text-xs"
 														name="" id="">
 														<option v-for="bs in bgSizeOption" :key="bs.id"
@@ -401,7 +327,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 												</div>
 												<div class="basis-1/2 px-1">
 													<label class="block text-sm font-semibold" for="">Position</label>
-													<select v-model="bgSize[index].position"
+													<select v-model="bgProv[index].position"
 														class="cursor-pointer font-normal w-full rounded-md py-1 px-2 text-xs"
 														name="" id="">
 														<option v-for="bp in bgPositionOption" :key="bp.id"
@@ -412,7 +338,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 												</div>
 												<div class="basis-1/2 px-1 pt-2">
 													<label class="block text-sm font-semibold" for="">Repeat</label>
-													<select v-model="bgSize[index].repeat"
+													<select v-model="bgProv[index].repeat"
 														class="cursor-pointer font-normal w-full rounded-md py-1 px-2 text-xs"
 														name="" id="">
 														<option v-for="br in bgRepeatOption" :key="br.id"
@@ -424,7 +350,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 												</div>
 												<div class="basis-1/2 px-1 pt-2">
 													<label class="block text-sm font-semibold" for="">Color</label>
-													<input v-model="bgSize[index].color" class="cursor-pointer w-full"
+													<input v-model="bgProv[index].color" class="cursor-pointer w-full"
 														type="color" name="" id="">
 												</div>
 

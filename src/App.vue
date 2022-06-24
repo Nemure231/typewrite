@@ -1,9 +1,13 @@
 <script setup>
-import { ref, provide, computed, watchEffect, defineAsyncComponent, inject } from 'vue';
+import { ref, provide, computed, watchEffect, defineAsyncComponent } from 'vue';
 import { useOnline } from '@vueuse/core'
 import Main from './components/Base/Main.vue'
-import Warning from './components/Base/Warning.vue'
 import ReOff from './components/Reload/Index.vue'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const sm = breakpoints.smaller('sm')
 
 const online = useOnline()
 
@@ -29,8 +33,12 @@ const typeText = ref(0)
 const showEx = ref(false)
 const listExTxt = ref([])
 
+
+
 //Bg
 const bg = ref([]);
+const bgTime = ref(10000)
+const startBgTimer = ref(false)
 
 //Text
 const dirText = ref(0)
@@ -117,31 +125,25 @@ watchEffect(() => {
 })
 
 
-// provide('bgScreenSizeProv', computed({
-//   get: () => bgScreenSize.value,
-//   set: (val) => {
-//     bgScreenSize.value = val
-//   }
-// }))
-
-// provide('bgScreenRepeatProv', computed({
-//   get: () => bgScreenRepeat.value,
-//   set: (val) => {
-//     bgScreenRepeat.value = val
-//   }
-// }))
-
-// provide('bgScreenColorProv', computed({
-//   get: () => bgScreenColor.value,
-//   set: (val) => {
-//     bgScreenColor.value = val
-//   }
-// }))
-
 provide('muteProv', computed({
   get: () => mute.value,
   set: (val) => {
     mute.value = val
+  }
+}))
+
+provide('startBgTimerProv', computed({
+  get: () => startBgTimer.value,
+  set: (val) => {
+    startBgTimer.value = val
+  }
+}))
+
+
+provide('bgTimeProv', computed({
+  get: () => bgTime.value,
+  set: (val) => {
+    bgTime.value = val
   }
 }))
 
@@ -470,25 +472,15 @@ provide('scoreProv', computed({
   }
 }))
 
-
-const isOnline = computed(() => {
-  if (!online.value) {
-    return defineAsyncComponent(() => import(/* @vite-ignore */ './components/Base/Offline.vue'))
+const isScreenSize = computed(() => {
+  if (sm.value) {
+    return defineAsyncComponent(() => import('./components/Base/Warning.vue'))
   }
 })
-
 </script>
 
-
 <template>
-  <!-- <template v-if="online"> -->
     <Main class="lg:block md:block sm:block hidden" />
     <ReOff />
-    <Warning />
-  <!-- </template> -->
-  <!-- <template v-else>
-    <component :is="isOnline">
-
-    </component>
-  </template> -->
+    <component :is="isScreenSize"></component>
 </template>

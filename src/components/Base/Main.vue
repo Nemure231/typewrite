@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, inject, computed, watchEffect, provide, onMounted, defineAsyncComponent } from 'vue';
+import { ref, watch, inject, computed, watchEffect, provide, defineAsyncComponent } from 'vue';
 import { usePageLeave } from '@vueuse/core'
 import Type from '../Type/Index.vue'
 import PreviewType from '../Game/PreviewType.vue'
@@ -9,7 +9,6 @@ import Start from '../Game/Start.vue'
 import Score from '../Game/Score.vue'
 import Text from '../Game/Text.vue'
 import BgVue from '../Game/Bg.vue'
-import YoutubeVue from '../Game/Youtube.vue'
 import Timer from '../Game/Timer.vue'
 import Total from '../Game/Total.vue';
 
@@ -42,43 +41,6 @@ const sound = inject('soundProv')
 const isLeft = usePageLeave();
 const stateMoveWord = ref()
 const stateAddWord = ref()
-
-onMounted(() => {
-
-
-  // const ako = JSON.parse(sring.substring(sring.indexOf('['), sring.lastIndexOf(']') + 1))
-
-
-  player.value.player.on('statechange', (event) => {
-    stateYt.value = event.detail.code
-  })
-
-  var ameo = 0
-  player.value.player.on('ended', () => {
-
-    if (loopProv.value) {
-      ameo++
-
-      if (ameo >= ytIdProv.value.length) {
-        ameo = 0
-      }
-
-      player.value.player.source = {
-        type: 'video',
-        sources: [
-          {
-            src: ytIdProv.value[ameo].src,
-            provider: 'youtube',
-          },
-        ]
-      }
-
-      setTimeout(() => {
-        player.value.player.play()
-      }, 1000);
-    }
-  });
-})
 
 
 provide('playerProv', computed({
@@ -226,6 +188,40 @@ let pauseTimer = () => {
   clearInterval(stateTimer.value);
 }
 
+watchEffect(() => {
+  if(!bgOrYtProv.value){
+    player.value.player.on('statechange', (event) => {
+      stateYt.value = event.detail.code
+    })
+  
+    var ameo = 0
+    player.value.player.on('ended', () => {
+  
+      if (loopProv.value) {
+        ameo++
+  
+        if (ameo >= ytIdProv.value.length) {
+          ameo = 0
+        }
+  
+        player.value.player.source = {
+          type: 'video',
+          sources: [
+            {
+              src: ytIdProv.value[ameo].src,
+              provider: 'youtube',
+            },
+          ]
+        }
+
+        setTimeout(() => {
+          player.value.player.play()
+        }, 1000);
+      }
+    });
+  }
+})
+
 
 watchEffect(() => {
   list.value.forEach((e) => {
@@ -345,16 +341,20 @@ const isModalGameOver = computed(() => {
 })
 
 
+const isYoutube = computed(() => {
+  if (!bgOrYtProv.value) {
+    return defineAsyncComponent(() => import('../Game/Youtube.vue'))
+  }
+})
+
 
 </script>
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
-
-   
     <Type />
     <BgVue />
-    <YoutubeVue v-show="!bgOrYtProv" :class="soundOnly">
+    <component :is="isYoutube" v-show="!bgOrYtProv" :class="soundOnly">
       <template #vueplyr>
         <vue-plyr ref="player" :options="options">
           <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
@@ -365,7 +365,7 @@ const isModalGameOver = computed(() => {
           </div>
         </vue-plyr>
       </template>
-    </YoutubeVue>
+    </component>
 
     <div class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
       <div class=" fixed inset-0 z-10">
