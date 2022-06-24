@@ -44,6 +44,11 @@ const stateMoveWord = ref()
 const stateAddWord = ref()
 
 onMounted(() => {
+
+
+  // const ako = JSON.parse(sring.substring(sring.indexOf('['), sring.lastIndexOf(']') + 1))
+
+
   player.value.player.on('statechange', (event) => {
     stateYt.value = event.detail.code
   })
