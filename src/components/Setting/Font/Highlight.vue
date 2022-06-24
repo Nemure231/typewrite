@@ -4,7 +4,7 @@ import { inject, ref } from "vue";
 const highlightColor = inject('highlightColorProv')
 const highlightStyle = inject('highlightStyleProv')
 const highlightThick = inject('highlightThickProv')
-const list = inject('listProv')
+const millisecond = inject('milliProv');
 
 const optionHi = ref([
     {
@@ -42,7 +42,7 @@ const optionHi = ref([
 </script>
 
 <template>
-    <div class="flex-1 basis-full"  v-if="list.length <= 0">
+    <div class="flex-1 basis-full"  v-if="millisecond <= 0">
         <span class="text-2xl font-bold">Highlight</span>
         <div class="grid grid-cols-3 gap-4 mt-2">
             <div class="">
