@@ -154,6 +154,7 @@ let countTimerBg = () => {
 	countTimerProv.value++
 
 	if (countTimerProv.value >= bgProv.value.length) {
+		
 		countTimerProv.value = 0
 	}
 }

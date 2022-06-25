@@ -29,7 +29,7 @@ const changeTimer =  computed(() => `${allWords.value.length - (pass.value.lengt
 </script>
 <template>
 
-  <div class="fixed top-3 w-full">
+  <div class="fixed top-3 w-full z-40">
     <div class="flex justify-center items-center">
       <span class="text-2xl bg-white py-0.5 w-auto px-3.5" :style="changeStyle"
       v-text="changeTimer">

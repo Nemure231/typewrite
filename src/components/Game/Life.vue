@@ -6,7 +6,7 @@ const life = inject('lifeProv')
 </script>
 
 <template>
-    <div class="absolute left-3 top-3">
+    <div class="absolute left-3 top-3 z-40">
         <div class="flex justify-center items-center -space-x-5">
 
             <div class="z-10 h-16 w-16 bg-white inline-flex items-center justify-center rounded-full">

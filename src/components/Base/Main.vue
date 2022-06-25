@@ -189,21 +189,22 @@ let pauseTimer = () => {
 }
 
 watchEffect(() => {
-  if(!bgOrYtProv.value){
+  if (!bgOrYtProv.value) {
     player.value.player.on('statechange', (event) => {
       stateYt.value = event.detail.code
     })
-  
+
     var ameo = 0
     player.value.player.on('ended', () => {
-  
+
       if (loopProv.value) {
         ameo++
-  
+
         if (ameo >= ytIdProv.value.length) {
+
           ameo = 0
         }
-  
+
         player.value.player.source = {
           type: 'video',
           sources: [
@@ -347,6 +348,42 @@ const isYoutube = computed(() => {
   }
 })
 
+
+const bgTime = inject('bgTimeProv')
+const unmo = ref(true)
+
+// watch(
+//   () => bgTime.value,
+//   (count, prevCount) => {
+
+//     if(count){
+//       setTimeout(() => {
+//         unmo.value = false
+//       }, 1000);
+
+//       unmo.value = true
+//     }
+//   }
+// )
+const countTimer = inject('countTimerProv')
+
+watchEffect((onInvalidate) => {
+
+  if (bgTime.value) {
+
+    unmo.value = false
+
+    const showBg = setTimeout(() => {
+      unmo.value = true
+
+    }, 500);
+
+    onInvalidate(() => {
+      clearInterval(showBg)
+    })
+
+  }
+})
 
 </script>
 

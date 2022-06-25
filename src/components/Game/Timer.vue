@@ -35,7 +35,7 @@ let showTimer = computed(() => {
 </script>
 <template>
 
-  <div class="fixed bottom-3 w-full">
+  <div class="fixed bottom-3 w-full z-40">
     <div class="flex justify-center items-center">
       <span class="text-2xl bg-white py-0.5 w-auto px-3.5" :style="changeStyle" v-text="showTimer">
       </span>

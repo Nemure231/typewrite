@@ -1,8 +1,9 @@
 
 <script setup>
-import { inject, computed, defineEmits } from 'vue'
+import { inject, computed, defineEmits, watchEffect } from 'vue'
 
 const bgTime = inject('bgTimeProv')
+const bg = inject('bgProv')
 
 const emit = defineEmits(["childStartTimerBg"]);
 
@@ -23,6 +24,12 @@ let convertMillis = computed(() => {
 	return formattedTime
 })
 
+
+watchEffect(() => {
+	if(bg.value.length > 1){
+		start()
+	}
+})
 </script>
 
 <template>
