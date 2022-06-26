@@ -137,7 +137,7 @@ const currentComponent = computed(() => {
                                     <div class="flex flex-col items-center justify-center flex-wrap py-2 px-2">
                                         <button v-for="m in tabs" :key="m" @click="currentTab = m"
                                             class="w-full text-left p-2 rounded-xl"
-                                            :class="currentTab === m && 'bg-sky-200'">
+                                            :class="currentTab == m && 'bg-sky-200'">
                                             <span class="text-xl w-full font-semibold relative">
                                                 <span></span>
                                                 <!-- :class="m.id ==  && `animate-ping absolute inline-flex h-3 w-3 top-0 -right-4 rounded-full bg-sky-400 opacity-75`" -->
@@ -147,7 +147,7 @@ const currentComponent = computed(() => {
                                     </div>
                                 </div>
                                 <div class="flex-1 basis-[80%] px-12 py-6">
-                                    <div class="flex">
+                                    <div class="flex flex-col">
                                         <keep-alive>
                                             <component :is="currentComponent">
                                             </component>

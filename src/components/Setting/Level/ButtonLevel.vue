@@ -85,7 +85,7 @@ const currentLevel = ref(3)
   <button @click="[showTime = 500, moveTime = 15, currentLevel = 6]" :class="currentLevel == 6 && 'border-2 border-black'"
     class=" rounded-md bg-white text-left font-semibold px-6 py-3 w-full text-lg shadow-md  ">
     Nightmare,
-    <small class="text-xs block  text-black">are you even human?</small>
+    <small class="text-xs block  text-black">are you really human?</small>
   </button>
 
 

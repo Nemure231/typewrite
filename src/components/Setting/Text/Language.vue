@@ -6,6 +6,7 @@ const showEx = inject('showExProv')
 const listExTxt = inject('listExTxtProv')
 const exTxt = ref('')
 const list = inject('listProv')
+const millisecond = inject('milliProv');
 
 const online = useOnline()
 
@@ -57,7 +58,7 @@ let addExTxt = () => {
 </script>
 
 <template>
-    <template v-if="list.length <= 0">
+    <template  v-if="millisecond <= 0">
         <div class="flex-1" v-if="online">
             <span class="text-2xl font-bold">Language</span>
             <div class="relative mt-3">
