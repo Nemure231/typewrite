@@ -10,6 +10,7 @@
   "dependencies": {
     "@vueuse/components": "^8.6.0",
     "@vueuse/core": "^8.6.0",
+    "swiper": "^8.2.4",
     "vue": "^3.2.37",
     "vue-plyr": "^7.0.0",
     "vuedraggable": "^4.1.0"

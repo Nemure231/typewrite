@@ -349,38 +349,33 @@ const isYoutube = computed(() => {
 })
 
 
-const bgTime = inject('bgTimeProv')
-const mountedBg = ref(true)
-const countTimer = inject('countTimerProv')
+// const bgTime = inject('bgTimeProv')
+// const mountedBg = ref(true)
+// const countTimer = inject('countTimerProv')
 
-watchEffect((onInvalidate) => {
+// watchEffect((onInvalidate) => {
 
-  if (bgTime.value) {
+//   if (bgTime.value) {
 
-    mountedBg.value = false
+//     mountedBg.value = false
 
-    const showBg = setTimeout(() => {
-      mountedBg.value = true
-      countTimer.value = 0
-    }, 1000);
+//     const showBg = setTimeout(() => {
+//       mountedBg.value = true
+//       countTimer.value = 0
+//     }, 1000);
 
-    onInvalidate(() => {
-      clearInterval(showBg)
-    })
-  }
-})
+//     onInvalidate(() => {
+//       clearInterval(showBg)
+//     })
+//   }
+// })
 
 
 
 
 const isBg = computed(() => {
-  // if (mountedBg.value) {
     return defineAsyncComponent(() => import('../Game/Bg.vue'))
-  // } 
-  
-  // else {
-  //   return defineAsyncComponent(() => import('../Game/BgLoading.vue'))
-  // }
+
 })
 
 
