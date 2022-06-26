@@ -351,6 +351,7 @@ const isYoutube = computed(() => {
 
 const bgTime = inject('bgTimeProv')
 const mountedBg = ref(true)
+const countTimer = inject('countTimerProv')
 
 watchEffect((onInvalidate) => {
 
@@ -360,7 +361,8 @@ watchEffect((onInvalidate) => {
 
     const showBg = setTimeout(() => {
       mountedBg.value = true
-    }, bgTime.value);
+      countTimer.value = 0
+    }, 1000);
 
     onInvalidate(() => {
       clearInterval(showBg)
@@ -368,12 +370,17 @@ watchEffect((onInvalidate) => {
   }
 })
 
+
+
+
 const isBg = computed(() => {
-  if (mountedBg.value) {
+  // if (mountedBg.value) {
     return defineAsyncComponent(() => import('../Game/Bg.vue'))
-  } else {
-    return defineAsyncComponent(() => import('../Game/Bg.vue'))
-  }
+  // } 
+  
+  // else {
+  //   return defineAsyncComponent(() => import('../Game/BgLoading.vue'))
+  // }
 })
 
 
@@ -382,7 +389,7 @@ const isBg = computed(() => {
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
-    <component :is="isBg"></component>
+    <component :is="isBg" ></component>
     <component :is="isYoutube" v-show="!bgOrYtProv" :class="soundOnly">
       <template #vueplyr>
         <vue-plyr ref="player" :options="options">

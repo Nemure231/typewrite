@@ -1,5 +1,5 @@
 <script setup>
-import { inject, computed, defineProps } from 'vue'
+import { inject, computed } from 'vue'
 import '../../assets/animation/opacity/opacity.css'
 import '../../assets/animation/scale/scale-in.css'
 import '../../assets/animation/scale/scale-out.css'
@@ -15,9 +15,6 @@ import '../../assets/animation/slide/slide-top.css'
 import '../../assets/animation/slide/slide-top-right.css'
 import '../../assets/animation/slide/slide-top-left.css'
 
-// const props = defineProps({
-//   unmo: Boolean
-// })
 
 const bg = inject('bgProv')
 const countTimer = inject('countTimerProv')
@@ -40,7 +37,8 @@ let showing = (index) => {
 
 let delay = (index) => {
   if (countTimer.value == 0) {
-    return `z-[${bg.value.length}]`
+    
+    return `z-[${bg.value.length + 2}]`
   } else {
     return countTimer.value == index ? (countTimer.value == 0 ? `z-[${index - 2}]` : `z-[${index + 2}]`) : `z-[${index + 1}]`
 
@@ -48,49 +46,10 @@ let delay = (index) => {
 }
 
 
-
-let onBeforeEnter = (el) => {
-  el.style.transform = 'scale(2)'
-
-}
-let onEnter = (el, done) => {
-  el.style.transitionTimingFunction = `cubic-bezier(0, 0, 0.2, 1)`
-  // done()
-}
-
-let onAfterEnter = (el) => {
-  el.style.transform = `scale(1)`
-
-}
-let onEnterCancelled = (el) => {
-
-}
-
-let onBeforeLeave = (el) => {
-  el.style.transform = `scale(1)`
-  el.style.opacity = `1`
-}
-
-
-let onLeave = (el, done) => {
-  el.style.transitionTimingFunction = `cubic-bezier(0.4, 0, 1, 1)`
-  // done()
-}
-
-let onAfterLeave = (el) => {
-  el.style.transform = `scale(0)`
-  el.style.opacity = `0`;
-}
-
-let onLeaveCancelled = (el) => {
-
-}
-
 </script>
-<!-- @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter"
-    @before-leave="onBeforeLeave" @leave="onLeave" @after-leave="onAfterLeave" :css="false" -->
+
 <template>
-  <TransitionGroup name="scale-in"  tag="div" class="">
+  <TransitionGroup :name="`slide-top`" tag="div" class="">
     <div v-show="showing(index)" v-for="(bgs, index) in bg" :key="bgs.id" class="fixed inset-0" :class="delay(index)"
       :style="
         {

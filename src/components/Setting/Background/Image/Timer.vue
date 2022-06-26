@@ -38,7 +38,7 @@ watchEffect(() => {
 		<span class="text-2xl font-bold block mb-4">Timer</span>
 		<label class="inline font-semibold" for="">Show / </label>
 		<small class="inline text-sm font-medium" v-text="convertMillis"> </small>
-		<input @change="start()" type="range" class="custom-range mt-4" v-model="bgTime" min="1000" step="1000"
+		<input @input="start()" type="range" class="custom-range mt-4" v-model="bgTime" min="1000" step="1000"
 			max="1000000" name="" id="">
 	</div>
 
