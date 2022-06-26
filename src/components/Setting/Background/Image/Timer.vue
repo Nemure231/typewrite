@@ -5,11 +5,11 @@ import { inject, computed, defineEmits, watchEffect } from 'vue'
 const bgTime = inject('bgTimeProv')
 const bg = inject('bgProv')
 
+
 const emit = defineEmits(["childStartTimerBg"]);
 
 let start = () => {
-    emit("childStartTimerBg")
-
+		emit("childStartTimerBg")
 }
 
 let convertMillis = computed(() => {

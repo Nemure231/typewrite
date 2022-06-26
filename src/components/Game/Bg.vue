@@ -1,5 +1,23 @@
 <script setup>
-import { inject, computed } from 'vue'
+import { inject, computed, defineProps } from 'vue'
+import '../../assets/animation/opacity/opacity.css'
+import '../../assets/animation/scale/scale-in.css'
+import '../../assets/animation/scale/scale-out.css'
+
+import '../../assets/animation/slide/slide-left.css'
+import '../../assets/animation/slide/slide-right.css'
+
+import '../../assets/animation/slide/slide-bottom.css'
+import '../../assets/animation/slide/slide-bottom-right.css'
+import '../../assets/animation/slide/slide-bottom-left.css'
+
+import '../../assets/animation/slide/slide-top.css'
+import '../../assets/animation/slide/slide-top-right.css'
+import '../../assets/animation/slide/slide-top-left.css'
+
+// const props = defineProps({
+//   unmo: Boolean
+// })
 
 const bg = inject('bgProv')
 const countTimer = inject('countTimerProv')
@@ -21,12 +39,58 @@ let showing = (index) => {
 }
 
 let delay = (index) => {
-  return countTimer.value == index ? (countTimer.value == 0 ? `z-[${index - 2}]` : `z-[${index + 2}]`) : `z-[${index + 1}]`
-}
-</script>
+  if (countTimer.value == 0) {
+    return `z-[${bg.value.length}]`
+  } else {
+    return countTimer.value == index ? (countTimer.value == 0 ? `z-[${index - 2}]` : `z-[${index + 2}]`) : `z-[${index + 1}]`
 
+  }
+}
+
+
+
+let onBeforeEnter = (el) => {
+  el.style.transform = 'scale(2)'
+
+}
+let onEnter = (el, done) => {
+  el.style.transitionTimingFunction = `cubic-bezier(0, 0, 0.2, 1)`
+  // done()
+}
+
+let onAfterEnter = (el) => {
+  el.style.transform = `scale(1)`
+
+}
+let onEnterCancelled = (el) => {
+
+}
+
+let onBeforeLeave = (el) => {
+  el.style.transform = `scale(1)`
+  el.style.opacity = `1`
+}
+
+
+let onLeave = (el, done) => {
+  el.style.transitionTimingFunction = `cubic-bezier(0.4, 0, 1, 1)`
+  // done()
+}
+
+let onAfterLeave = (el) => {
+  el.style.transform = `scale(0)`
+  el.style.opacity = `0`;
+}
+
+let onLeaveCancelled = (el) => {
+
+}
+
+</script>
+<!-- @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter"
+    @before-leave="onBeforeLeave" @leave="onLeave" @after-leave="onAfterLeave" :css="false" -->
 <template>
-  <TransitionGroup :name="`scale-in`" tag="div" class="">
+  <TransitionGroup name="scale-in"  tag="div" class="">
     <div v-show="showing(index)" v-for="(bgs, index) in bg" :key="bgs.id" class="fixed inset-0" :class="delay(index)"
       :style="
         {
@@ -42,188 +106,3 @@ let delay = (index) => {
     </div>
   </TransitionGroup>
 </template>
-
-<style scoped>
-.opacity-enter-from {
-  opacity: 0
-}
-
-.opacity-enter-active {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-}
-
-.opacity-enter-to {
-  opacity: 1;
-
-}
-
-.opacity-leave-from {
-  opacity: 1;
-
-}
-
-.opacity-leave-active {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.opacity-leave-to {
-  opacity: 0
-}
-
-
-
-/* Scale in */
-.scale-in-enter-from {
-  transform: scale(1);
-}
-
-.scale-in-enter-active {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-
-}
-
-.scale-in-enter-to {
-  transform: scale(1);
-
-}
-
-.scale-in-leave-from {
-  transform: scale(1);
-
-}
-
-.scale-in-leave-active {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.scale-in-leave-to {
-  transform: scale(0);
-
-}
-
-
-
-
-/* slide top */
-.slide-top-enter-from {
-  transform: translateY(100%);
-}
-
-.slide-top-enter-active {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-
-}
-
-.slide-top-enter-to {
-  transform: translateY(0%);
-
-}
-
-.slide-top-leave-from {
-  transform: translateY(0%);
-
-}
-
-.slide-top-leave-active {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.slide-top-leave-to {
-  transform: translateY(-100%);
-
-}
-
-
-/* slide bottom */
-.slide-bottom-enter-from {
-  transform: translateY(-100%);
-}
-
-.slide-bottom-enter-active {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-
-}
-
-.slide-bottom-enter-to {
-  transform: translateY(0%);
-
-}
-
-.slide-bottom-leave-from {
-  transform: translateY(0%);
-
-}
-
-.slide-bottom-leave-active {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.slide-bottom-leave-to {
-  transform: translateY(100%);
-
-}
-
-
-
-/* slide right */
-.slide-right-enter-from {
-  transform: translateX(-100%);
-}
-
-.slide-right-enter-active {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-
-}
-
-.slide-right-enter-to {
-  transform: translateX(0%);
-
-}
-
-.slide-right-leave-from {
-  transform: translateX(0%);
-
-}
-
-.slide-right-leave-active {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.slide-right-leave-to {
-  transform: translateX(100%);
-
-}
-
-
-
-
-
-/* slide left */
-.slide-left-enter-from {
-  transform: translateX(100%);
-}
-
-.slide-left-enter-active {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-
-}
-
-.slide-left-enter-to {
-  transform: translateX(0%);
-
-}
-
-.slide-left-leave-from {
-  transform: translateX(0%);
-
-}
-
-.slide-left-leave-active {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.slide-left-leave-to {
-  transform: translateX(-100%);
-
-}
-</style>

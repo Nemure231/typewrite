@@ -1,0 +1,31 @@
+/* Scale in */
+.scale-out-enter-from {
+    transform: scale(0);
+  }
+  
+  .scale-out-enter-active {
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  
+  }
+  
+  .scale-out-enter-to {
+    transform: scale(1);
+  
+  }
+  
+  .scale-out-leave-from {
+    transform: scale(1);
+    opacity: 1;
+  
+  }
+  
+  .scale-out-leave-active {
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  }
+  
+  .scale-out-leave-to {
+    transform: scale(2);
+    opacity: 0;
+  
+  }
+  

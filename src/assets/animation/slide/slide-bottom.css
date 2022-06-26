@@ -1,0 +1,30 @@
+
+/* slide bottom */
+.slide-bottom-enter-from {
+    transform: translateY(-100%);
+  }
+  
+  .slide-bottom-enter-active {
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  
+  }
+  
+  .slide-bottom-enter-to {
+    transform: translateY(0%);
+  
+  }
+  
+  .slide-bottom-leave-from {
+    transform: translateY(0%);
+  
+  }
+  
+  .slide-bottom-leave-active {
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  }
+  
+  .slide-bottom-leave-to {
+    transform: translateY(100%);
+  
+  }
+  

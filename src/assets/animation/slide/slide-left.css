@@ -1,0 +1,28 @@
+/* slide left */
+.slide-left-enter-from {
+    transform: translateX(100%);
+  }
+  
+  .slide-left-enter-active {
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  
+  }
+  
+  .slide-left-enter-to {
+    transform: translateX(0%);
+  
+  }
+  
+  .slide-left-leave-from {
+    transform: translateX(0%);
+  
+  }
+  
+  .slide-left-leave-active {
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  }
+  
+  .slide-left-leave-to {
+    transform: translateX(-100%);
+  
+  }

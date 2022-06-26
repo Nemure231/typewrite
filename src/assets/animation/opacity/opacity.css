@@ -1,0 +1,26 @@
+.opacity-enter-from {
+    opacity: 0
+  }
+  
+  .opacity-enter-active {
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  .opacity-enter-to {
+    opacity: 1;
+  
+  }
+  
+  .opacity-leave-from {
+    opacity: 1;
+  
+  }
+  
+  .opacity-leave-active {
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  }
+  
+  .opacity-leave-to {
+    opacity: 0
+  }
+  

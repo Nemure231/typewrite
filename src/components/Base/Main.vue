@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, inject, computed, watchEffect, provide, defineAsyncComponent } from 'vue';
+import { ref, watch, inject, computed, watchEffect, provide, defineAsyncComponent, onUnmounted } from 'vue';
 import { usePageLeave } from '@vueuse/core'
 import Type from '../Type/Index.vue'
 import PreviewType from '../Game/PreviewType.vue'
@@ -8,7 +8,7 @@ import Life from '../Game/Life.vue'
 import Start from '../Game/Start.vue'
 import Score from '../Game/Score.vue'
 import Text from '../Game/Text.vue'
-import BgVue from '../Game/Bg.vue'
+// import BgVue from '../Game/Bg.vue'
 import Timer from '../Game/Timer.vue'
 import Total from '../Game/Total.vue';
 
@@ -350,47 +350,39 @@ const isYoutube = computed(() => {
 
 
 const bgTime = inject('bgTimeProv')
-const unmo = ref(true)
-
-// watch(
-//   () => bgTime.value,
-//   (count, prevCount) => {
-
-//     if(count){
-//       setTimeout(() => {
-//         unmo.value = false
-//       }, 1000);
-
-//       unmo.value = true
-//     }
-//   }
-// )
-const countTimer = inject('countTimerProv')
+const mountedBg = ref(true)
 
 watchEffect((onInvalidate) => {
 
   if (bgTime.value) {
 
-    unmo.value = false
+    mountedBg.value = false
 
     const showBg = setTimeout(() => {
-      unmo.value = true
-
-    }, 500);
+      mountedBg.value = true
+    }, bgTime.value);
 
     onInvalidate(() => {
       clearInterval(showBg)
     })
-
   }
 })
+
+const isBg = computed(() => {
+  if (mountedBg.value) {
+    return defineAsyncComponent(() => import('../Game/Bg.vue'))
+  } else {
+    return defineAsyncComponent(() => import('../Game/Bg.vue'))
+  }
+})
+
 
 </script>
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
-    <BgVue />
+    <component :is="isBg"></component>
     <component :is="isYoutube" v-show="!bgOrYtProv" :class="soundOnly">
       <template #vueplyr>
         <vue-plyr ref="player" :options="options">

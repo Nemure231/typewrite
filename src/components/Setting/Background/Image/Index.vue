@@ -265,7 +265,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 						</DropZone>
 					</div>
 					<template v-if="bgProv.length > 0">
-						<Timer @childStartTimerBg="() => startTimerBg()" />
+						<Timer @childStartTimerBg="() => startTimerBg()"  @childPauseTimerBg="() => pauseTimerBg()" />
 						<Button @childStartTimerBg="() => startTimerBg()" @childPauseTimerBg="() => pauseTimerBg()" />
 					</template>
 				</div>

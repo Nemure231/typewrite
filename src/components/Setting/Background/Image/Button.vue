@@ -8,12 +8,10 @@ const startBgTimer = inject('startBgTimerProv')
 
 let start = () => {
     emit("childStartTimerBg")
-
 }
 
 let pause = () => {
     emit("childPauseTimerBg")
-
 }
 
 let startBg = () => {

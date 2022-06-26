@@ -1,0 +1,31 @@
+
+
+/* slide bottom right */
+.slide-bottom-left-enter-from {
+    transform: translateY(-100%) translateX(100%);;
+  }
+  
+  .slide-bottom-left-enter-active {
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  
+  }
+  
+  .slide-bottom-left-enter-to {
+    transform: translateY(0%) translateX(0%);
+  
+  }
+  
+  .slide-bottom-left-leave-from {
+    transform: translateY(0%) translateX(0%);
+  
+  }
+  
+  .slide-bottom-left-leave-active {
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  }
+  
+  .slide-bottom-left-leave-to {
+    transform: translateY(100%) translateX(-100%);
+  
+  }
+  
