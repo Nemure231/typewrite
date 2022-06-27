@@ -49,10 +49,11 @@ const isAutoPlay = computed(() => {
 const isSwiperEffect = computed(() => {
   return swiperEffect.value
 })
+
 </script>
 
 <template>
-  <Swiper v-if="swiperCondition" @swiper="onSwiper" :effect="isSwiperEffect" :loop="true"
+  <Swiper v-if="swiperCondition" @swiper="onSwiper" :speed="1000" :effect="isSwiperEffect" :loop="true"
     :pagination="{ type: 'progressbar' }" :autoplay="isAutoPlay" :modules="modules">
     <SwiperSlide v-for="bgs in bg" :key="bgs.id" :style="
     {

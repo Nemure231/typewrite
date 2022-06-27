@@ -83,7 +83,7 @@ const id = ref([])
 const en = ref([])
 
 let loadData = async (state, name, url) => {
-  let emu = await import(url);
+  let emu = await import(/* @vite-ignore */ url);
   state.value = emu[name]
 }
 

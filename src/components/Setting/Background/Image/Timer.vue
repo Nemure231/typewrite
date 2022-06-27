@@ -27,5 +27,4 @@ let convertMillis = computed(() => {
 		<input type="range" class="custom-range mt-4" v-model="bgTime" min="1000" step="1000"
 			max="1000000" name="" id="">
 	</div>
-
 </template>

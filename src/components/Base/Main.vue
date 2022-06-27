@@ -186,36 +186,40 @@ let pauseTimer = () => {
 
 watchEffect(() => {
   if (!bgOrYtProv.value) {
-    player.value.player.on('statechange', (event) => {
-      stateYt.value = event.detail.code
-    })
 
-    var ameo = 0
-    player.value.player.on('ended', () => {
-
-      if (loopProv.value) {
-        ameo++
-
-        if (ameo >= ytIdProv.value.length) {
-
-          ameo = 0
+    setTimeout(() => {
+      player.value.player.on('statechange', (event) => {
+        stateYt.value = event.detail.code
+      })
+  
+      var ameo = 0
+      player.value.player.on('ended', () => {
+  
+        if (loopProv.value) {
+          ameo++
+  
+          if (ameo >= ytIdProv.value.length) {
+  
+            ameo = 0
+          }
+  
+          player.value.player.source = {
+            type: 'video',
+            sources: [
+              {
+                src: ytIdProv.value[ameo].src,
+                provider: 'youtube',
+              },
+            ]
+          }
+  
+          setTimeout(() => {
+            player.value.player.play()
+          }, 1000);
         }
-
-        player.value.player.source = {
-          type: 'video',
-          sources: [
-            {
-              src: ytIdProv.value[ameo].src,
-              provider: 'youtube',
-            },
-          ]
-        }
-
-        setTimeout(() => {
-          player.value.player.play()
-        }, 1000);
-      }
-    });
+      });
+      
+    }, 1000);
   }
 })
 
