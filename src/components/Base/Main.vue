@@ -40,6 +40,7 @@ const sound = inject('soundProv')
 const isLeft = usePageLeave();
 const stateMoveWord = ref()
 const stateAddWord = ref()
+const winLose = ref(false)
 
 
 provide('playerProv', computed({
@@ -191,18 +192,18 @@ watchEffect(() => {
       player.value.player.on('statechange', (event) => {
         stateYt.value = event.detail.code
       })
-  
+
       var ameo = 0
       player.value.player.on('ended', () => {
-  
+
         if (loopProv.value) {
           ameo++
-  
+
           if (ameo >= ytIdProv.value.length) {
-  
+
             ameo = 0
           }
-  
+
           player.value.player.source = {
             type: 'video',
             sources: [
@@ -212,17 +213,16 @@ watchEffect(() => {
               },
             ]
           }
-  
+
           setTimeout(() => {
             player.value.player.play()
           }, 1000);
         }
       });
-      
+
     }, 1000);
   }
 })
-
 
 watchEffect(() => {
   list.value.forEach((e) => {
@@ -247,14 +247,19 @@ watchEffect(() => {
 //win
 watchEffect(() => {
   const total = unPass.value.length + pass.value.length
+  const zerro = allWords.value.length - (pass.value.length + unPass.value.length)
+
   setTimeout(() => {
-    if (pass.value.length > 0) {
-      if (total == allWords.value.length) {
+    if (millisecond.value > 0) {
+      if (total == allWords.value.length && zerro == 0) {
+        winLose.value = true
         modalGameOver.value = true
         start.value = false
         lose.value = 0
         list.value = []
         nonrand.value = 0
+        pass.value = []
+        unPass.value = []
         pauseAddWord()
         pauseMoveWord()
         pauseTimer()
@@ -264,6 +269,7 @@ watchEffect(() => {
           player.value.player.stop()
         }
       }
+
     }
   }, 1000);
 
@@ -275,6 +281,7 @@ watch(
   (count, prevCount) => {
     setTimeout(() => {
       if (life.value <= 1) {
+        winLose.value = true
         start.value = false
         modalGameOver.value = true
         lose.value = 0
@@ -282,6 +289,8 @@ watch(
         nonrand.value = 0
         list.value = []
         ytLinkProv.value = ''
+        pass.value = []
+        unPass.value = []
         pauseAddWord()
         pauseMoveWord()
         pauseTimer()
@@ -291,7 +300,7 @@ watch(
       } else {
         life.value -= 1
       }
-    }, 500);
+    }, 1000);
   }
 )
 
@@ -344,11 +353,11 @@ const isModalSetting = computed(() => {
 })
 
 const isModalGameOver = computed(() => {
-  const total = unPass.value.length + pass.value.length
-  if (!start.value) {
-    if (life.value == 0 || total == allWords.value.length) {
-      return defineAsyncComponent(() => import('../Game/ModalGameOver.vue'))
-    }
+  if (winLose.value) {
+    return defineAsyncComponent({
+      loader: () => import('../Game/ModalGameOver.vue'),
+      delay: 200,
+    })
   }
 })
 

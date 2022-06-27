@@ -10,8 +10,6 @@ const hour = inject('hourProv');
 const minute = inject('minuteProv');
 const second = inject('secondProv');
 const millisecond = inject('milliProv');
-const pass = inject('passProv')
-const unPass = inject('unpassProv')
 const selectlang = inject('selectLangProv')
 const allWords = inject('allWordsProv')
 
@@ -19,8 +17,6 @@ let reloadGame = () => {
     score.value = 0
     modalGameOverProv.value = false
     life.value = 5
-    pass.value = []
-    unPass.value = []
     resetTimer()
 
     if (selectlang.value == 2) {
