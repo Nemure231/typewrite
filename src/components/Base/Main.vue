@@ -1,16 +1,14 @@
 <script setup>
-import { ref, watch, inject, computed, watchEffect, provide, defineAsyncComponent, onUnmounted } from 'vue';
+import { ref, watch, inject, computed, watchEffect, provide, defineAsyncComponent } from 'vue';
 import { usePageLeave } from '@vueuse/core'
-import Type from '../Type/Index.vue'
-import PreviewType from '../Game/PreviewType.vue'
-import Setting from '../Game/Setting.vue'
-import Life from '../Game/Life.vue'
-import Start from '../Game/Start.vue'
-import Score from '../Game/Score.vue'
-import Text from '../Game/Text.vue'
-import Bg from '../Game/Bg.vue'
-import Timer from '../Game/Timer.vue'
-import Total from '../Game/Total.vue';
+import PreviewTypeView from '../Game/PreviewType.vue'
+import SettingView from '../Game/Setting.vue'
+import LifeView from '../Game/Life.vue'
+import StartView from '../Game/Start.vue'
+import ScoreView from '../Game/Score.vue'
+import TextView from '../Game/Text.vue'
+import TimerView from '../Game/Timer.vue'
+import TotalView from '../Game/Total.vue';
 
 const allWords = inject('allWordsProv')
 const pass = inject('passProv')
@@ -21,6 +19,7 @@ const modalGameOver = ref(false)
 const life = inject('lifeProv')
 const lose = inject('loseProv')
 const start = inject('startProv')
+const bg = inject('bgProv')
 const showTime = inject('showTimeProv')
 const moveTime = inject('moveTimeProv')
 const bgOrYtProv = inject('bgOrYtProv')
@@ -165,7 +164,6 @@ let pauseGame = () => {
 
 let openModalSetting = () => {
   modalSettingButton.value = !modalSettingButton.value
-
   pauseGame()
   pauseTimer()
 
@@ -247,22 +245,28 @@ watchEffect(() => {
 //win
 watchEffect(() => {
   const total = unPass.value.length + pass.value.length
+  setTimeout(() => {
+    if (list.value.length == 0) {
+      if (total == allWords.value.length) {
+        modalGameOver.value = true
+        start.value = false
+        lose.value = 0
+        list.value = []
+        pauseAddWord()
+        pauseMoveWord()
+        pauseTimer()
+        ytLinkProv.value = ''
 
-  if (pass.value.length > 0) {
-    if (total == allWords.value.length) {
-      start.value = false
-      modalGameOver.value = true
-      lose.value = 0
-      list.value = []
-      pauseAddWord()
-      pauseMoveWord()
-      pauseTimer()
-      ytLinkProv.value = ''
-      player.value.player.stop()
+        if(!bgOrYtProv.value){
+          player.value.player.stop()
+        }
+      }
     }
-  }
+  }, 500);
+
 })
 
+//lose
 watch(
   () => lose.value,
   (count, prevCount) => {
@@ -273,13 +277,13 @@ watch(
         lose.value = 0
         life.value = 0
         list.value = []
-        pass.value = []
-        unPass.value = []
         ytLinkProv.value = ''
-        player.value.player.stop()
         pauseAddWord()
         pauseMoveWord()
         pauseTimer()
+        if(!bgOrYtProv.value){
+            player.value.player.stop()
+        }
       } else {
         life.value -= 1
       }
@@ -336,8 +340,11 @@ const isModalSetting = computed(() => {
 })
 
 const isModalGameOver = computed(() => {
-  if (modalGameOver.value) {
-    return defineAsyncComponent(() => import('../Game/ModalGameOver.vue'))
+  const total = unPass.value.length + pass.value.length
+  if (!start.value) {
+    if (life.value == 0 || total == allWords.value.length) {
+      return defineAsyncComponent(() => import('../Game/ModalGameOver.vue'))
+    }
   }
 })
 
@@ -348,86 +355,86 @@ const isYoutube = computed(() => {
   }
 })
 
-
-// const bgTime = inject('bgTimeProv')
-// const mountedBg = ref(true)
-// const countTimer = inject('countTimerProv')
-
-// watchEffect((onInvalidate) => {
-
-//   if (bgTime.value) {
-
-//     mountedBg.value = false
-
-//     const showBg = setTimeout(() => {
-//       mountedBg.value = true
-//       countTimer.value = 0
-//     }, 1000);
-
-//     onInvalidate(() => {
-//       clearInterval(showBg)
-//     })
-//   }
-// })
-
-
 const img = computed(() => {
-    if(!bgOrYtProv.value){
+  if (!bgOrYtProv.value) {
 
-      if(sound.value){
-        return true
-      }else{
-        return false
-      }
-    }else{
+    if (sound.value) {
       return true
+    } else {
+      return false
     }
+  } else {
+    return true
+  }
+})
+
+const isBg = computed(() => {
+  if (bg.value.length > 1) {
+    return defineAsyncComponent(() => import('../Game/BgSlide.vue'))
+  } else {
+    return defineAsyncComponent(() => import('../Game/BgOne.vue'))
+  }
+})
+
+const isType = computed(() => {
+  if (start.value) {
+    return defineAsyncComponent(() => import('../Type/Index.vue'))
+  }
 })
 
 
-// const isBg = computed(() => {
-//     return defineAsyncComponent(() => import('../Game/Bg.vue'))
-
-// })
+watchEffect(() => {
+  console.log(list.value)
+})
 </script>
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
-    <Type />
-    <Bg v-show="img"></Bg>
-    <component :is="isYoutube" :class="soundOnly">
-      <template #vueplyr>
-        <vue-plyr ref="player" :options="options">
-          <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
-            <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen
-              allowtransparency mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
-              oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-          </div>
-        </vue-plyr>
-      </template>
-    </component>
+    <KeepAlive>
+      <component :is="isType" v-show="img"></component>
+    </KeepAlive>
+    <KeepAlive>
+      <component :is="isBg" v-show="img"></component>
+    </KeepAlive>
+    <KeepAlive>
+      <component :is="isYoutube" :class="soundOnly">
+        <template #vueplyr>
+          <vue-plyr ref="player" :options="options">
+            <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">
+              <iframe width="100%" height="100%" :src="plys" title="YouTube video player" allowfullscreen
+                allowtransparency mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
+                oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            </div>
+          </vue-plyr>
+        </template>
+      </component>
+    </KeepAlive>
 
     <div class="relative" :class="!bgOrYtProv ? 'block' : 'hidden'">
       <div class=" fixed inset-0 z-10">
       </div>
     </div>
 
-    <Text />
-    <Start v-if="!start" @childStartGame="() => startGame()" />
-    <Total />
-    <Score />
-    <Timer />
-    <Life />
-    <PreviewType />
+    <TextView />
+    <template v-if="allWords.length != 0">
+      <StartView v-if="!start" @childStartGame="() => startGame()" />
+    </template>
+    <TotalView />
+    <ScoreView />
+    <TimerView />
+    <LifeView />
+    <PreviewTypeView />
     <Setting @childOpenModalSetting="() => openModalSetting()" />
 
     <Teleport to="body">
       <transition enter-from-class="transform opacity-0 scale-75" enter-active-class="duration-300 ease-out"
         enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
-        <component :is="isModalGameOver" v-if="modalGameOver" class="lg:mt-0 md:mt-0 mt-12 z-30">
-        </component>
+        <KeepAlive>
+          <component :is="isModalGameOver" v-if="modalGameOver" class="lg:mt-0 md:mt-0 mt-12 z-30">
+          </component>
+        </KeepAlive>
       </transition>
     </Teleport>
 
@@ -435,9 +442,12 @@ const img = computed(() => {
       <transition enter-from-class="transform opacity-0 scale-75" enter-active-class="duration-300 ease-out"
         enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
-        <component :is="isModalSetting" class="z-50" v-show="modalSettingButton"
-          @childCloseModalSetting="() => closeModalSetting()" @childStartGame="() => startGame()">
-        </component>
+        <KeepAlive>
+          <component :is="isModalSetting" class="z-50" v-show="modalSettingButton"
+            @childCloseModalSetting="() => closeModalSetting()" @childStartGame="() => startGame()">
+          </component>
+
+        </KeepAlive>
       </transition>
     </Teleport>
   </main>

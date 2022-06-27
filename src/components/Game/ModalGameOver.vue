@@ -2,6 +2,7 @@
 import { inject, computed } from 'vue'
 import { useShare } from '@vueuse/core'
 
+const { share, isSupported } = useShare()
 const score = inject('scoreProv')
 const life = inject('lifeProv')
 const modalGameOverProv = inject('modalGameOverProv')
@@ -9,12 +10,15 @@ const hour = inject('hourProv');
 const minute = inject('minuteProv');
 const second = inject('secondProv');
 const millisecond = inject('milliProv');
-const { share, isSupported } = useShare()
+const pass = inject('passProv')
+const unPass = inject('unpassProv')
 
 let reloadGame = () => {
     score.value = 0
     modalGameOverProv.value = false
     life.value = 5
+    pass.value = []
+    unPass.value = []
     resetTimer()
 }
 

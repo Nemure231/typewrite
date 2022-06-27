@@ -133,6 +133,10 @@ let clickBg = () => {
 	}
 }
 
+let removeOneBg = (id) => {
+	const idd = bgProv.value.findIndex((el) => el.id == id)
+	bgProv.value.splice(idd, 1);
+}
 
 let chooseBg = (e) => {
 	addFiles(e.target.files)

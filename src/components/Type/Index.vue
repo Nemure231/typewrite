@@ -1,5 +1,5 @@
 <script setup>
-import { watchEffect, ref, inject, watch } from 'vue';
+import { watchEffect, ref, inject } from 'vue';
 import { useMagicKeys } from '@vueuse/core'
 
 const start = inject('startProv')
@@ -8,18 +8,15 @@ const score = inject('scoreProv')
 const list = inject('listProv')
 const previewType = inject('previewTypeProv')
 const pass = inject('passProv')
-const unPass = inject('unpassProv')
 const submitType = inject('submitTypeProv')
 
 const { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, Enter, Backspace, space, Delete, Minus } = useMagicKeys()
 const storeAbjad = ref([])
-const storedAbjadJoin = ref([])
 
 
 const highlightColor = inject('highlightColorProv')
 const highlightStyle = inject('highlightStyleProv')
 const highlightThick = inject('highlightThickProv')
-
 
 watchEffect(() => {
     if (start.value) {

@@ -1,8 +1,8 @@
 <script setup>
 import { ref, provide, computed, watchEffect, defineAsyncComponent } from 'vue';
 import { useOnline } from '@vueuse/core'
-import Main from './components/Base/Main.vue'
-import ReOff from './components/Reload/Index.vue'
+import MainView from './components/Base/Main.vue'
+import ReOffView from './components/Reload/Index.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 //vue use
@@ -481,7 +481,7 @@ const isScreenSize = computed(() => {
 </script>
 
 <template>
-    <Main class="lg:block md:block sm:block hidden" />
-    <ReOff />
+    <MainView class="lg:block md:block sm:block hidden" />
+    <ReOffView />
     <component :is="isScreenSize"></component>
 </template>

@@ -1,10 +1,10 @@
 <script setup>
 import { inject, computed } from "vue";
-import Font from "./Font.vue";
-import Bg from "./Bg.vue";
-import Padding from "./Padding.vue";
-import Border from "./Border.vue";
-import Highlight from "./Highlight.vue";
+import FontView from "./Font.vue";
+import BgView from "./Bg.vue";
+import PaddingView from "./Padding.vue";
+import BorderView from "./Border.vue";
+import HighlightView from "./Highlight.vue";
 
 const fontSize = inject('fontSizeProv')
 const color = inject('fontColorProv')
@@ -47,11 +47,11 @@ const changeStyle = computed(() => {
 <template>
     <div class="flex-1 space-y-3">
         <div class="flex flex-row flex-wrap gap-4">
-            <Font />
-            <Bg />
-            <Padding />
-            <Border />
-            <Highlight/>
+            <FontView />
+            <BgView />
+            <PaddingView />
+            <BorderView />
+            <HighlightView />
         </div>
         <div class="text-center pb-10">
             <span class="text-2xl font-bold ">Preview</span>

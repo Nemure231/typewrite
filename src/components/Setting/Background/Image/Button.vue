@@ -2,9 +2,8 @@
 <script setup>
 import { inject, ref } from 'vue'
 
-const swipr = inject('swiperProv');
 const startSwiper = ref(true)
-
+const swipr = inject('swiperProv')
 const swiperEffect = inject('swiperEffectProv')
 
 
@@ -28,6 +27,7 @@ const listEffect = ref([
 		name: 'card'
 	}
 ])
+
 </script>
 
 <template>

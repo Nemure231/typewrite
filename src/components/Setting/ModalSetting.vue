@@ -1,6 +1,6 @@
 <script setup>
 import { defineEmits, ref, inject, computed, defineAsyncComponent } from 'vue'
-import IndexMusic from './Music/Index.vue';
+import IndexMusicView from './Music/Index.vue';
 import { onClickOutside } from '@vueuse/core'
 import Loading from './Loading/Index.vue'
 import Error from './Error/Index.vue'
@@ -44,7 +44,7 @@ const currentComponent = computed(() => {
         })
     }
 
-     if (currentTab.value == 'Text') {
+    if (currentTab.value == 'Text') {
         asyncComp = defineAsyncComponent({
             loader: () => import(`./Text/Index.vue`),
             loadingComponent: Loading,
@@ -116,7 +116,7 @@ const currentComponent = computed(() => {
             <span class="hidden sm:inline-block rounded-xl" aria-hidden="true">&#8203;</span>
             <div
                 class="relative inline-block  align-bottom rounded-xl text-left  shadow-xl transform transition-all sm:align-middle">
-                <div class="backdrop-blur-sm bg-white/75 relative rounded-xl " ref="outsideClick">
+                <div class="backdrop-blur-sm bg-white/75 relative rounded-xl ">
                     <div class="absolute right-6 top-3">
                         <div @click="childCloseModalSetting()" class="cursor-pointer hover:bg-red-100">
                             <svg class=" w-8 h-8" xmlns="http://www.w3.org/2000/svg"
@@ -146,11 +146,9 @@ const currentComponent = computed(() => {
                                 </div>
                                 <div class="flex-1 basis-[80%] px-12 py-6">
                                     <div class="flex flex-col">
-                                        <keep-alive>
-                                            <component :is="currentComponent">
-                                            </component>
-                                        </keep-alive>
-                                        <IndexMusic v-show="currentTab == 'Music'" />
+                                        <component :is="currentComponent">
+                                        </component>
+                                        <IndexMusicView v-show="currentTab == 'Music'" />
                                     </div>
                                 </div>
                             </div>

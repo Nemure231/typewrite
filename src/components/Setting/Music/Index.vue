@@ -1,9 +1,9 @@
 <script setup>
 import { ref, provide, computed, defineAsyncComponent } from "vue";
 import { useOnline } from '@vueuse/core'
-import Example from "./Example.vue";
-import Form from "./Form.vue";
-import Spotify from "./Spotify.vue";
+import ExampleView from "./Example.vue";
+import FormView from "./Form.vue";
+import SpotifyView from "./Spotify.vue";
 
 const online = useOnline()
 const spotify = ref('');
@@ -37,10 +37,10 @@ const isOffline = computed(() => {
                 <span class="text-2xl font-bold">Spotify Playlist</span>
                 <template v-if="online">
                     <div class="flex flex-col gap-3 mt-3">
-                        <Example />
-                        <Form />
+                        <ExampleView />
+                        <FormView />
                     </div>
-                    <Spotify v-if="spotifyVal" />
+                    <SpotifyView v-if="spotifyVal" />
                 </template>
                 <component :is="isOffline"></component>
             </div>

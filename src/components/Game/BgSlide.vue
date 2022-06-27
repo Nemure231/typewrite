@@ -18,29 +18,13 @@ let onSwiper = (swiper) => {
 }
 
 watchEffect(() => {
-  if (bg.value.length > 0) {
+  if (bg.value.length > 1) {
     swiperCondition.value = true
   }
 })
 
 watchEffect((onInvalidate) => {
-  if (bg.value.length > 0) {
-    if (bgTime.value) {
-
-      const showBg = setTimeout(() => {
-        swipr.value.slideReset(bgTime.value, true)
-      }, 500);
-
-      onInvalidate(() => {
-        clearInterval(showBg)
-      })
-
-    }
-  }
-})
-
-watchEffect((onInvalidate) => {
-  if (bg.value.length > 0) {
+  if (bg.value.length > 1) {
     if (swiperEffect.value) {
       swiperCondition.value = false
       const showBg = setTimeout(() => {
