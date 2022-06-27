@@ -22,6 +22,6 @@ All of the words data are get from <a href="http://opus.nlpl.eu/OpenSubtitles201
 
 ## License
 
-The Source Code under <a href="https://github.com/Nemure231/typewrite/blob/main/LINCENSE">MIT</a> LINCENSE
+The Source Code under <a href="https://github.com/Nemure231/typewrite/blob/main/LICENSE">MIT</a> LINCENSE
 
-The Word Data under <a href="https://github.com/Nemure231/typewrite/blob/main/data/LINCENSE">CC-BY-4.0</a> LINCENSE
+The Word Data under <a href="https://github.com/Nemure231/typewrite/blob/main/data/LICENSE">CC-BY-4.0</a> LINCENSE
