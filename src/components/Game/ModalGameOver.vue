@@ -12,6 +12,8 @@ const second = inject('secondProv');
 const millisecond = inject('milliProv');
 const pass = inject('passProv')
 const unPass = inject('unpassProv')
+const selectlang = inject('selectLangProv')
+const allWords = inject('allWordsProv')
 
 let reloadGame = () => {
     score.value = 0
@@ -20,6 +22,17 @@ let reloadGame = () => {
     pass.value = []
     unPass.value = []
     resetTimer()
+
+    if (selectlang.value == 2) {
+        allWords.value.forEach((element, index) => {
+            allWords.value.splice(index, 1, {
+                id: element.id,
+                name: element.name,
+                dir: 0,
+                top: element.top
+            })
+        });
+    }
 }
 
 let resetTimer = () => {

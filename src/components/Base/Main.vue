@@ -75,7 +75,6 @@ let startMoveWord = () => {
   pauseMoveWord();
 
   if (start.value) {
-
     stateMoveWord.value = setInterval(() => { countMoveWord() }, moveTime.value);
   }
 }
@@ -126,7 +125,6 @@ let countAddWord = () => {
     }
   }
 }
-
 
 let countDown = () => {
   if ((millisecond.value += 10) == 1000) {
@@ -246,12 +244,13 @@ watchEffect(() => {
 watchEffect(() => {
   const total = unPass.value.length + pass.value.length
   setTimeout(() => {
-    if (list.value.length == 0) {
+    if (pass.value.length > 0) {
       if (total == allWords.value.length) {
         modalGameOver.value = true
         start.value = false
         lose.value = 0
         list.value = []
+        nonrand.value = 0
         pauseAddWord()
         pauseMoveWord()
         pauseTimer()
@@ -262,7 +261,7 @@ watchEffect(() => {
         }
       }
     }
-  }, 500);
+  }, 1000);
 
 })
 
@@ -276,6 +275,7 @@ watch(
         modalGameOver.value = true
         lose.value = 0
         life.value = 0
+        nonrand.value = 0
         list.value = []
         ytLinkProv.value = ''
         pauseAddWord()
@@ -381,18 +381,16 @@ const isType = computed(() => {
     return defineAsyncComponent(() => import('../Type/Index.vue'))
   }
 })
-
-
-watchEffect(() => {
-  console.log(list.value)
-})
 </script>
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
-    <KeepAlive>
+
+    {{list}}
+    {{allWords}}
+    <!-- <KeepAlive> -->
       <component :is="isType" v-show="img"></component>
-    </KeepAlive>
+    <!-- </KeepAlive> -->
     <KeepAlive>
       <component :is="isBg" v-show="img"></component>
     </KeepAlive>
@@ -425,7 +423,7 @@ watchEffect(() => {
     <TimerView />
     <LifeView />
     <PreviewTypeView />
-    <Setting @childOpenModalSetting="() => openModalSetting()" />
+    <SettingView @childOpenModalSetting="() => openModalSetting()" />
 
     <Teleport to="body">
       <transition enter-from-class="transform opacity-0 scale-75" enter-active-class="duration-300 ease-out"
