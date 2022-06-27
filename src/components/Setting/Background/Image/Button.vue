@@ -25,19 +25,6 @@ const listEffect = ref([
 	},
 	{
 		id: 2,
-		name: 'coverflow'
-	},
-
-	{
-		id: 3,
-		name: 'flip',
-	},
-	{
-		id: 4,
-		name: 'cube'
-	},
-	{
-		id: 5,
 		name: 'card'
 	}
 ])
