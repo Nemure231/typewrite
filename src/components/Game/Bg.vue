@@ -1,36 +1,75 @@
 <script setup>
-import { inject, computed } from 'vue'
-import { Pagination, Navigation, Autoplay, EffectFade } from "swiper";
-import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import "swiper/css/pagination";
+import { inject, computed, watchEffect, ref} from 'vue'
+import { Autoplay, EffectFade, EffectCards } from "swiper";
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css'
 import "swiper/css/effect-fade";
+import "swiper/css/effect-cards"
 
-
+const modules = [Autoplay, EffectFade, EffectCards]
 const bg = inject('bgProv')
-const countTimer = inject('countTimerProv')
 const bgTime = inject('bgTimeProv')
+const swipr = inject('swiperProv');
+const swiperEffect = inject('swiperEffectProv')
+const swiperCondition = ref(false)
 
-const modules = [Pagination, Navigation, Autoplay, EffectFade]
-const swiperSlide = useSwiperSlide();
-const swiper = useSwiper();
+let onSwiper = (swiper) => {
+  swipr.value = swiper;
+}
 
-const autoPlay = computed(() => {
+watchEffect(() => {
+  if (bg.value.length > 0) {
+    swiperCondition.value = true
+  }
+})
+
+watchEffect((onInvalidate) => {
+  if (bg.value.length > 0) {
+    if (bgTime.value) {
+
+      const showBg = setTimeout(() => {
+        swipr.value.slideReset(bgTime.value, true)
+      }, 500);
+
+      onInvalidate(() => {
+        clearInterval(showBg)
+      })
+
+    }
+  }
+})
+
+watchEffect((onInvalidate) => {
+  if (bg.value.length > 0) {
+    if (swiperEffect.value) {
+      swiperCondition.value = false
+      const showBg = setTimeout(() => {
+        swiperCondition.value = true
+      }, 500);
+
+      onInvalidate(() => {
+        clearInterval(showBg)
+      })
+
+    }
+  }
+})
+
+const isAutoPlay = computed(() => {
   return {
     delay: bgTime.value / 2,
     disableOnInteraction: false
   }
 })
 
-const fade = computed(() => {
-  return 'fade'
+const isSwiperEffect = computed(() => {
+  return swiperEffect.value
 })
-
 </script>
 
 <template>
-  <Swiper v-if="bg.length > 0" :effect="fade" :speed="bgTime" :loop="true" :pagination="{ type: 'progressbar' }" :autoplay="autoPlay"
-    :modules="modules" class="mySwiper">
+  <Swiper v-if="swiperCondition" @swiper="onSwiper" :effect="isSwiperEffect" :loop="true"
+    :pagination="{ type: 'progressbar' }" :autoplay="isAutoPlay" :modules="modules">
     <SwiperSlide v-for="bgs in bg" :key="bgs.id" :style="
     {
       backgroundImage: `url(${bgs.url})`,
@@ -41,13 +80,13 @@ const fade = computed(() => {
     }">
     </SwiperSlide>
   </Swiper>
-
 </template>
 <style>
 .swiper-wrapper {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  left: 0px;
 }
 </style>

@@ -8,7 +8,7 @@ import Life from '../Game/Life.vue'
 import Start from '../Game/Start.vue'
 import Score from '../Game/Score.vue'
 import Text from '../Game/Text.vue'
-// import BgVue from '../Game/Bg.vue'
+import Bg from '../Game/Bg.vue'
 import Timer from '../Game/Timer.vue'
 import Total from '../Game/Total.vue';
 
@@ -371,21 +371,31 @@ const isYoutube = computed(() => {
 // })
 
 
+const img = computed(() => {
+    if(!bgOrYtProv.value){
 
-
-const isBg = computed(() => {
-    return defineAsyncComponent(() => import('../Game/Bg.vue'))
-
+      if(sound.value){
+        return true
+      }else{
+        return false
+      }
+    }else{
+      return true
+    }
 })
 
 
+// const isBg = computed(() => {
+//     return defineAsyncComponent(() => import('../Game/Bg.vue'))
+
+// })
 </script>
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
     <Type />
-    <component :is="isBg" ></component>
-    <component :is="isYoutube" v-show="!bgOrYtProv" :class="soundOnly">
+    <Bg v-show="img"></Bg>
+    <component :is="isYoutube" :class="soundOnly">
       <template #vueplyr>
         <vue-plyr ref="player" :options="options">
           <div class="plyr__video-embed" style="position: fixed; width: 100%; height: 100%">

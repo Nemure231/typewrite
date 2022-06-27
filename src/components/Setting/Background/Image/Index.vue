@@ -12,7 +12,6 @@ const { files, addFiles } = useFileList()
 const online = useOnline()
 const bgRef = ref();
 const bgProv = inject('bgProv')
-const countTimerProv = inject('countTimerProv')
 const bgTime = inject('bgTimeProv')
 const dragging = ref(false)
 const enabled = ref(true)
@@ -134,30 +133,6 @@ let clickBg = () => {
 	}
 }
 
-let removeOneBg = (id) => {
-	const idd = bgProv.value.findIndex((el) => el.id == id)
-	bgProv.value.splice(idd, 1);
-}
-
-const stateBgTimer = ref()
-
-let startTimerBg = () => {
-	pauseTimerBg();
-	stateBgTimer.value = setInterval(() => { countTimerBg() }, bgTime.value);
-}
-
-let pauseTimerBg = () => {
-	clearInterval(stateBgTimer.value);
-}
-
-let countTimerBg = () => {
-	countTimerProv.value++
-
-	if (countTimerProv.value >= bgProv.value.length) {
-		
-		countTimerProv.value = 0
-	}
-}
 
 let chooseBg = (e) => {
 	addFiles(e.target.files)

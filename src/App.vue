@@ -5,16 +5,18 @@ import Main from './components/Base/Main.vue'
 import ReOff from './components/Reload/Index.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
-
+//vue use
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const sm = breakpoints.smaller('sm')
-
 const online = useOnline()
 
 // Global Data
 const list = ref([])
 const pass = ref([])
 const unpass = ref([])
+const allWords = ref([])
+const showEx = ref(false)
+const listExTxt = ref([])
 
 
 //Game
@@ -24,21 +26,19 @@ const lose = ref(0)
 const start = ref(false)
 const showTime = ref(3000)
 const moveTime = ref(50)
-
 const previewType = ref('')
-const countTimer = ref(0)
 const selectLang = ref(0)
-const allWords = ref([])
 const typeText = ref(0)
-const showEx = ref(false)
-const listExTxt = ref([])
-
 
 
 //Bg
 const bg = ref([]);
 const bgTime = ref(10000)
 const startBgTimer = ref(false)
+
+//Swiper
+const swiper = ref()
+const swiperEffect = ref('fade')
 
 //Text
 const dirText = ref(0)
@@ -83,13 +83,12 @@ const id = ref([])
 const en = ref([])
 
 let loadData = async (state, name, url) => {
-  let emu = await import(/* @vite-ignore */ url);
+  let emu = await import(url);
   state.value = emu[name]
 }
 
 watchEffect(() => {
   var uma = []
-
   if (selectLang.value === 0) {
 
     if(online.value){
@@ -131,6 +130,22 @@ provide('muteProv', computed({
     mute.value = val
   }
 }))
+
+provide('swiperEffectProv', computed({
+  get: () => swiperEffect.value,
+  set: (val) => {
+    swiperEffect.value = val
+  }
+}))
+
+
+provide('swiperProv', computed({
+  get: () => swiper.value,
+  set: (val) => {
+    swiper.value = val
+  }
+}))
+
 
 provide('startBgTimerProv', computed({
   get: () => startBgTimer.value,
@@ -312,12 +327,6 @@ provide('bgOrYtProv', computed({
 }))
 
 
-provide('countTimerProv', computed({
-  get: () => countTimer.value,
-  set: (val) => {
-    countTimer.value = val
-  }
-}))
 
 provide('lifeProv', computed({
   get: () => life.value,
@@ -431,14 +440,6 @@ provide('bgProv', computed({
   get: () => bg.value,
   set: (val) => {
     bg.value = val
-  }
-}))
-
-
-provide('countTimerProv', computed({
-  get: () => countTimer.value,
-  set: (val) => {
-    countTimer.value = val
   }
 }))
 
