@@ -1,16 +1,14 @@
 <script setup>
 import { defineEmits, ref, inject, computed, defineAsyncComponent } from 'vue'
 import IndexMusicView from './Music/Index.vue';
-import { onClickOutside } from '@vueuse/core'
 import Loading from './Loading/Index.vue'
 import Error from './Error/Index.vue'
 
-
 const milli = inject('milliProv');
 const modalGameOver = inject('modalGameOverProv')
-const outsideClick = ref()
+const currentTab = ref('Level')
+const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'About'])
 
-onClickOutside(outsideClick, () => (childCloseModalSetting()))
 
 const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
 
@@ -28,8 +26,6 @@ let childStartGame = () => {
     emit("childStartGame")
 }
 
-const currentTab = ref('Level')
-const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'About'])
 const currentComponent = computed(() => {
 
     var asyncComp
@@ -116,7 +112,7 @@ const currentComponent = computed(() => {
             <span class="hidden sm:inline-block rounded-xl" aria-hidden="true">&#8203;</span>
             <div
                 class="relative inline-block  align-bottom rounded-xl text-left  shadow-xl transform transition-all sm:align-middle">
-                <div class="backdrop-blur-sm bg-white/75 relative rounded-xl ">
+                <div class="backdrop-blur-sm bg-white/75 relative rounded-xl">
                     <div class="absolute right-6 top-3">
                         <div @click="childCloseModalSetting()" class="cursor-pointer hover:bg-red-100">
                             <svg class=" w-8 h-8" xmlns="http://www.w3.org/2000/svg"
