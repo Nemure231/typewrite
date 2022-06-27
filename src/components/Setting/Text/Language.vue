@@ -39,7 +39,6 @@ let addExTxt = () => {
     } else {
         const splt = exTxt.value.split(' ')
         splt.forEach((element, index) => {
-
             const filt = element.toLowerCase().replace(/\W/g, '').replace(/[0-9]/g, '')
 
             if (filt !== '') {

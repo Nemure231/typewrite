@@ -8,7 +8,7 @@ import StartView from '../Game/Start.vue'
 import ScoreView from '../Game/Score.vue'
 import TextView from '../Game/Text.vue'
 import TimerView from '../Game/Timer.vue'
-import TotalView from '../Game/Total.vue';
+import TotalView from '../Game/Total.vue'
 
 const allWords = inject('allWordsProv')
 const pass = inject('passProv')
@@ -256,7 +256,7 @@ watchEffect(() => {
         pauseTimer()
         ytLinkProv.value = ''
 
-        if(!bgOrYtProv.value){
+        if (!bgOrYtProv.value) {
           player.value.player.stop()
         }
       }
@@ -281,8 +281,8 @@ watch(
         pauseAddWord()
         pauseMoveWord()
         pauseTimer()
-        if(!bgOrYtProv.value){
-            player.value.player.stop()
+        if (!bgOrYtProv.value) {
+          player.value.player.stop()
         }
       } else {
         life.value -= 1
@@ -385,12 +385,7 @@ const isType = computed(() => {
 
 <template>
   <main class="flex-1 w-full h-full mb-0 relative">
-
-    {{list}}
-    {{allWords}}
-    <!-- <KeepAlive> -->
-      <component :is="isType" v-show="img"></component>
-    <!-- </KeepAlive> -->
+    <component :is="isType" v-show="img"></component>
     <KeepAlive>
       <component :is="isBg" v-show="img"></component>
     </KeepAlive>
@@ -429,10 +424,8 @@ const isType = computed(() => {
       <transition enter-from-class="transform opacity-0 scale-75" enter-active-class="duration-300 ease-out"
         enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
         leave-active-class="duration-300 ease-in" leave-to-class="transform opacity-0 scale-75">
-        <KeepAlive>
-          <component :is="isModalGameOver" v-if="modalGameOver" class="lg:mt-0 md:mt-0 mt-12 z-30">
-          </component>
-        </KeepAlive>
+        <component :is="isModalGameOver" v-if="modalGameOver" class="lg:mt-0 md:mt-0 mt-12 z-30">
+        </component>
       </transition>
     </Teleport>
 
@@ -444,7 +437,6 @@ const isType = computed(() => {
           <component :is="isModalSetting" class="z-50" v-show="modalSettingButton"
             @childCloseModalSetting="() => closeModalSetting()" @childStartGame="() => startGame()">
           </component>
-
         </KeepAlive>
       </transition>
     </Teleport>
