@@ -3,7 +3,7 @@ import { ref, provide, computed, watchEffect, defineAsyncComponent } from 'vue';
 import { useOnline } from '@vueuse/core'
 import MainView from './components/Base/Main.vue'
 import ReOffView from './components/Reload/Index.vue'
-import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { breakpointsTailwind, useBreakpoints, useStorage } from '@vueuse/core'
 
 //vue use
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -24,8 +24,8 @@ const score = ref(0)
 const life = ref(5)
 const lose = ref(0)
 const start = ref(false)
-const showTime = ref(3000)
-const moveTime = ref(50)
+const showTime = useStorage('typewrite_text_show_time', 3000)
+const moveTime = useStorage('typewrite_text_move_time', 50)
 const previewType = ref('')
 const selectLang = ref(0)
 const typeText = ref(0)
@@ -41,36 +41,35 @@ const swiper = ref()
 const swiperEffect = ref('fade')
 
 //Text
-const dirText = ref(0)
+const dirText = useStorage('typewrite_direction_text', 0)
 
 //Font
-const color = ref('#000000')
-const bgColor = ref(`#FFFFFF`)
-const fontSize = ref(14)
-const fontWeight = ref(400)
-const paddingY = ref(4)
-const paddingX = ref(6)
-const borderColor = ref(`#FFFFFF`)
-const borderWidth = ref(1)
-const borderRadius = ref(0)
+const color = useStorage('typewrite_font_color', '#000000')
+const bgColor = useStorage('typewrite_bg_color', `#FFFFFF`)
+const fontSize = useStorage('typewrite_font_size', 14)
+const fontWeight =  useStorage('typewrite_font_weight', 400)
+const paddingY = useStorage('typewrite_padding_y', 4)
+const paddingX = useStorage('typewrite_padding_x', 6)
+const borderColor = useStorage('typewrite_border_color', `#FFFFFF`)
+const borderWidth = useStorage('typewrite_border_width', 1)
+const borderRadius = useStorage('typewrite_border_radius', 0)
 
 //Type
 const testType = ref('')
-const submitType = ref(0)
-const ytRestart = ref(true)
+const submitType = useStorage('typewrite_submit_type', 0)
 
 //yOUTUBE
-const mute = ref(false)
-const loop = ref(false)
+const mute = useStorage('typewrite_youtube_mute', false)
+const loop = useStorage('typewrite_youtube_loop', false)
 const bgOrYt = ref(true)
 const ytLink = ref('')
 const ytId = ref([])
-const sound = ref(false)
+const sound = useStorage('typewrite_youtube_sound', false)
 
 //Highligh
-const highlightColor = ref('#000000')
-const highlightStyle = ref('solid')
-const highlightThick = ref(2)
+const highlightColor = useStorage('typewrite_highlight_color', '#000000')
+const highlightStyle = useStorage('typewrite_highlight_style', 'solid')
+const highlightThick = useStorage('typewrite_highlight_thick', 2)
 
 //Timer
 const hour = ref(0);
@@ -78,7 +77,7 @@ const minute = ref(0);
 const second = ref(0);
 const milli = ref(0);
 
-
+//language
 const id = ref([])
 const en = ref([])
 
@@ -285,14 +284,6 @@ provide('dirTextProv', computed({
   get: () => dirText.value,
   set: (val) => {
     dirText.value = val
-  }
-}))
-
-
-provide('ytRestartProv', computed({
-  get: () => ytRestart.value,
-  set: (val) => {
-    ytRestart.value = val
   }
 }))
 

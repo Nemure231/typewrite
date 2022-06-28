@@ -6,7 +6,6 @@ import Error from './Error/Index.vue'
 
 const milli = inject('milliProv')
 const second = inject('secoundProv')
-// const start = inject('startProv');
 const modalGameOver = inject('modalGameOverProv')
 const currentTab = ref('Level')
 const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'About'])
