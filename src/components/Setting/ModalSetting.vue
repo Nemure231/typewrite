@@ -4,7 +4,9 @@ import IndexMusicView from './Music/Index.vue';
 import Loading from './Loading/Index.vue'
 import Error from './Error/Index.vue'
 
-const milli = inject('milliProv');
+const milli = inject('milliProv')
+const second = inject('secoundProv')
+// const start = inject('startProv');
 const modalGameOver = inject('modalGameOverProv')
 const currentTab = ref('Level')
 const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'About'])
@@ -15,10 +17,11 @@ const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
 let childCloseModalSetting = () => {
     emit("childCloseModalSetting")
 
-    if (milli.value > 0) {
+    if (milli.value > 0 || second.value > 0) {
         if (!modalGameOver.value) {
             childStartGame()
         }
+
     }
 
 }
