@@ -136,7 +136,7 @@ const ava = ref([
     <div class="flex-1">
         <span class="text-2xl font-bold">Available Type</span>
         <div class="flex flex-row flex-wrap gap-3 mt-3 font-normal justify-center">
-            <span v-for="als in ava" :key="als.id" :class="testType == als.name && 'bg-sky-100'"
+            <span v-for="als in ava" :key="als.id" :class="testType == als.name && 'bg-sky-100 dark:bg-gray-600'"
                 class="py-1 px-3 rounded-md border border-sky-500 shadow-md text-lg text-center">
                 {{ als.name }}
             </span>

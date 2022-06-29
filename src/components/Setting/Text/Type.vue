@@ -9,7 +9,7 @@ const typeText = inject('typeTextProv')
     <div class="flex-1">
         <span class="text-2xl font-bold">Type</span>
         <div class="flex gap-3 mt-3">
-            <button :class="typeText == 1 && 'bg-sky-100'" @click="typeText = 1"
+            <button :class="typeText == 1 && 'bg-sky-100 dark:bg-gray-600'" @click="typeText = 1"
                 class="flex-1 py-0.25 px-3 rounded-md border-2 border-sky-500">
                 <div class="inline-flex justify-center items-center gap-2">
                     <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -23,7 +23,7 @@ const typeText = inject('typeTextProv')
                     <input class="hidden" type="radio" v-model="typeText" value="1" />
                 </div>
             </button>
-            <button :class="typeText == 0 && 'bg-sky-100'" @click="typeText = 0"
+            <button :class="typeText == 0 && 'bg-sky-100 dark:bg-gray-600'" @click="typeText = 0"
                 class="flex-1 py-0.25 px-3 rounded-md border-2 border-sky-500">
                 <div class="inline-flex justify-center items-center gap-2">
 

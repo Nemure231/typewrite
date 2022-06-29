@@ -25,7 +25,7 @@ const moveTime = inject('moveTimeProv')
 
         <div class="flex-1 w-full mt-2">
             <span class="text-2xl font-bold">Select</span>
-            <div class="mt-3 grid grid-cols-2 gap-3 justify-start">
+            <div class="mt-3 grid grid-cols-2 gap-3 justify-start dark:bg-gray-800">
                 <ButtonLevelView />
             </div>
         </div>

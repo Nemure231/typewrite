@@ -3,12 +3,14 @@ import { ref, provide, computed, watchEffect, defineAsyncComponent } from 'vue';
 import { useOnline } from '@vueuse/core'
 import MainView from './components/Base/Main.vue'
 import ReOffView from './components/Reload/Index.vue'
-import { breakpointsTailwind, useBreakpoints, useStorage } from '@vueuse/core'
+import { breakpointsTailwind, useBreakpoints, useStorage, useDark } from '@vueuse/core'
+
 
 //vue use
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const sm = breakpoints.smaller('sm')
 const online = useOnline()
+const isDark = useDark()
 
 // Global Data
 const list = ref([])
@@ -18,6 +20,11 @@ const allWords = ref([])
 const showEx = ref(false)
 const listExTxt = ref([])
 
+//visiblity
+const lifeToggle = useStorage('typewrite_life_toggle', true)
+const scoreToggle = useStorage('typewrite_score_toggle', true)
+const totalToggle = useStorage('typewrite_total_toggle', true)
+const timeToggle = useStorage('typewrite_time_toggle', true)
 
 //Game
 const score = ref(0)
@@ -121,6 +128,45 @@ watchEffect(() => {
   }
   allWords.value = uma
 })
+
+
+provide('isDarkProv', computed({
+  get: () => isDark,
+  set: (val) => {
+    isDark = val
+  }
+}))
+
+provide('lifeToggleProv', computed({
+  get: () => lifeToggle.value,
+  set: (val) => {
+    lifeToggle.value = val
+  }
+}))
+
+provide('scoreToggleProv', computed({
+  get: () => scoreToggle.value,
+  set: (val) => {
+    scoreToggle.value = val
+  }
+}))
+
+
+provide('totalToggleProv', computed({
+  get: () => totalToggle.value,
+  set: (val) => {
+    totalToggle.value = val
+  }
+}))
+
+
+provide('timeToggleProv', computed({
+  get: () => timeToggle.value,
+  set: (val) => {
+    timeToggle.value = val
+  }
+}))
+
 
 
 provide('muteProv', computed({

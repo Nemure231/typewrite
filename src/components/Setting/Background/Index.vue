@@ -7,8 +7,8 @@ import YoutubeBg from './Youtube/Index.vue'
 const bgOrYtProv = inject('bgOrYtProv')
 const online = useOnline()
 
-const isBgOrYtTrue = computed(() => bgOrYtProv.value ? 'bg-sky-500 text-white' : 'border-2 bg-white text-sky-500 border-sky-500')
-const isBgOrYtFalse = computed(() => !bgOrYtProv.value ? 'bg-sky-500 text-white' : 'border-2 bg-white text-sky-500 border-sky-500')
+const isBgOrYtTrue = computed(() => bgOrYtProv.value ? 'bg-sky-500 text-white' : 'border-2 bg-white dark:bg-transparent text-sky-500 border-sky-500')
+const isBgOrYtFalse = computed(() => !bgOrYtProv.value ? 'bg-sky-500 text-white' : 'border-2 bg-white dark:bg-transparent text-sky-500 border-sky-500')
 
 const isOffline = computed(() => {
     if (!online.value) {

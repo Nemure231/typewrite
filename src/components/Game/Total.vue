@@ -11,6 +11,7 @@ const borderRadius = inject('borderRadiusProv')
 const pass = inject('passProv')
 const unPass = inject('unpassProv')
 const allWords = inject('allWordsProv')
+const totalToggle = inject('totalToggleProv')
 
 const changeStyle = computed(() => {
   const text = {
@@ -24,18 +25,20 @@ const changeStyle = computed(() => {
   return text
 })
 
-const changeTimer =  computed(() => `${allWords.value.length - (pass.value.length + unPass.value.length) }/${pass.value.length + unPass.value.length}`)
+const changeTimer = computed(() => `${allWords.value.length - (pass.value.length + unPass.value.length)}/${pass.value.length + unPass.value.length}`)
+
+const isTotalVisible = computed(() => totalToggle.value ? 'block' : 'hidden')
 
 </script>
 <template>
 
-  <div class="fixed top-3 w-full z-40">
+  <div class="fixed top-3 w-full z-40" :class="isTotalVisible">
     <div class="flex justify-center items-center">
-      <span class="text-2xl bg-white py-0.5 w-auto px-3.5" :style="changeStyle"
-      v-text="changeTimer">
-  
+      <span class="text-2xl bg-white py-0.5 w-auto px-3.5" :style="changeStyle" v-text="changeTimer">
+
       </span>
     </div>
   </div>
+
 
 </template>

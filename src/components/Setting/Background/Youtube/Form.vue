@@ -50,7 +50,7 @@ let checkUrlImg = (url) => {
 <template>
 	<div class="relative mt-2">
 		<input v-model.trim="ytLinkProv"
-			class="py-2.5 pl-4 pr-24 focus:outline-none w-full font-normal border-2 border-sky-500 rounded-lg" type="url" />
+			class="py-2.5 pl-4 pr-24 dark:bg-gray-700 focus:outline-none w-full font-normal border-2 border-sky-500 rounded-lg" type="url" />
 
 		<button type="submit" @click="addBgYt()"
 			class="absolute top-1 right-1 py-2 px-4 bg-sky-500 text-white font-semibold rounded-lg">

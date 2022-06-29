@@ -11,6 +11,7 @@ const bgColor = inject('bgColorProv')
 const borderColor = inject('borderColorProv')
 const borderWidth = inject('borderWidthProv')
 const borderRadius = inject('borderRadiusProv')
+const timeToggle = inject('timeToggleProv')
 
 const changeStyle = computed(() => {
   const text = {
@@ -32,10 +33,13 @@ let showTimer = computed(() => {
   return `${timHour}:${timMinute}:${timSecond}:${timMili}`
 })
 
+
+const isTimeVisible = computed(() => timeToggle.value ? 'block' : 'hidden')
+
 </script>
 <template>
 
-  <div class="fixed bottom-3 w-full z-40">
+  <div class="fixed bottom-3 w-full z-40" :class="isTimeVisible" >
     <div class="flex justify-center items-center">
       <span class="text-2xl bg-white py-0.5 w-auto px-3.5" :style="changeStyle" v-text="showTimer">
       </span>

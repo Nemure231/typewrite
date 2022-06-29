@@ -54,7 +54,7 @@ const optionHi = ref([
             <div>
                 <div class="flex flex-col">
                     <label class="text-sm font-semibold mb-2.5">Style</label>
-                    <select class="font-normal focus:outline-none border-2 px-2 py-1 -mt-2 rounded-xl border-sky-500" v-model="highlightStyle">
+                    <select class="font-normal focus:outline-none dark:bg-gray-700 border-2 px-2 py-1 -mt-2 rounded-xl border-sky-500" v-model="highlightStyle">
                         <option v-for="oh in optionHi" :key="oh.id" :value="oh.name">
                             {{oh.name}}
                         </option>

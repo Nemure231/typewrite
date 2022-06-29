@@ -62,7 +62,7 @@ let addExTxt = () => {
             <span class="text-2xl font-bold">Language</span>
             <div class="relative mt-3">
                 <select v-model="selectLangProv" :disabled="list.length > 0 == true" :readonly="list.length > 0 == true"
-                    class="border cursor-pointer border-sky-500 text-lg appearance-none relative default:bg-sky-30 text-sky-500 custom-bg-darker rounded-md block py-3 px-2 focus:outline-none focus:ring focus:ring-sky-300/20 w-full">
+                    class="border dark:bg-gray-700 cursor-pointer border-sky-500 text-lg appearance-none relative default:bg-sky-30 text-gray-500 dark:text-gray-300 custom-bg-darker rounded-md block py-3 px-2 focus:outline-none focus:ring focus:ring-sky-300/20 w-full">
                     <option class="cursor-pointer" v-for="lg in lang" :key="lg.id" :value="lg.id">
                         {{ lg.name }}
                     </option>
@@ -79,7 +79,7 @@ let addExTxt = () => {
             <span class="text-2xl font-bold">External Text</span>
             <div class="flex flex-col justify-end items-end gap-3 mt-3">
                 <textarea v-model="exTxt" :disabled="list.length > 0 == true" :readonly="list.length > 0 == true"
-                    class="py-2.5 pl-4 pr-24 font-normal focus:outline-none w-full border-2 border-sky-500 rounded-lg"
+                    class="py-2.5 pl-4 pr-24 font-normal focus:outline-none w-full border-2 dark:bg-gray-700 border-sky-500 rounded-lg"
                     type="text" pattern="[A-Za-z]"></textarea>
 
                 <button type="submit" @click="addExTxt()" :disabled="list.length > 0 == true"

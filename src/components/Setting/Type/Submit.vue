@@ -55,7 +55,7 @@ watch(() => [a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.va
     <div class="flex-1">
         <span class="text-2xl font-bold">Submit Type</span>
         <div class="flex gap-3 mt-3">
-            <button :class="submitType == 0 && 'bg-sky-100'" @click="submitType = 0"
+            <button :class="submitType == 0 && 'bg-sky-100 dark:bg-gray-600'" @click="submitType = 0"
                 class="flex-1 py-2 px-3 rounded-md border-2 border-sky-500">
                 <div class="inline-flex justify-center items-center gap-2">
                     <span class="text-lg">
@@ -73,7 +73,7 @@ watch(() => [a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.va
                     <input class="hidden" type="radio" v-model="submitType" value="0" />
                 </div>
             </button>
-            <button :class="submitType == 1 && 'bg-sky-100'" @click="submitType = 1"
+            <button :class="submitType == 1 && 'bg-sky-100 dark:bg-gray-600'" @click="submitType = 1"
                 class="flex-1 py-0.25 px-3 rounded-md border-2 border-sky-500">
                 <div class="inline-flex justify-center items-center gap-2">
                     <span class="text-lg">

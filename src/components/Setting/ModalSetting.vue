@@ -5,11 +5,10 @@ import Loading from './Loading/Index.vue'
 import Error from './Error/Index.vue'
 
 const milli = inject('milliProv')
-const second = inject('secoundProv')
+const second = inject('secondProv')
 const modalGameOver = inject('modalGameOverProv')
 const currentTab = ref('Level')
-const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'About'])
-
+const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'General', 'About'])
 
 const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
 
@@ -20,9 +19,7 @@ let childCloseModalSetting = () => {
         if (!modalGameOver.value) {
             childStartGame()
         }
-
     }
-
 }
 let childStartGame = () => {
     emit("childStartGame")
@@ -92,6 +89,16 @@ const currentComponent = computed(() => {
         })
     }
 
+    if (currentTab.value == 'General') {
+        asyncComp = defineAsyncComponent({
+            loader: () => import(`./General/Index.vue`),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
+    }
+
     if (currentTab.value == 'About') {
         asyncComp = defineAsyncComponent({
             loader: () => import(`./About/Index.vue`),
@@ -114,7 +121,7 @@ const currentComponent = computed(() => {
             <span class="hidden sm:inline-block rounded-xl" aria-hidden="true">&#8203;</span>
             <div
                 class="relative inline-block  align-bottom rounded-xl text-left  shadow-xl transform transition-all sm:align-middle">
-                <div class="backdrop-blur-sm bg-white/75 relative rounded-xl">
+                <div class="backdrop-blur-sm bg-white/75 dark:bg-gray-800/75 relative rounded-xl">
                     <div class="absolute right-6 top-3">
                         <div @click="childCloseModalSetting()" class="cursor-pointer hover:bg-red-100">
                             <svg class=" w-8 h-8" xmlns="http://www.w3.org/2000/svg"
@@ -132,8 +139,8 @@ const currentComponent = computed(() => {
                                 <div class="flex-none  basis-[20%] rounded-xl">
                                     <div class="flex flex-col items-center justify-center flex-wrap py-2 px-2">
                                         <button v-for="m in tabs" :key="m" @click="currentTab = m"
-                                            class="w-full text-left p-2 rounded-xl"
-                                            :class="currentTab == m && 'bg-sky-200'">
+                                            class="w-full text-left p-2 rounded-xl dark:text-gray-300"
+                                            :class="currentTab == m && 'bg-sky-200 dark:bg-gray-600'">
                                             <span class="text-xl w-full font-semibold relative">
                                                 <span></span>
                                                 <!-- :class="m.id ==  && `animate-ping absolute inline-flex h-3 w-3 top-0 -right-4 rounded-full bg-sky-400 opacity-75`" -->
@@ -143,9 +150,11 @@ const currentComponent = computed(() => {
                                     </div>
                                 </div>
                                 <div class="flex-1 basis-[80%] px-12 py-6">
-                                    <div class="flex flex-col">
-                                        <component :is="currentComponent">
-                                        </component>
+                                    <div class="flex flex-col dark:text-gray-300">
+                                        <KeepAlive>
+                                            <component :is="currentComponent">
+                                            </component>
+                                        </KeepAlive>
                                         <IndexMusicView v-show="currentTab == 'Music'" />
                                     </div>
                                 </div>

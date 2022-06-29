@@ -196,7 +196,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 									<div class="flex items-center relative">
 										<input v-if="online" v-model="urlImg" :disabled="!online && true"
 											:readonly="!online && true"
-											class="relative border w-96 font-normal border-sky-500 rounded-md pl-3 pr-[5.5rem] lg:py-3 md:py-3 py-3 focus:outline-none"
+											class=" dark:bg-gray-700 relative border w-96 font-normal border-sky-500 rounded-md pl-3 pr-[5.5rem] lg:py-3 md:py-3 py-3 focus:outline-none"
 											type="url" placeholder="Link/Local Image ....">
 
 										<button :class="isOnlineInput"

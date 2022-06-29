@@ -107,34 +107,34 @@ const isNightmareButton = computed(() => {
 </script>
 <template>
   <button @click="easyButton()" :class="isLevelEasy"
-    class=" rounded-md bg-white text-left font-semibold px-6 py-3 w-full text-lg shadow-md">
+    class=" rounded-md  text-left font-semibold px-6 py-3 w-full text-lg shadow-md">
     Easygoing,
     <small class="text-xs block  text-pink-500">take your time.</small>
   </button>
   <button @click="playfulButton()" :class="isPlayfulButton"
-    class=" rounded-md bg-white text-left font-semibold px-6 py-3  w-full text-lg shadow-md ">
+    class=" rounded-md  text-left font-semibold px-6 py-3  w-full text-lg shadow-md ">
     Playful,
     <small class="text-xs block  text-green-500">enjoy it.</small>
   </button>
   <button @click="normalButton()" :class="isNormalButton"
-    class=" rounded-md bg-white text-left font-semibold px-6 py-3 w-full text-lg shadow-md ">
+    class=" rounded-md  text-left font-semibold px-6 py-3 w-full text-lg shadow-md ">
     Normal,
     <small class="text-xs block  text-blue-500">this is good.</small>
   </button>
   <button @click="dangerButton()" :class="isDangerButton"
-    class=" rounded-md bg-white text-left font-semibold px-6 py-3 w-full text-lg shadow-md ">
+    class=" rounded-md  text-left font-semibold px-6 py-3 w-full text-lg shadow-md ">
     Danger,
     <small class="text-xs block  text-red-500">sometimes you need challenge.</small>
   </button>
   <button @click="helpButton()" :class="isHelpButton"
-    class=" rounded-md bg-white text-left font-semibold px-6 py-3 w-full text-lg shadow-md ">
+    class=" rounded-md  text-left font-semibold px-6 py-3 w-full text-lg shadow-md ">
     Help,
     <small class="text-xs block  text-purple-500">why are you choose this?</small>
   </button>
   <button @click="nightmareButton()" :class="isNightmareButton"
-    class=" rounded-md bg-white text-left font-semibold px-6 py-3 w-full text-lg shadow-md  ">
+    class=" rounded-md  text-left font-semibold px-6 py-3 w-full text-lg shadow-md  ">
     Nightmare,
-    <small class="text-xs block  text-black">are you really human?</small>
+    <small class="text-xs block  text-gray-500">are you really human?</small>
   </button>
   <input type="radio" class="hidden" ref="stateEasy" value="1" v-model="currentLevel" />
   <input type="radio" class="hidden" ref="statePlayful" value="2" v-model="currentLevel" />

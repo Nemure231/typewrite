@@ -68,7 +68,7 @@ const changeStyle = computed(() => {
     :style="[direction(li), changeStyle]">
   <div class=" fixed inset-0 z-10">
   </div>
-  <div v-html="li.name">
+  <div  v-html="li.name">
 
   </div>
   </p>
