@@ -13,7 +13,7 @@ const isScore = computed(() => {
 })
 
 
-const isScoreVisible = computed(() => scoreToggle.value ? 'block' : 'hidden')
+const isScoreVisible = computed(() => scoreToggle.value ? 'hidden' : 'block')
 
 </script>
 

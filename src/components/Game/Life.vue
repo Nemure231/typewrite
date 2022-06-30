@@ -5,7 +5,7 @@ const life = inject('lifeProv')
 const lifeToggle = inject('lifeToggleProv')
 
 
-const isLifeVisible = computed(() => lifeToggle.value ? 'block' : 'hidden')
+const isLifeVisible = computed(() => lifeToggle.value ? 'hidden' : 'block')
 </script>
 
 <template>
@@ -25,7 +25,7 @@ const isLifeVisible = computed(() => lifeToggle.value ? 'block' : 'hidden')
         </div>
     </div>
     <div class="absolute left-4 -top-32 z-30" :class="isLifeVisible">
-        <div class="relative w-10 h-80 rotate-45 dark:bg-gray-800 bg-gray-100  shadow-sm dark:shadow-gray-300">
+        <div class="relative w-10 h-80 rotate-45 dark:bg-gray-800 bg-gray-100 shadow-sm dark:shadow-gray-300">
             <span :class="life.toString().length == 1 ? ' -right-4':' -right-[22px]'" class="absolute top-[146px] -rotate-90 text-2xl font-bold py-0.5 dark:text-gray-300 rounded-2xl w-auto px-6">
                 {{life}}
             </span>

@@ -34,7 +34,7 @@ let showTimer = computed(() => {
 })
 
 
-const isTimeVisible = computed(() => timeToggle.value ? 'block' : 'hidden')
+const isTimeVisible = computed(() => timeToggle.value ? 'hidden' : 'block')
 
 </script>
 <template>

@@ -7,8 +7,8 @@ import Error from './Error/Index.vue'
 const milli = inject('milliProv')
 const second = inject('secondProv')
 const modalGameOver = inject('modalGameOverProv')
-const currentTab = ref('Level')
-const tabs = ref(['Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'General', 'About'])
+const currentTab = inject('currentTabProv')
+const tabs = ref(['General', 'Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'Support', 'About'])
 
 const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
 
@@ -89,6 +89,16 @@ const currentComponent = computed(() => {
         })
     }
 
+    if (currentTab.value == 'Support') {
+        asyncComp = defineAsyncComponent({
+            loader: () => import(`./Support/Index.vue`),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
+    }
+
     if (currentTab.value == 'General') {
         asyncComp = defineAsyncComponent({
             loader: () => import(`./General/Index.vue`),
@@ -142,9 +152,10 @@ const currentComponent = computed(() => {
                                             class="w-full text-left p-2 rounded-xl dark:text-gray-300"
                                             :class="currentTab == m && 'bg-sky-200 dark:bg-gray-600'">
                                             <span class="text-xl w-full font-semibold relative">
-                                                <span></span>
-                                                <!-- :class="m.id ==  && `animate-ping absolute inline-flex h-3 w-3 top-0 -right-4 rounded-full bg-sky-400 opacity-75`" -->
-                                                {{ m }}
+                                                <span
+                                                    :class="m == 'Support' && `animate-ping absolute inline-flex h-2.5 w-2 top-0 -right-3 rounded-full bg-sky-400 opacity-75`">
+                                                </span>
+                                                    {{ m }}
                                             </span>
                                         </button>
                                     </div>

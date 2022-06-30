@@ -27,11 +27,10 @@ const changeStyle = computed(() => {
 
 const changeTimer = computed(() => `${allWords.value.length - (pass.value.length + unPass.value.length)}/${pass.value.length + unPass.value.length}`)
 
-const isTotalVisible = computed(() => totalToggle.value ? 'block' : 'hidden')
+const isTotalVisible = computed(() => totalToggle.value ? 'hidden' : 'block')
 
 </script>
 <template>
-
   <div class="fixed top-3 w-full z-40" :class="isTotalVisible">
     <div class="flex justify-center items-center">
       <span class="text-2xl bg-white py-0.5 w-auto px-3.5" :style="changeStyle" v-text="changeTimer">
@@ -39,6 +38,4 @@ const isTotalVisible = computed(() => totalToggle.value ? 'block' : 'hidden')
       </span>
     </div>
   </div>
-
-
 </template>

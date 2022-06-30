@@ -26,7 +26,15 @@ export default function () {
 						size: 'cover',
 						repeat: 'no-repeat',
 						color: '#FFFFFF',
-						position: 'center'
+						position: 'center',
+						brightness: 1,
+						blur: 0,
+						contrast: 1,
+						grayscale: 0,
+						hue: 0,
+						invert: 0,
+						saturate: 1,
+						sepia: 0
 					})
 					
 			}

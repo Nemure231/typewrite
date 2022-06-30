@@ -62,6 +62,10 @@ const isSwiperEffect = computed(() => {
       backgroundRepeat: bgs.repeat,
       backgroundColor: bgs.color,
       backgroundPosition: bgs.position,
+      filter:  `brightness(${bgs.brightness}) blur(${bgs.blur}px) 
+                contrast(${bgs.contrast}) grayscale(${bgs.grayscale}%)
+                hue-rotate(${bgs.hue}deg) invert(${bgs.invert}%) 
+                saturate(${bgs.saturate}) sepia(${bgs.sepia})`
     }">
     </SwiperSlide>
   </Swiper>

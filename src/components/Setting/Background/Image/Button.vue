@@ -35,15 +35,15 @@ const listEffect = ref([
 		<div class="flex flex-row justify-center items-center gap-6">
 			<div class="relative flex-1">
 
-				<button @click="startStop()" :class="startSwiper ? 'bg-sky-500 text-white' : 'bg-white text-sky-500'"
+				<button @click="startStop()" :class="startSwiper ? 'bg-sky-500 text-white' : 'dark:bg-gray-600 dark:text-gray-300 bg-white text-sky-500'"
 					class="font-semibold w-full text-lg py-2 px-4 rounded-3xl">
 					{{ startSwiper ? 'Stop' : 'Start' }}
 				</button>
 			</div>
 			<div class="relative flex-1 ">
 				<select v-model="swiperEffect"
-					class="font-semibold w-full capitalize text-center focus:outline-none  text-lg appearance-none relative  text-white py-2.5 px-4 bg-sky-500 rounded-3xl">
-					<option class="text-sky-500 bg-white" v-for="le in listEffect" :key="le.id" :value="le.name">
+					class="font-semibold w-full  capitalize text-center focus:outline-none  text-lg appearance-none relative  text-white py-2.5 px-4 bg-sky-500 rounded-3xl">
+					<option class="text-sky-500 dark:bg-gray-700 dark:text-gray-300 bg-white" v-for="le in listEffect" :key="le.id" :value="le.name">
 						{{ le.name }}
 					</option>
 				</select>

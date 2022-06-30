@@ -12,6 +12,10 @@ const sm = breakpoints.smaller('sm')
 const online = useOnline()
 const isDark = useDark()
 
+// modal current tab
+const currentTab = useStorage('typewrite_current_tab', 'Level')
+
+
 // Global Data
 const list = ref([])
 const pass = ref([])
@@ -21,10 +25,10 @@ const showEx = ref(false)
 const listExTxt = ref([])
 
 //visiblity
-const lifeToggle = useStorage('typewrite_life_toggle', true)
-const scoreToggle = useStorage('typewrite_score_toggle', true)
-const totalToggle = useStorage('typewrite_total_toggle', true)
-const timeToggle = useStorage('typewrite_time_toggle', true)
+const lifeToggle = useStorage('typewrite_life_toggle', false)
+const scoreToggle = useStorage('typewrite_score_toggle', false)
+const totalToggle = useStorage('typewrite_total_toggle', false)
+const timeToggle = useStorage('typewrite_time_toggle', false)
 
 //Game
 const score = ref(0)
@@ -42,6 +46,7 @@ const typeText = ref(0)
 const bg = ref([]);
 const bgTime = ref(10000)
 const startBgTimer = ref(false)
+const currentFilter = ref(0)
 
 //Swiper
 const swiper = ref()
@@ -128,6 +133,21 @@ watchEffect(() => {
   }
   allWords.value = uma
 })
+
+provide('currentTabProv', computed({
+  get: () => currentTab.value,
+  set: (val) => {
+    currentTab.value = val
+  }
+}))
+
+provide('currentFilterProv', computed({
+  get: () => currentFilter.value,
+  set: (val) => {
+    currentFilter.value = val
+  }
+}))
+
 
 
 provide('isDarkProv', computed({

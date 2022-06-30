@@ -16,6 +16,7 @@ const bgTime = inject('bgTimeProv')
 const dragging = ref(false)
 const enabled = ref(true)
 const urlImg = ref('')
+const currentFilter = inject('currentFilterProv')
 
 const currentPop = ref(0)
 const bgRepeatOption = ref([
@@ -100,6 +101,42 @@ const bgPositionOption = ref([
 ])
 
 
+const filterList = ref([
+	{
+		id: 1,
+		name: `brightness`,
+	},
+	{
+		id: 2,
+		name: `blur`,
+	},
+	{
+		id: 3,
+		name: `contrast`,
+	},
+	{
+		id: 4,
+		name: `grayscale`,
+	},
+	{
+		id: 5,
+		name: `hue`,
+	},
+	{
+		id: 6,
+		name: `invert`
+	},
+	{
+		id: 7,
+		name: `saturate`,
+	},
+	{
+		id: 8,
+		name: `sepia`
+	}
+])
+
+
 provide('bgTimeProv', computed({
 	get: () => bgTime.value,
 	set: (val) => {
@@ -119,7 +156,15 @@ let clickBg = () => {
 					size: 'cover',
 					repeat: 'no-repeat',
 					color: '#FFFFFF',
-					position: 'center'
+					position: 'center',
+					brightness: 1,
+					blur: 0,
+					contrast: 1,
+					grayscale: 0,
+					hue: 15,
+					invert: 0,
+					saturate: 1,
+					sepia: 0
 
 				})
 				urlImg.value = ''
@@ -156,6 +201,7 @@ let checkUrlImg = (url) => {
 }
 
 let openBgSetting = (index) => {
+	currentFilter.value = 0
 	if (currentPop.value !== 0) {
 		currentPop.value = (currentPop.value == index) ? 0 : index;
 	} else {
@@ -178,7 +224,6 @@ watchEffect(() => {
 })
 
 const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relative')
-
 </script>
 
 
@@ -244,14 +289,15 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 						</DropZone>
 					</div>
 					<template v-if="bgProv.length > 0">
-						<Timer @childStartTimerBg="() => startTimerBg()"  @childPauseTimerBg="() => pauseTimerBg()" />
+						<Timer @childStartTimerBg="() => startTimerBg()" @childPauseTimerBg="() => pauseTimerBg()" />
 						<Button @childStartTimerBg="() => startTimerBg()" @childPauseTimerBg="() => pauseTimerBg()" />
 					</template>
 				</div>
 			</div>
 			<div class="flex-1 mb-6">
-				<draggable :list="bgProv" :disabled="!enabled" item-key="id" class="grid grid-cols-2 gap-6"
-					ghost-class="ghost" :move="checkMove" @start="dragging = true" @end="dragging = false">
+				<draggable :list="bgProv" :disabled="currentPop ? enabled : !enabled" item-key="id"
+					class="grid grid-cols-2 gap-6" ghost-class="ghost" :move="checkMove" @start="dragging = true"
+					@end="dragging = false">
 					<template #item="{ element, index }">
 						<div class="relative cursor-move">
 							<div class="absolute right-0 z-40">
@@ -288,7 +334,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 								</div>
 
 							</div>
-							<div class="absolute w-[15.9rem] inset-0 z-20 backdrop-blur-sm bg-white/25 rounded-xl"
+							<div class="absolute w-[15.9rem] inset-0 z-20 backdrop-blur-sm bg-white/25 dark:bg-gray-800/75 rounded-xl"
 								v-show="currentPop === element.id">
 								<div class="cursor-pointer relative rounded-tr-xl">
 									<div class="absolute inset-0 z-10">
@@ -297,7 +343,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 												<div class="basis-1/2 px-1">
 													<label class="block text-sm font-semibold" for="">Size</label>
 													<select v-model="bgProv[index].size"
-														class="cursor-pointer font-normal w-full rounded-md py-1 px-2 text-xs"
+														class="cursor-pointer font-normal dark:bg-gray-700 w-full rounded-md py-1 px-2 text-xs"
 														name="" id="">
 														<option v-for="bs in bgSizeOption" :key="bs.id"
 															class="py-1 px-2" :value="bs.name">
@@ -308,7 +354,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 												<div class="basis-1/2 px-1">
 													<label class="block text-sm font-semibold" for="">Position</label>
 													<select v-model="bgProv[index].position"
-														class="cursor-pointer font-normal w-full rounded-md py-1 px-2 text-xs"
+														class="cursor-pointer font-normal dark:bg-gray-700 w-full rounded-md py-1 px-2 text-xs"
 														name="" id="">
 														<option v-for="bp in bgPositionOption" :key="bp.id"
 															class="py-1 px-2" :value="bp.name">
@@ -319,7 +365,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 												<div class="basis-1/2 px-1 pt-2">
 													<label class="block text-sm font-semibold" for="">Repeat</label>
 													<select v-model="bgProv[index].repeat"
-														class="cursor-pointer font-normal w-full rounded-md py-1 px-2 text-xs"
+														class="cursor-pointer font-normal dark:bg-gray-700 w-full rounded-md py-1 px-2 text-xs"
 														name="" id="">
 														<option v-for="br in bgRepeatOption" :key="br.id"
 															class="py-1 px-2" :value="br.name">
@@ -334,7 +380,84 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 														type="color" name="" id="">
 												</div>
 
+												<div class="basis-1/2 px-1 pt-2">
+													<label class="block text-sm font-semibold" for="">Filter</label>
+													<select v-model="currentFilter"
+														class="cursor-pointer font-normal dark:bg-gray-700 w-full rounded-md py-1 px-2 text-xs"
+														name="" id="">
+														<option selected value="0">--Select--</option>
+														<option v-for="fl in filterList" :key="fl.id" class="py-1 px-2"
+															:value="fl.id">
+															{{ fl.name }}
+														</option>
+													</select>
 
+												</div>
+
+												<template v-if="currentFilter == 1">
+													<div class="basis-1/2 px-1 pt-2">
+														<label class="block text-sm font-semibold" for="">Brightness</label>
+														<input max="10" min="0" step="0.5"
+															v-model="bgProv[index].brightness" class="w-full"
+															type="range">
+													</div>
+												</template>
+												<template v-if="currentFilter == 2">
+													<div class="basis-1/2 px-1 pt-2">
+														<label class="block text-sm font-semibold" for="">Blur</label>
+														<input max="100" min="0" step="1" v-model="bgProv[index].blur"
+															class="w-full" type="range">
+
+													</div>
+												</template>
+												<template v-if="currentFilter == 3">
+													<div class="basis-1/2 px-1 pt-2">
+														<label class="block text-sm font-semibold" for="">Contrast</label>
+														<input max="10" min="0" step="0.5"
+															v-model="bgProv[index].contrast" class="w-full"
+															type="range">
+													</div>
+												</template>
+												<template v-if="currentFilter == 4">
+													<div class="basis-1/2 px-1 pt-2">
+														<label class="block text-sm font-semibold" for="">Grayscale</label>
+														<input max="100" min="0" step="1"
+															v-model="bgProv[index].grayscale" class="w-full"
+															type="range">
+													</div>
+												</template>
+												<template v-if="currentFilter == 5">
+													<div class="basis-1/2 px-1 pt-2">
+														<label class="block text-sm font-semibold" for="">Hue</label>
+														<input max="330" min="0" step="1"
+															v-model="bgProv[index].hue" class="w-full"
+															type="range">
+													</div>
+												</template>
+												<template v-if="currentFilter == 6">
+													<div class="basis-1/2 px-1 pt-2">
+														<label class="block text-sm font-semibold" for="">Invert</label>
+														<input max="100" min="0" step="1"
+															v-model="bgProv[index].invert" class="w-full"
+															type="range">
+													</div>
+												</template>
+												<template v-if="currentFilter == 7">
+													<div class="basis-1/2 px-1 pt-2">
+														<label class="block text-sm font-semibold" for="">Saturate</label>
+														<input max="10" min="0" step="0.5"
+															v-model="bgProv[index].saturate" class="w-full"
+															type="range">
+													</div>
+												</template>
+													<template v-if="currentFilter == 8">
+													<div class="basis-1/2 px-1 pt-2">
+														<label class="block text-sm font-semibold" for="">Sepia</label>
+														<input max="100" min="0" step="1"
+															v-model="bgProv[index].sepia" class="w-full"
+															type="range">
+													</div>
+												</template>
 											</div>
 
 										</div>
@@ -344,7 +467,7 @@ const isOnlineInput = computed(() => online.value ? 'right-1 absolute' : 'relati
 
 
 							</div>
-							<div class="w-67 rounded-xl shadow-md h-40 bg-cover bg-center" :style="{
+							<div class="w-67 rounded-xl shadow-md h-48 bg-cover bg-center" :style="{
 								backgroundImage: `url(${element.url})`,
 							}">
 							</div>

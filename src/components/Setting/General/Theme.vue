@@ -15,7 +15,7 @@ const tonggleButton = useToggle(isDark.value)
             <button @click="tonggleButton()" class="flex-1 py-2 px-3 rounded-md border-2 border-sky-500">
                 <div class="inline-flex justify-center items-center">
                      <span class="text-lg mr-3">
-                        {{isDark.value ? 'Dark' : 'Bright'}}
+                        {{isDark.value ? 'Dark' : 'Light'}}
                     </span>
                     <svg v-if="!isDark.value" class="w-6 h-6 text-sky-500" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
