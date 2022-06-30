@@ -1,1 +1,0 @@
-import{_ as s,o as t,c as o,C as a,a as r}from"./index.1355a6e9.js";const c={},n={class:"relative"},l=r("div",{class:"fixed inset-0 z-10"},null,-1);function _(e,d){return t(),o("div",n,[l,a(e.$slots,"vueplyr")])}var f=s(c,[["render",_]]);export{f as default};
