@@ -34,7 +34,7 @@ export default defineComponent({
             @click="updateServiceWorker()">
             Reload
         </button>
-        <button class="py-0 px-4 bg-gray-300 dark:bg-gray-800 dark:borde rounded-xl border-2 border-sky-500/50 dark:border-gray-300/50" @click="close">
+        <button aria-label="Close Reload" class="py-0 px-4 bg-gray-300 dark:bg-gray-800 dark:borde rounded-xl border-2 border-sky-500/50 dark:border-gray-300/50" @click="close">
             Close
         </button>
     </div>

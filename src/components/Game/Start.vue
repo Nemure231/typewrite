@@ -26,7 +26,7 @@ let childStartGame = () => {
                 <span class="text-7xl font-bold dark:text-gray-300">
                     Typewrite.
                 </span>
-                <button @click="childStartGame()"
+                <button @click="childStartGame()" aria-label="Start Button"
                     class="h-20 w-20 inline-flex justify-center items-center bg-sky-500 rounded-full text-white font-bold">
                     <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         aria-hidden="true" role="img" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
