@@ -50,6 +50,13 @@ provide('playerProv', computed({
   }
 }))
 
+provide('winLoseProv', computed({
+  get: () => winLose.value,
+  set: (val) => {
+    winLose.value = val
+  }
+}))
+
 provide('endedProv', computed({
   get: () => ended.value,
   set: (val) => {

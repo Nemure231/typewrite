@@ -1,5 +1,5 @@
 <script setup>
-import { inject, computed, ref } from 'vue'
+import { inject, computed, ref, watchEffect} from 'vue'
 import { useShare } from '@vueuse/core'
 
 const { share, isSupported } = useShare()
@@ -12,6 +12,11 @@ const second = inject('secondProv');
 const millisecond = inject('milliProv');
 const selectlang = inject('selectLangProv')
 const allWords = inject('allWordsProv')
+const username = ref('')
+const submitTime = ref(false)
+const scoreList = inject('scoreListProv')
+const stateUsername = ref()
+const winLose = inject('winLoseProv')
 
 let reloadGame = () => {
     score.value = 0
@@ -54,10 +59,6 @@ let shareScore = () => {
         })
     }
 }
-const username = ref('')
-const submitTime = ref(false)
-const scoreList = inject('scoreListProv')
-
 
 let submitScore = () => {
     if (scoreList.value.length < 10) {
@@ -85,6 +86,14 @@ let submitScore = () => {
     }
     submitTime.value = true
 }
+
+watchEffect(() => {
+    setTimeout(() => {
+        if(winLose.value){
+            stateUsername.value.focus()
+        }
+    }, 500);
+})
 
 </script>
 
@@ -128,7 +137,7 @@ let submitScore = () => {
                                 Input your username to update the score list
                             </label>
                             <div class="relative mt-2">
-                                <input v-model.trim="username" focus="true"
+                                <input ref="stateUsername" v-model.trim="username"
                                     class="font-normal dark:bg-gray-700 py-1.5 pl-4 pr-24 focus:outline-none w-full border-2 border-sky-500 rounded-lg"
                                     type="text" />
                                 <button
