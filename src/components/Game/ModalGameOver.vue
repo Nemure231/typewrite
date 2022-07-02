@@ -1,5 +1,5 @@
 <script setup>
-import { inject, computed } from 'vue'
+import { inject, computed, ref } from 'vue'
 import { useShare } from '@vueuse/core'
 
 const { share, isSupported } = useShare()
@@ -38,7 +38,7 @@ let resetTimer = () => {
     millisecond.value = 0
 }
 
-let showTimer = computed(() => {
+const showTimer = computed(() => {
     const timHour = hour.value.toString().length == 1 ? '0' + hour.value : hour.value
     const timMinute = minute.value.toString().length == 1 ? '0' + minute.value : minute.value
     const timSecond = second.value.toString().length == 1 ? '0' + second.value : second.value
@@ -54,6 +54,37 @@ let shareScore = () => {
         })
     }
 }
+const username = ref('')
+const submitTime = ref(false)
+const scoreList = inject('scoreListProv')
+
+
+let submitScore = () => {
+    if (scoreList.value.length < 10) {
+        scoreList.value.push({
+            username: username.value,
+            score: score.value,
+            playtime: showTimer.value,
+            date: Date.now()
+        })
+    } else {
+        const min = Math.min(...scoreList.value.map(item => item.score));
+        const indexMin = scoreList.value.findIndex(i => i.score === min);
+        scoreList.value.forEach(element => {
+            if (score.value > element.score) {
+                if (element.score) {
+                    scoreList.value.splice(indexMin, 1, {
+                        username: username.value,
+                        score: score.value,
+                        playtime: showTimer.value,
+                        date: Date.now()
+                    })
+                }
+            }
+        });
+    }
+    submitTime.value = true
+}
 
 </script>
 
@@ -62,8 +93,8 @@ let shareScore = () => {
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
             <div
-                class="relative inline-block  align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
-                <div class="bg-white relative">
+                class="relative inline-block  align-bottom bg-white dark:bg-gray-800 dark:text-gray-300 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
+                <div class="relative">
 
                     <div class="flex flex-col justify-center items-center px-4 pt-10 pb-4 h-auto lg:w-96 md:w-80 w-72">
                         <img class="w-58 h-52 object-cover mb-1"
@@ -74,9 +105,8 @@ let shareScore = () => {
                             Thank you for playing!
                         </span>
                     </div>
-
                 </div>
-                <div class="bg-white relative p-2 mb-16 grid grid-cols-2 text-center mt-3">
+                <div class=" relative p-2 mb-16 grid grid-cols-2 text-center mt-3">
 
                     <p class="relative">
                         <span class="absolute -top-4 text-xs">Score:</span>
@@ -91,6 +121,23 @@ let shareScore = () => {
 
                         </span>
                     </p>
+
+                    <div v-if="!submitTime" class="relative col-span-2 text-left mt-3">
+                        <form @submit.once.prevent="submitScore()" class="flex flex-col p-3">
+                            <label class="text-xs" for="">
+                                Input your username to update the score list
+                            </label>
+                            <div class="relative mt-2">
+                                <input v-model.trim="username" focus="true"
+                                    class="font-normal dark:bg-gray-700 py-1.5 pl-4 pr-24 focus:outline-none w-full border-2 border-sky-500 rounded-lg"
+                                    type="text" />
+                                <button
+                                    class="absolute top-1 right-1 py-1 px-4 bg-sky-500 text-white font-semibold rounded-lg">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
                 </div>
                 <div class="absolute bottom-0 inset-x-0">

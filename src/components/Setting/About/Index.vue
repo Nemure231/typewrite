@@ -50,10 +50,10 @@
                                     </path>
                                 </svg>
                             </a>
-                            <a href="https://github.com/Nemure231/typewrite#license" class="rounded-md py-2 px-3 space-x-2 text-gray-800 bg-gray-500 inline-flex items-center justify-center">
+                            <a href="https://github.com/Nemure231/typewrite#license" class="rounded-md py-2 px-3 space-x-2 text-gray-600 bg-gray-400 inline-flex items-center justify-center">
                                 <span>License</span>
         
-                                <svg class="w-8 h-8 text-gray-800 fill-gray-800" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32"><path  d="M10 6h12v2H10zm0 4h12v2H10zm0 14h6v2h-6zm0-10h6v2h-6z"></path><path fill="currentColor" d="M24 30H8a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v24a2.002 2.002 0 0 1-2 2ZM8 4v24h16V4Z"></path></svg>
+                                <svg class="w-8 h-8 text-gray-600 fill-gray-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32"><path  d="M10 6h12v2H10zm0 4h12v2H10zm0 14h6v2h-6zm0-10h6v2h-6z"></path><path fill="currentColor" d="M24 30H8a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v24a2.002 2.002 0 0 1-2 2ZM8 4v24h16V4Z"></path></svg>
                             </a>
 
                         </div>

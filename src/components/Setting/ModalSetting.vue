@@ -8,7 +8,7 @@ const milli = inject('milliProv')
 const second = inject('secondProv')
 const modalGameOver = inject('modalGameOverProv')
 const currentTab = inject('currentTabProv')
-const tabs = ref(['General', 'Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'Support', 'About'])
+const tabs = ref(['General', 'Level', 'Text', 'Font', 'Background', 'Music', 'Type', 'Score', 'Support', 'About'])
 
 const emit = defineEmits(["childCloseModalSetting", 'childStartGame']);
 
@@ -82,6 +82,16 @@ const currentComponent = computed(() => {
     if (currentTab.value == 'Type') {
         asyncComp = defineAsyncComponent({
             loader: () => import(`./Type/Index.vue`),
+            loadingComponent: Loading,
+            delay: 200,
+            errorComponent: Error,
+            timeout: 2000
+        })
+    }
+
+      if (currentTab.value == 'Score') {
+        asyncComp = defineAsyncComponent({
+            loader: () => import(`./Score/Index.vue`),
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,

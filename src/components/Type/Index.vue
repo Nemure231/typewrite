@@ -269,13 +269,18 @@ watchEffect(() => {
                     if (passFind === undefined) {
 
                         pass.value.push(obj.id)
-                        score.value += 10
+                        const scoreVal = stored.length
+                        score.value += scoreVal
+
                         document.getElementById(obj.id).remove()
 
-                        for (let lif = 1; lif < 100; lif++) {
+                        for (let lif = 1; lif < 50; lif++) {
                             const liff = lif * 100
                             if (score.value == liff) {
-                                life.value += 1
+
+                                if(life.value != 10){
+                                    life.value += 1
+                                }
                             }
                         }
 

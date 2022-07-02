@@ -55,6 +55,9 @@ const swiperEffect = ref('fade')
 //Text
 const dirText = useStorage('typewrite_direction_text', 0)
 
+//score
+const scoreList = useStorage('typewrite_score_list', [])
+
 //Font
 const color = useStorage('typewrite_font_color', '#000000')
 const bgColor = useStorage('typewrite_bg_color', `#FFFFFF`)
@@ -145,6 +148,13 @@ provide('currentFilterProv', computed({
   get: () => currentFilter.value,
   set: (val) => {
     currentFilter.value = val
+  }
+}))
+
+provide('scoreListProv', computed({
+  get: () => scoreList.value,
+  set: (val) => {
+    scoreList.value = val
   }
 }))
 
