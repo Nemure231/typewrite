@@ -10,7 +10,7 @@ import { breakpointsTailwind, useBreakpoints, useStorage, useDark } from '@vueus
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const sm = breakpoints.smaller('sm')
 const online = useOnline()
-const isDark = useDark()
+var isDark = useDark()
 
 // modal current tab
 const currentTab = useStorage('typewrite_current_tab', 'Level')
@@ -147,8 +147,6 @@ provide('currentFilterProv', computed({
     currentFilter.value = val
   }
 }))
-
-
 
 provide('isDarkProv', computed({
   get: () => isDark,

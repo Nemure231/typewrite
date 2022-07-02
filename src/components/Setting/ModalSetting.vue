@@ -155,7 +155,7 @@ const currentComponent = computed(() => {
                                                 <span
                                                     :class="m == 'Support' && `animate-ping absolute inline-flex h-2.5 w-2 top-0 -right-3 rounded-full bg-sky-400 opacity-75`">
                                                 </span>
-                                                    {{ m }}
+                                                {{ m }}
                                             </span>
                                         </button>
                                     </div>

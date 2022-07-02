@@ -394,6 +394,8 @@ const isType = computed(() => {
     return defineAsyncComponent(() => import('../Type/Index.vue'))
   }
 })
+
+
 </script>
 
 <template>
@@ -458,6 +460,16 @@ const isType = computed(() => {
 </template>
 
 <style>
+
+#canvas {
+   position: fixed;
+  left: 0;
+  bottom: 0;  
+  z-index: 40;
+  width: 50%;
+  height: 50%;
+}
+
 input[type=range].custom-range {
   width: 100%;
   margin: -2.75px 0;

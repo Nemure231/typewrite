@@ -11,9 +11,8 @@
 </div>
 
 ---
-
 <p align="justify">
-   A browser based typing game. Currently still develop and not open for contribution yet, but feel free to report in the issue tab if you found a bug or an error.
+   A browser based typing game.
 </p>
 
 ## Resource
