@@ -1,8 +1,3 @@
-<script setup>
-
-</script>
-
-
 <template>
     <div class="flex-1">
         <div class="flex flex-col gap-6">
