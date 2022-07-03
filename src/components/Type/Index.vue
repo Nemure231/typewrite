@@ -244,6 +244,7 @@ watchEffect(() => {
 })
 
 
+
 watchEffect(() => {
     if (start.value) {
         var stored = storeAbjad.value.join('')
@@ -269,21 +270,19 @@ watchEffect(() => {
                     if (passFind === undefined) {
 
                         pass.value.push(obj.id)
-                        const scoreVal = stored.length
+                        const scoreVal = 10
                         score.value += scoreVal
 
                         document.getElementById(obj.id).remove()
 
-                        for (let lif = 1; lif < 50; lif++) {
-                            const liff = lif * 100
-                            if (score.value == liff) {
-
-                                if(life.value != 10){
+                        if (life.value < 10) {
+                            for (let lif = 1; lif < 50; lif++) {
+                                const liff = lif * 100
+                                if (score.value == liff) {
                                     life.value += 1
                                 }
                             }
                         }
-
                         const isIndex = (element) => element.id == obj.id
                         const bb = list.value.findIndex(isIndex)
                         list.value.splice(bb, 1)

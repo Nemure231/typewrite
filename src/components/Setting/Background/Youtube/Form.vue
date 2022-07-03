@@ -17,7 +17,6 @@ let addBgYt = () => {
 			alert(`The domain isn't from youtube!`)
 		} else {
 			const idLink = link[3].replace('watch?v=', '')
-			// const idPlaylist = link[3].replace('playlist?list=', '')
 
 			ytIdProv.value.push({
 				id: new Date(),

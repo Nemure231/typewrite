@@ -1,6 +1,6 @@
 
 <script setup>
-import { ref, inject, defineComponent} from 'vue'
+import { ref, inject, defineComponent, computed} from 'vue'
 import DropZone from '../DropZone.vue'
 import draggable from "vuedraggable";
 import Example from './Example.vue';
@@ -24,7 +24,9 @@ let checkMove = (e) => {
     window.console.log("Future index: " + e.draggedContext.futureIndex);
 }
 
-
+const isThumbnail = (el) => {
+	return `https://img.youtube.com/vi/${el}/sddefault.jpg`
+}
 
 </script>
 
@@ -53,15 +55,10 @@ let checkMove = (e) => {
 									</svg>
 								</div>
 							</div>
-							<div class="">
+							<div class="relative">
 								<div class="absolute inset-0 rounded-xl">
 								</div>
-								<iframe width="256" height="144" class="aspect-video rounded-xl"
-									:src="`https://www.youtube.com/embed/${element.src}`" title="YouTube video player"
-									frameborder="0"
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-									allowfullscreen></iframe>
-
+								<img class="object-center object-cover w-[256px] h-[144px] rounded-xl" :src="isThumbnail(element.src)" alt="">
 							</div>
 						</div>
 					</template>
