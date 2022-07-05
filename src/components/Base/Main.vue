@@ -192,42 +192,51 @@ let pauseTimer = () => {
   clearInterval(stateTimer.value);
 }
 
+
 watchEffect(() => {
   if (!bgOrYtProv.value) {
-
-    setTimeout(() => {
-      player.value.player.on('statechange', (event) => {
-        stateYt.value = event.detail.code
-      })
-
-      var ameo = 0
-      player.value.player.on('ended', () => {
-
+    if (ytIdProv.value.length == 1) {
+      setTimeout(() => {
         if (loopProv.value) {
-          ameo++
-
-          if (ameo >= ytIdProv.value.length) {
-
-            ameo = 0
-          }
-
-          player.value.player.source = {
-            type: 'video',
-            sources: [
-              {
-                src: ytIdProv.value[ameo].src,
-                provider: 'youtube',
-              },
-            ]
-          }
-
-          setTimeout(() => {
-            player.value.player.play()
-          }, 1000);
+          player.value.player.loop = true
+        } else {
+          player.value.player.loop = false
         }
-      });
+      }, 500);
+    } else {
+      setTimeout(() => {
+        player.value.player.loop = false
+        player.value.player.on('statechange', (event) => {
+          stateYt.value = event.detail.code
+        })
 
-    }, 1000);
+        var ameo = 0
+        player.value.player.on('ended', () => {
+          if (loopProv.value) {
+            ameo++
+            if (ameo >= ytIdProv.value.length) {
+              ameo = 0
+            }
+
+            player.value.player.source = {
+              type: 'video',
+              sources: [
+                {
+                  src: ytIdProv.value[ameo].src,
+                  provider: 'youtube',
+                },
+              ]
+            }
+            setTimeout(() => {
+              player.value.player.play()
+            }, 1000);
+          }
+        });
+
+      }, 1000);
+
+
+    }
   }
 })
 
@@ -467,11 +476,10 @@ const isType = computed(() => {
 </template>
 
 <style>
-
 #canvas {
-   position: fixed;
+  position: fixed;
   left: 0;
-  bottom: 0;  
+  bottom: 0;
   z-index: 40;
   width: 50%;
   height: 50%;

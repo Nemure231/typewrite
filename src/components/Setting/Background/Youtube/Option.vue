@@ -7,7 +7,6 @@ const player = inject('playerProv')
 const mute = inject('muteProv')
 const sound = inject('soundProv')
 
-
 let useYtBg = () => {
 	player.value.player.source = {
 		type: 'video',
@@ -21,7 +20,17 @@ let useYtBg = () => {
 }
 
 watchEffect(() => {
-	player.value.player.muted = mute.value
+	if(mute.value){
+		player.value.player.muted = mute.value
+	}
+})
+
+watchEffect(() => {
+	if(sound.value){
+		player.value.player.quality = 240
+	}else{
+		player.value.player.quality = null
+	}
 })
 
 

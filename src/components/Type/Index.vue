@@ -258,10 +258,13 @@ watchEffect(() => {
 
             if (obj !== undefined) {
                 var typeTik;
+                var timeType
                 if (submitType.value === 0) {
                     typeTik = rum == obj.name
+                    timeType = 200
                 } else {
                     typeTik = Enter.value
+                    timeType = 0
                 }
 
                 if (typeTik) {
@@ -287,10 +290,12 @@ watchEffect(() => {
                         const bb = list.value.findIndex(isIndex)
                         list.value.splice(bb, 1)
 
+
+
                         setTimeout(() => {
                             previewType.value = ''
                             storeAbjad.value = []
-                        }, 200);
+                        }, timeType);
                     }
                 }
             }

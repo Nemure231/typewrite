@@ -46,7 +46,7 @@ let changeLang = () => {
                                 <div class="flex justify-center flex-col flex-wrap space-y-2">
                                     <img class="rounded-md" src="https://paras-cdn.imgix.net/bafybeid6lds4egra4cav6s4zpllttqc7jmjwvgt2ixst4biz7zs6ileyle?w=205"
                                         alt="Averse Fate">
-                                    <a href="https://comic.paras.id/comics/averse-fate_d442f2b62552e/chapter"
+                                    <a target="_blank" href="https://comic.paras.id/comics/averse-fate_d442f2b62552e/chapter"
                                         class="flex-1 py-1.5 px-3 hover:bg-sky-100 hover:dark:bg-gray-600 font-bold text-center rounded-md border-2 border-sky-500">
                                             Baca Sekarang
                                     </a>
@@ -56,27 +56,27 @@ let changeLang = () => {
                                 <ol class="list-decimal">
                                     <li>Gabung ke server Discord Paras Comic
                                         <a class="underline decoration-sky-500 decoration-wavy"
-                                            href="https://discord.gg/sHGbPBp2bB">
+                                            target="_blank" href="https://discord.gg/sHGbPBp2bB">
                                             di sini
                                         </a>
                                     </li>
                                     <li>Pilih role di Discord Paras Comic dengan ngeklik emoji yang tersedia, buat dapet
                                         akses ke semua ruang server Paras Comic
                                         <a class="underline decoration-sky-500 decoration-wavy"
-                                            href="https://discord.com/channels/956120633757024327/956120633757024330">
+                                            target="_blank" href="https://discord.com/channels/956120633757024327/956120633757024330">
                                             di sini
                                         </a>
                                     </li>
                                     <li>Klik ruang 15-finalists
                                         <a class="underline decoration-sky-500 decoration-wavy"
-                                            href="https://discord.com/channels/956120633757024327/985772963729141760">
+                                            target="_blank" href="https://discord.com/channels/956120633757024327/985772963729141760">
                                             di sini
                                         </a>
                                     </li>
                                     <li>Vote Komik "Averse Fate", dengan ngeklik emoji Paras Comic
                                         <a class="underline decoration-sky-500 decoration-wavy"
-                                            href="https://discord.com/channels/956120633757024327/985772963729141760/986150512388882442">
-                                            in here
+                                            target="_blank" href="https://discord.com/channels/956120633757024327/985772963729141760/986150512388882442">
+                                            di sini
                                         </a>
                                     </li>
                                 </ol>
@@ -107,7 +107,7 @@ let changeLang = () => {
                             <div class="flex justify-center flex-col flex-wrap space-y-2">
                                 <img class="rounded-md" src="https://paras-cdn.imgix.net/bafybeid6lds4egra4cav6s4zpllttqc7jmjwvgt2ixst4biz7zs6ileyle?w=205"
                                     alt="Averse Fate">
-                                <a href="https://comic.paras.id/comics/averse-fate_d442f2b62552e/chapter"
+                                <a target="_blank" href="https://comic.paras.id/comics/averse-fate_d442f2b62552e/chapter"
                                     class="flex-1 py-1.5 px-3 hover:bg-sky-100 hover:dark:bg-gray-600 font-bold text-center rounded-md border-2 border-sky-500">
                                         Read Now
                                 </a>
@@ -117,26 +117,26 @@ let changeLang = () => {
                             <ol class="list-decimal">
                                 <li>Join discord Paras Comic
                                     <a class="underline decoration-sky-500 decoration-wavy"
-                                        href="https://discord.gg/sHGbPBp2bB">
+                                        target="_blank" href="https://discord.gg/sHGbPBp2bB">
                                         in here
                                     </a>
                                 </li>
                                 <li>Choose your role in Paras Comic Discord by clicking the available emoji, to get
                                     access all Paras Comic server room
                                     <a class="underline decoration-sky-500 decoration-wavy"
-                                        href="https://discord.com/channels/956120633757024327/956120633757024330">
+                                        target="_blank" href="https://discord.com/channels/956120633757024327/956120633757024330">
                                         in here
                                     </a>
                                 </li>
                                 <li>Go to 15-finalists room
                                     <a class="underline decoration-sky-500 decoration-wavy"
-                                        href="https://discord.com/channels/956120633757024327/985772963729141760">
+                                        target="_blank" href="https://discord.com/channels/956120633757024327/985772963729141760">
                                         in here
                                     </a>
                                 </li>
                                 <li>Vote "Averse Fate" Comic, by clicking the paras comic emoji
                                     <a class="underline decoration-sky-500 decoration-wavy"
-                                        href="https://discord.com/channels/956120633757024327/985772963729141760/986150512388882442">
+                                        target="_blank" href="https://discord.com/channels/956120633757024327/985772963729141760/986150512388882442">
                                         in here
                                     </a>
                                 </li>

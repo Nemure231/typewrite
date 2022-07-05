@@ -35,7 +35,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 
@@ -45,7 +45,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 
@@ -55,7 +55,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 
@@ -65,7 +65,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 
@@ -75,7 +75,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 
@@ -85,7 +85,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 
@@ -95,7 +95,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 
@@ -105,7 +105,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 
@@ -115,7 +115,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 
@@ -125,7 +125,7 @@ const currentComponent = computed(() => {
             loadingComponent: Loading,
             delay: 200,
             errorComponent: Error,
-            timeout: 2000
+            timeout: 1000
         })
     }
 

@@ -10,10 +10,10 @@
                     <p>
                         I've ever watch some random video on
                         <a class="underline decoration-sky-500 decoration-wavy"
-                            href="https://www.youtube.com/watch?v=jnkOcAkLkBU">
+                            target="_blank" href="https://www.youtube.com/watch?v=jnkOcAkLkBU">
                             Youtube</a> back than (2020, maybe). From the video i watched, there is a C++ Typing Game,
                         <a class="underline decoration-sky-500 decoration-wavy"
-                            href="https://bisqwit.iki.fi/wspeed">WSpeed</a>, that created and playing by youtuber Bisqwit, to provide how fast he typing.
+                            target="_blank" href="https://bisqwit.iki.fi/wspeed">WSpeed</a>, that created and playing by youtuber Bisqwit, to provide how fast he typing.
                     </p>
                     <p>
                         The base idea Typewrite is semiliar to WSpeed, however i make it have more feature to be more
@@ -35,7 +35,7 @@
                     </div>
                     <div class="flex-1">
                         <div class="flex flex-row flex-nowrap space-x-3">
-                            <a href="https://github.com/Nemure231/typewrite" class="rounded-md py-2 px-3 space-x-2 text-white bg-gray-800 inline-flex items-center justify-center">
+                            <a target="_blank" href="https://github.com/Nemure231/typewrite" class="rounded-md py-2 px-3 space-x-2 text-white bg-gray-800 inline-flex items-center justify-center">
                                 <span>Github</span>
         
                                 <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -45,7 +45,7 @@
                                     </path>
                                 </svg>
                             </a>
-                            <a href="https://github.com/Nemure231/typewrite#license" class="rounded-md py-2 px-3 space-x-2 text-gray-600 bg-gray-400 inline-flex items-center justify-center">
+                            <a target="_blank" href="https://github.com/Nemure231/typewrite#license" class="rounded-md py-2 px-3 space-x-2 text-gray-600 bg-gray-400 inline-flex items-center justify-center">
                                 <span>License</span>
         
                                 <svg class="w-8 h-8 text-gray-600 fill-gray-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32"><path  d="M10 6h12v2H10zm0 4h12v2H10zm0 14h6v2h-6zm0-10h6v2h-6z"></path><path fill="currentColor" d="M24 30H8a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v24a2.002 2.002 0 0 1-2 2ZM8 4v24h16V4Z"></path></svg>
