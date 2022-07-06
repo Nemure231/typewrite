@@ -102,7 +102,7 @@ let startAddWord = () => {
   pauseAddWord();
 
   if (start.value) {
-    stateAddWord.value = setInterval(() => { countAddWord() }, showTime.value);
+      stateAddWord.value = setInterval(() => { countAddWord() }, showTime.value);
   }
 }
 
@@ -126,13 +126,18 @@ let countAddWord = () => {
     let objPass = pass.value.find(o => o === obj.id);
     let objUnPass = unPass.value.find(o => o === obj.id);
 
-    if (objPass === undefined) {
-      if (objUnPass === undefined) {
-        list.value.push(obj)
+
+      if (objPass === undefined) {
+        if (objUnPass === undefined) {
+
+            list.value.push(obj)
+        }
       }
-    }
+      
+
   }
 }
+
 
 let countDown = () => {
   if ((millisecond.value += 10) == 1000) {
