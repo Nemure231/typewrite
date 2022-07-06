@@ -59,25 +59,17 @@ const changeStyle = computed(() => {
   return text
 })
 
-let getUniqueListBy = (arr, key) => {
-    return [...new Map(arr.map(item => [item[key], item])).values()]
-}
-
-const lims = computed(() => {
-  return getUniqueListBy(list.value, 'name')
-})
-
 </script>
 
 <template>
 
-  <p v-for="li in lims" :key="li.id" :id="li.id" class="p-1 z-50 bg-white text-md absolute"
+  <p v-for="li in list" :key="li.id" ref="lim" :id="`list${li.id}`" class="p-1 z-50 bg-white text-md absolute"
     :style="[direction(li), changeStyle]">
   <div class=" fixed inset-0 z-10">
   </div>
-  <div  v-html="li.name">
-
-  </div>
+  <div v-html="li.name"></div>
   </p>
+
+
 
 </template>

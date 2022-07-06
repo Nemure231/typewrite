@@ -125,16 +125,15 @@ let countAddWord = () => {
 
     let objPass = pass.value.find(o => o === obj.id);
     let objUnPass = unPass.value.find(o => o === obj.id);
+    let listada = list.value.find(o => o.id === obj.id);
 
 
       if (objPass === undefined) {
         if (objUnPass === undefined) {
-
+          if(!listada)
             list.value.push(obj)
         }
       }
-      
-
   }
 }
 

@@ -271,12 +271,11 @@ watchEffect(() => {
                     let passFind = pass.value.find(e => e === obj.id);
 
                     if (passFind === undefined) {
-
                         pass.value.push(obj.id)
                         const scoreVal = 10
                         score.value += scoreVal
 
-                        document.getElementById(obj.id).remove()
+                        document.getElementById(`list${obj.id}`).remove()
 
                         if (life.value < 10) {
                             for (let lif = 1; lif < 50; lif++) {
